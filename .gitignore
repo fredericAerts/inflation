@@ -1,0 +1,23 @@
+.env
+
+# Dependency directories
+node_modules
+
+# Dependency version locking
+package-lock.json
+
+# Deploy
+deploy.sh
+
+# Optimized production bundle
+dist
+
+# macOS
+.DS_Store
+
+# Visual Studio Code
+jsconfig.json
+.vscode
+
+# Misc
+learn.txt

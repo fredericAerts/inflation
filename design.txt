@@ -1,0 +1,33 @@
+Map:
+- globe (default on portrait) and flat
+- countries color per inflation legend (5 years?)
+- hover/click popup with basic inflation
+- detail: country dashboard
+
+Country Dashboard
+- chart: Inflation rate over the years
+- chart: “store-of-value” contrast (Gold | BTC | USD)
+- metric: Government Debt as % of GDP
+- metric: currency as percent per GDP (money supply growth)
+- metric: central bank interest rates
+- text?
+(- metric: GDP per Capita (PPP) : tells you how well-off the average person is in real terms, adjusted for their local prices.)
+(- Wage Growth vs Inflation)
+
+Popup
+- chart: Inflation rate last 5 years
+- text: 100 [currency] from 5 years ago can buy x [currency] worth of goods now
+- link: view more details
+
+Context
+- Wall Street price banner with worst performing countries
+- Fox News headlines banner:
+  - High inflation promotes consumerism and debt creation
+  - Weak money finances war
+  - Money supply growth
+  - ECB calls BTC last stand
+  - ...
+
+
+Liabilities
+Currency, TGA, Reserves
