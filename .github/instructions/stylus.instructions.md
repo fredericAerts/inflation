@@ -1,7 +1,6 @@
 ---
 applyTo: "**/*.styl"
 ---
-# Project coding standards for TypeScript
 
 Apply the [general coding guidelines](./.instructions.md) to all code.
 

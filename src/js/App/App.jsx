@@ -1,4 +1,6 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
+
+import Globe from '@App/Globe/Globe';
 import { setViewHeight } from '@services/utils.service';
 
 import './app.styl';
@@ -15,7 +17,7 @@ function App() {
       <div className="app__banner">
       </div>
       <div className="app__body">
-        <img src="/img/icons/egg.svg" />  
+        <Globe />
       </div>
     </div>
   );

@@ -1,14 +1,29 @@
-import { fetchHelloWorld } from '../../services/data.service.js';
+import { fetchCountriesJson } from '../../services/data.service.js';
 
-const imoController = () => {
-  const getHello = (_, res) => {
-    fetchHelloWorld()
-      .then((data) => {
-        if (!data) {
+const dataController = () => {
+  const getCountries = (_, res) => {
+    fetchCountriesJson()
+      .then((countries) => {
+        if (!countries) {
           throw new Error('Something went wrong!');
         }
 
-        return res.json(data);
+        const enrichedCountries = {
+          ...countries,
+          features: countries.features.map((feature) => {
+            const inflation = feature.properties.iso_a2 === 'AQ' ? null : Math.random() * 20;
+            
+            return {
+              ...feature,
+              properties: {
+                ...feature.properties,
+                inflation,
+              }
+            };
+          })
+        };
+
+        return res.json(enrichedCountries);
       })
       .catch((err) => {
         console.log(err);
@@ -17,8 +32,8 @@ const imoController = () => {
   };
 
   return {
-    getHello,
+    getCountries,
   };
 };
 
-export default imoController;
+export default dataController;

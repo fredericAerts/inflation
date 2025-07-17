@@ -8,8 +8,8 @@ const router = () => {
 
   /*  USERS
       ============================================================ */
-  apiRouter.route('/hello')
-    .get(dataControllerFactory().getHello);
+  apiRouter.route('/countries')
+    .get(dataControllerFactory().getCountries);
 
   return apiRouter;
 };
