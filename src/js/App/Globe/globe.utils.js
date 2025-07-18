@@ -21,36 +21,36 @@ function addCountriesToMap(map, countries, inflationData) {
     data: { type, features: enrichedFeatures },
   });
 
-  map.addLayer({
-    id: 'countries-fill',
-    type: 'fill',
-    source: 'countries',
-    paint: {
-      'fill-color': [
-        'case',
-        ['==', ['get', 'avg_inflation'], null],
-        'rgba(0, 0, 0, 0)', // transparent if no data
+map.addLayer({
+  id: 'countries-fill',
+  type: 'fill',
+  source: 'countries',
+  paint: {
+    'fill-color': [
+      'case',
+      ['==', ['get', 'avg_inflation'], null],
+      'rgba(0, 0, 0, 0)', // transparent if no data
 
-        ['<', ['get', 'avg_inflation'], 2],
-        '#2e7d32', // dark green — low inflation, good
+      ['<', ['get', 'avg_inflation'], 2],
+      '#43a047',
 
-        ['>', ['get', 'avg_inflation'], 8],
-        '#b71c1c', // dark red — critical
+      ['>', ['get', 'avg_inflation'], 8],
+      '#b71c1c',
 
-        [
-          'interpolate',
-          ['linear'],
-          ['get', 'avg_inflation'],
-          2, '#2e7d32',
-          3, '#d4ac0d',
-          4, '#f39c12',
-          5, '#e67e22',
-          6, '#e74c3c',
-          8, '#b71c1c',
-        ]
+      [
+        'interpolate',
+        ['linear'],
+        ['get', 'avg_inflation'],
+        2, '#43a047',
+        3, '#d4ac0d',
+        4, '#f39c12',
+        5, '#e67e22',
+        6, '#e74c3c',
+        8, '#b71c1c',
       ]
-    }
-  });
+    ]
+  }
+});
 
 
   map.addLayer({

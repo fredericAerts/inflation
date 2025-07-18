@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 
+import PriceBanner from '@library/PriceBanner/PriceBanner';
 import Globe from '@App/Globe/Globe';
 import { setViewHeight } from '@services/utils.service';
 
@@ -15,6 +16,7 @@ function App() {
   return (
     <div className="app">
       <div className="app__banner">
+        <PriceBanner />
       </div>
       <div className="app__body">
         <Globe />

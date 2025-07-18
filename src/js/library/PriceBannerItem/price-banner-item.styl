@@ -1,0 +1,39 @@
+.price-banner-item
+  flex-direction: column
+  display: flex
+  
+  height: 30px
+
+.price-banner-item__currency
+  align-items: center
+  justify-content: center
+
+  display: flex
+  height:  15px
+  
+  line-height: 15px
+
+.price-banner-item__perf
+  align-items: center
+  justify-content: center
+
+  display: flex
+  height:  15px
+
+  color: #e74c3c
+  line-height: 15px
+  
+  &--positive
+    color: #43a047
+
+.price-banner-item__perf__arrow
+  transform:rotateZ(180deg)
+
+  width: 16px
+  height: 16px
+  background: url('/img/icons/triangle-red.svg') no-repeat center
+  background-size: 50%
+
+  .price-banner-item__perf--positive & 
+    transform:rotateZ(0deg)
+    background-image: url('/img/icons/triangle-green.svg')
