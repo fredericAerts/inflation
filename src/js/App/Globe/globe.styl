@@ -3,6 +3,14 @@
   align-items: center
   justify-content: center
   height: 100%
+
+  opacity: 0
+  pointer-events: none
+  transition: opacity 1s ease-in-out
+
+  &--active
+    opacity: 1
+    pointer-events: auto
   
   img
     max-width: 33vw

@@ -1,16 +1,16 @@
 import { useEffect, useRef, useState } from 'react';
+import { useSelector } from 'react-redux';
 import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 
 import { MAP_STYLE } from "./globe.constants";
-import { fetchCountriesGeoJson } from '../../services/data.service';
 import { addCountriesToMap } from './globe.utils';
 
 import './globe.styl';
 
 function Globe() {
   const [map, setMap] = useState(null);
-  const [countries, setCountries] = useState(null);
+  const { countries, inflationData } = useSelector((state) => state.asyncState);
   const mapRef = useRef(null);
 
   useEffect(() => {
@@ -22,31 +22,17 @@ function Globe() {
       style: MAP_STYLE,
     });
 
-    const fetchData = async () => {
-      try {
-        const geoJson = await fetchCountriesGeoJson();
-        return geoJson;
-      } catch (error) {
-        console.error('Error fetching countries GeoJSON:', error);
-        return null;
-      }
-    };
-
-    const mapLoaded = new Promise((resolve) => {
-      myMap.on('load', () => resolve());
-    });
-
-    (async () => {
-      const [geoJson] = await Promise.all([fetchData(), mapLoaded]);
-      setMap(myMap);
-      setCountries(geoJson);
-    })();
+    myMap.on('load', () => setMap(myMap));
   }, []);
 
   useEffect(() => {
-    if (!map || !countries) return;
+    if (!map || !countries || !inflationData) return;
 
-    addCountriesToMap(map, countries);
+    addCountriesToMap(map, countries, inflationData);
+    setTimeout(() => {
+      mapRef.current.classList.add('globe--active');  
+    }, 50);
+    
 
     const handleMapClick = (e) => {
       const features = map.queryRenderedFeatures(e.point, {
@@ -65,7 +51,7 @@ function Globe() {
       }
       
     };
-  }, [map, countries]);
+  }, [map, countries, inflationData]);
 
   return (
     <div className="globe" ref={mapRef} />

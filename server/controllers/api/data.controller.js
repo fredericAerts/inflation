@@ -1,4 +1,5 @@
 import { fetchCountriesJson } from '../../services/data.service.js';
+import { fetchInflationData } from '../../services/inflation.db.service.js';
 
 const dataController = () => {
   const getCountries = (_, res) => {
@@ -8,22 +9,22 @@ const dataController = () => {
           throw new Error('Something went wrong!');
         }
 
-        const enrichedCountries = {
-          ...countries,
-          features: countries.features.map((feature) => {
-            const inflation = feature.properties.iso_a2 === 'AQ' ? null : Math.random() * 20;
-            
-            return {
-              ...feature,
-              properties: {
-                ...feature.properties,
-                inflation,
-              }
-            };
-          })
-        };
+        return res.json(countries);
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(500).json({ message: 'Something went wrong!' })
+      });
+  };
 
-        return res.json(enrichedCountries);
+  const getInflationData = (_, res) => {
+    fetchInflationData()
+      .then((data) => {
+        if (!data) {
+          throw new Error('Something went wrong!');
+        }
+
+        return res.json(data);
       })
       .catch((err) => {
         console.log(err);
@@ -33,6 +34,7 @@ const dataController = () => {
 
   return {
     getCountries,
+    getInflationData,
   };
 };
 
