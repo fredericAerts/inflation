@@ -3,10 +3,11 @@ const MAP_STYLE = {
   'projection': {
     'type': 'globe'
   },
-  'glyphs': 'http://fonts.openmaptiles.org/{fontstack}/{range}.pbf',
+  'glyphs': 'https://fonts.openmaptiles.org/{fontstack}/{range}.pbf',
   'sources': {
     'satellite': {
-      'url': `https://api.maptiler.com/tiles/satellite-v2/tiles.json?key=${import.meta.env.VITE_MAPTILER_KEY}`,
+      // 'url': `https://api.maptiler.com/tiles/satellite-v2/tiles.json?key=${import.meta.env.VITE_MAPTILER_KEY}`,
+      'url': `https://api.maptiler.com/tiles/land-gradient-dark/tiles.json?key=${import.meta.env.VITE_MAPTILER_KEY}`,
       'type': 'raster'
     },
   },
@@ -17,16 +18,16 @@ const MAP_STYLE = {
       'source': 'satellite',
     }
   ],
-  'sky': {
-    'atmosphere-blend': [
-      'interpolate',
-      ['linear'],
-      ['zoom'],
-      0, 1,
-      5, 1,
-      7, 0
-    ]
-  },
+  // 'sky': {
+  //   'atmosphere-blend': [
+  //     'interpolate',
+  //     ['linear'],
+  //     ['zoom'],
+  //     0, 1,
+  //     5, 1,
+  //     7, 0
+  //   ]
+  // },
   'light': {
     'position': [1, 90, 130]
   }

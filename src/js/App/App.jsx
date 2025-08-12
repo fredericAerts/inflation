@@ -2,6 +2,8 @@ import { useEffect } from 'react';
 
 import PriceBanner from '@library/PriceBanner/PriceBanner';
 import Globe from '@App/Globe/Globe';
+import MapLegend from '@library/MapLegend/MapLegend';
+import CountryModal from '@library/CountryModal/CountryModal';
 import { setViewHeight } from '@services/utils.service';
 
 import './app.styl';
@@ -20,7 +22,9 @@ function App() {
       </div>
       <div className="app__body">
         <Globe />
+        <MapLegend />
       </div>
+      <CountryModal />
     </div>
   );
 }

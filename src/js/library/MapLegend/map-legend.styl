@@ -1,0 +1,61 @@
+.map-legend
+  position: absolute
+  bottom: 10px
+  right: 10px
+  
+  width: 280px
+  background: var(--color-black)
+  border: 1px solid #cccccc
+  border-radius: var(--border-radius)
+  padding: calc(var(--spacing) * 2)
+  
+  color: var(--color-white)
+  font-size: var(--font-size-base)
+
+.map-legend__label
+  margin-bottom: var(--spacing)
+  text-align: center
+  font-weight: var(--font-weight-medium)
+
+.map-legend__values
+  display: flex
+  justify-content: space-between
+  margin-bottom: var(--spacing)
+  
+  font-size: 12px
+  color: #cccccc
+
+  > span:not(:last-child):not(:first-child)
+    transform: translateX(50%)
+
+.map-legend__colors
+  position: relative
+  height: 10px
+  border-radius: calc(var(--border-radius) / 2)
+  
+  background: linear-gradient(
+    to right,
+    #43a047 0%,     /* Solid green for < 2% */
+    #43a047 15%,    /* End of solid green section */
+    #8bc34a 35%,    /* Start gradient - Yellow-green */
+    #ffc107 50%,    /* Middle gradient - Yellow */
+    #ff5722 65%,    /* Gradient - Deep orange */
+    #b71c1c 85%,    /* End gradient - Darkest red */
+    #b71c1c 100%    /* Solid red for > 10% */
+  )
+
+.map-legend__marker
+  position: absolute
+  top: 0
+  width: 1px
+  height: 100%
+  background: rgba(255, 255, 255, 0.8)
+  
+  &--2
+    left: 15% // 2% is at the boundary between solid green and gradient start
+  
+  &--5
+    left: 50% // 5% is in the middle of the gradient (yellow section)
+  
+  &--10
+    left: 85% // 10% is at the boundary between gradient end and solid red
