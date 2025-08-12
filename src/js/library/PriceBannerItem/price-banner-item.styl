@@ -9,7 +9,7 @@
   justify-content: center
 
   display: flex
-  height:  15px
+  height: 15px
   
   line-height: 15px
 
@@ -18,16 +18,16 @@
   justify-content: center
 
   display: flex
-  height:  15px
+  height: 15px
 
-  color: #e74c3c
+  color: var(--color-error)
   line-height: 15px
   
   &--positive
-    color: #43a047
+    color: var(--color-success)
 
 .price-banner-item__perf__arrow
-  transform:rotateZ(180deg)
+  transform: rotateZ(180deg)
 
   width: 16px
   height: 16px
@@ -35,5 +35,5 @@
   background-size: 50%
 
   .price-banner-item__perf--positive & 
-    transform:rotateZ(0deg)
+    transform: rotateZ(0deg)
     background-image: url('/img/icons/triangle-green.svg')

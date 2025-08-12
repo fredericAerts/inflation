@@ -28,6 +28,19 @@ Context
   - ECB calls BTC last stand
   - ...
 
+DESIGN
+https://www.behance.net/gallery/63066135/LogoLanding-page-CoinLombard-crypto-currency
 
-Liabilities
-Currency, TGA, Reserves
+IDEAS
+- easter eggs
+  - 
+- integrate gold in theme colors (black, gold, red, green)
+
+Banner texts
+- 10% inflation doubles prices in 7 years
+- Breaking: changes in someone’s purchasing power controlled by an authority tied to the circumstances of one’s birth.
+
+easter eggs
+- HISTORY: YouTuber Molly Templeton explaining #Bitcoin in 2012 when it was $20.
+  Everyone who listened is up 590,000% 🚀
+  https://x.com/pete_rizzo_/status/1944966401040801822

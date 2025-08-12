@@ -1,17 +1,54 @@
 .price-banner
   position: relative
   
+  display: flex
   height: 30px
-  background: #000
+  background: var(--color-black)
   
-  color: #fff
+  color: var(--color-white)
   font-size: 11px
   
   overflow: hidden
+  cursor: help
+
+.price-banner__context
+  position: relative
+  padding: 0 var(--spacing) 0 calc(var(--spacing) * 2)
   
+  color: var(--color-primary)
+  text-align: center
+  line-height: 30px
+
+  > span
+    display: block
+    font-size: 10px
+    line-height: 12px
+
+    white-space: nowrap
+  
+  > strong
+    display: block
+    text-transform: uppercase
+    
+    font-size: 18px
+    font-weight: var(--font-weight-black)
+    line-height: 18px
+
+  &::after
+    position: absolute
+    top: 0
+    right: -10px
+    z-index: calc(var(--z-base) + 1)
+    
+    width: 10px
+    height: 100%
+    background: linear-gradient(to right, var(--color-black), transparent)
+
+    content: ""
+
 .price-banner__scroll
-  width: 100%
-  
+  position: relative
+  top: 1px
   overflow: hidden
   white-space: nowrap
 
@@ -30,4 +67,4 @@
     flex-shrink: 0
     
     padding: 0 10px
-  
+

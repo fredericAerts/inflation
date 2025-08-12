@@ -48,6 +48,11 @@ function PriceBanner() {
 
   return (
     <div className="price-banner" ref={containerRef}>
+      <div className="price-banner__context">
+        {/* 10-year depreciation vs gold */}
+        <span>10-year vs</span>
+        <strong>Gold</strong>
+      </div>
       <div className="price-banner__scroll">
         <ul className="price-banner__scroll__ticker" ref={tickerRef}>
           {duplicatedItems.map(({ id, currency, value }, i) => (
