@@ -4,7 +4,7 @@ import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 
 import { MAP_STYLE } from "./globe.constants";
-import { addCountriesToMap, zoomToCountry, highlightCountryOutline, resetCountryOutlines } from './globe.utils';
+import { addCountriesToMap, zoomToCountry, highlightCountryOutline, resetCountryOutlines, createMapInteractionHandlers } from './globe.utils';
 import { setSelectedCountryId, setCountryModalData } from './globe.redux.actions';
 
 import './globe.styl';
@@ -39,27 +39,29 @@ function Globe() {
       mapRef.current.classList.add('globe--active');  
     }, 50);
 
-    const handleMapClick = (e) => {
-      const features = map.queryRenderedFeatures(e.point, {
-        layers: ['countries-fill']
-      });
-      if (features?.length) {
-        const clickedFeature = features[0];
-        const countryId = clickedFeature.properties.iso_a3_eh;
-        
-        // Dispatch Redux action to update selected country
-        dispatch(setSelectedCountryId(countryId));
-      }
-    };
-
-    map.on('click', handleMapClick);
-
     return () => {
       if (map) {
         map.remove();
       }
     };
-  }, [map, countries, inflationData, dispatch]);
+  }, [map, countries, inflationData]);
+
+  // Effect to handle map interactions (click and hover)
+  useEffect(() => {
+    if (!map) return;
+
+    const dispatchAction = (action) => {
+      if (action.type === 'SET_SELECTED_COUNTRY_ID') {
+        dispatch(setSelectedCountryId(action.payload));
+      }
+    };
+
+    const { attachHandlers, detachHandlers } = createMapInteractionHandlers(map, dispatchAction, selectedCountryId);
+    
+    attachHandlers();
+
+    return detachHandlers;
+  }, [map, dispatch, selectedCountryId]);
 
   // Effect to handle country zoom when selectedCountryId changes
   useEffect(() => {

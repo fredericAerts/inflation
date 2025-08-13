@@ -69,33 +69,33 @@ function addCountriesToMap(map, countries, inflationData) {
   });
 
 
-//   map.addLayer({
-//     id: 'inflation-labels',
-//     type: 'symbol',
-//     source: 'countries',
-//     layout: {
-//       'text-field': [
-//         'case',
-//         ['==', ['get', 'avg_inflation'], null],
-//         'N/A',
-//         [
-//           'concat',
-//           ['to-string', ['round', ['get', 'avg_inflation']]],
-//           '%'
-//         ]
-//       ],
-//       'text-font': ['Open Sans Regular'],
-//       'text-size': 11,
-//       'text-anchor': 'center',
-//       'visibility': 'visible'
-//     },
-//     paint: {
-//       'text-color': '#ffffff',
-//       'text-halo-color': '#000000',
-//       'text-halo-width': 2
-//     },
-//     minzoom: 2
-//   });
+  // map.addLayer({
+  //   id: 'inflation-labels',
+  //   type: 'symbol',
+  //   source: 'countries',
+  //   layout: {
+  //     'text-field': [
+  //       'case',
+  //       ['==', ['get', 'avg_inflation'], null],
+  //       'N/A',
+  //       [
+  //         'concat',
+  //         ['to-string', ['round', ['get', 'avg_inflation']]],
+  //         '%'
+  //       ]
+  //     ],
+  //     'text-font': ['Open Sans Regular'],
+  //     'text-size': 11,
+  //     'text-anchor': 'center',
+  //     'visibility': 'visible'
+  //   },
+  //   paint: {
+  //     'text-color': '#ffffff',
+  //     'text-halo-color': '#000000',
+  //     'text-halo-width': 2
+  //   },
+  //   minzoom: 2
+  // });
 
 //   map.addLayer({
 //     id: 'countries-labels',
@@ -217,9 +217,94 @@ const resetCountryOutlines = (map) => {
   map.setPaintProperty('countries-outline', 'line-width', 0.5);
 };
 
+const createMapInteractionHandlers = (map, dispatch, selectedCountryId) => {
+  const popup = new maplibregl.Popup({
+    closeButton: false,
+    closeOnClick: false,
+    className: 'globe-popup',
+    anchor: 'bottom',
+    offset: [0, -10]
+  });
+
+  const handleMapClick = (e) => {
+    const features = map.queryRenderedFeatures(e.point, {
+      layers: ['countries-fill']
+    });
+    if (features?.length) {
+      const clickedFeature = features[0];
+      const countryId = clickedFeature.properties.iso_a3_eh;
+      
+      dispatch({ type: 'SET_SELECTED_COUNTRY_ID', payload: countryId });
+    }
+  };
+
+  const handleMapMouseMove = (e) => {
+    // Don't show popup if a country is selected
+    if (selectedCountryId) {
+      popup.remove();
+      map.getCanvas().style.cursor = '';
+      return;
+    }
+
+    const features = map.queryRenderedFeatures(e.point, {
+      layers: ['countries-fill']
+    });
+
+    if (features?.length) {
+      const feature = features[0];
+      const inflation = feature.properties.avg_inflation;
+      const inflationText = inflation ? `${Math.round(inflation)}%` : 'N/A';
+      
+      popup.setLngLat(map.unproject(e.point))
+        .setHTML(`
+          <div style="background: black; color: white; padding: 8px 12px; border-radius: 4px; font-size: 12px;">
+            Inflation: ${inflationText}
+          </div>
+          <style>
+            .globe-popup .maplibregl-popup-content {
+              background: transparent !important;
+              box-shadow: none !important;
+              padding: 0 !important;
+            }
+            .globe-popup .maplibregl-popup-tip {
+              display: none !important;
+            }
+          </style>
+        `)
+        .addTo(map);
+
+      map.getCanvas().style.cursor = 'pointer';
+    } else {
+      popup.remove();
+      map.getCanvas().style.cursor = '';
+    }
+  };
+
+  const handleMapMouseLeave = () => {
+    popup.remove();
+    map.getCanvas().style.cursor = '';
+  };
+
+  const attachHandlers = () => {
+    map.on('click', handleMapClick);
+    map.on('mousemove', handleMapMouseMove);
+    map.on('mouseleave', handleMapMouseLeave);
+  };
+
+  const detachHandlers = () => {
+    map.off('click', handleMapClick);
+    map.off('mousemove', handleMapMouseMove);
+    map.off('mouseleave', handleMapMouseLeave);
+    popup.remove();
+  };
+
+  return { attachHandlers, detachHandlers };
+};
+
 export {
   addCountriesToMap,
   zoomToCountry,
   highlightCountryOutline,
   resetCountryOutlines,
+  createMapInteractionHandlers,
 }
