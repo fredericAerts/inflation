@@ -2,7 +2,7 @@ import { SET_ABOUT_MODAL_OPEN, SET_ABOUT_MODAL_SECTION } from './navMenu.redux.a
 
 const INITIAL_STATE = {
   isAboutModalOpen: false,
-  activeSection: 'story',
+  activeSection: 'home',
 };
 
 const navMenuReducer = (state = INITIAL_STATE, action) => {

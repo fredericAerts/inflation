@@ -1,19 +1,18 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 
 import { MAP_STYLE } from "./globe.constants";
 import { addCountriesToMap, zoomToCountry, highlightCountryOutline, resetCountryOutlines, createMapInteractionHandlers } from './globe.utils';
-import { setSelectedCountryId, setCountryModalData } from './globe.redux.actions';
+import { setSelectedCountryId, setCountryModalData, setMapInstance } from './globe.redux.actions';
 
 import './globe.styl';
 
 function Globe() {
-  const [map, setMap] = useState(null);
   const dispatch = useDispatch();
   const { countries, inflationData } = useSelector((state) => state.asyncState);
-  const { selectedCountryId } = useSelector((state) => state.globe);
+  const { selectedCountryId, map } = useSelector((state) => state.globe);
   const mapRef = useRef(null);
 
   useEffect(() => {
@@ -23,13 +22,20 @@ function Globe() {
       maxZoom: 7,
       center: [31, 25],
       style: MAP_STYLE,
-      attributionControl: false, // Disable default attribution
+      attributionControl: false,
     });
 
     myMap.addControl(new maplibregl.AttributionControl(), 'bottom-left');
 
-    myMap.on('load', () => setMap(myMap));
-  }, []);
+    myMap.on('load', () => dispatch(setMapInstance(myMap)));
+
+    return () => {
+      if (myMap) {
+        myMap.remove();
+        dispatch(setMapInstance(null));
+      }
+    };
+  }, [dispatch]);
 
   useEffect(() => {
     if (!map || !countries || !inflationData) return;

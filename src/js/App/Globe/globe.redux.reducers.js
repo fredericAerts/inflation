@@ -1,12 +1,14 @@
 import { 
   SET_SELECTED_COUNTRY_ID, 
   CLEAR_SELECTED_COUNTRY_ID, 
-  SET_COUNTRY_MODAL_DATA 
+  SET_COUNTRY_MODAL_DATA,
+  SET_MAP_INSTANCE
 } from './globe.redux.actions';
 
 const INITIAL_STATE = {
   selectedCountryId: null,
   modalData: null,
+  map: null,
 };
 
 const globeState = (state = INITIAL_STATE, action) => {
@@ -26,6 +28,11 @@ const globeState = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         modalData: action.payload,
+      };
+    case SET_MAP_INSTANCE:
+      return {
+        ...state,
+        map: action.payload,
       };
     default:
       return state;

@@ -5,6 +5,7 @@ import { setAboutModalOpen, setAboutModalSection } from './navMenu.redux.actions
 import './nav-menu.styl';
 
 const NAV_ITEMS = [
+  { key: 'home', label: 'Home' },
   { key: 'story', label: 'The story' },
   { key: 'data', label: 'Data sources' },
   { key: 'reading', label: 'Further reading' },
@@ -14,7 +15,7 @@ const NAV_ITEMS = [
 function NavMenu() {
   const dispatch = useDispatch();
   const { isAboutModalOpen, activeSection } = useSelector((state) => state.navMenu);
-  const { selectedCountryId } = useSelector((state) => state.globe);
+  const { selectedCountryId, map } = useSelector((state) => state.globe);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   // Hide NavMenu when CountryModal is open
@@ -24,9 +25,25 @@ function NavMenu() {
   }
 
   const handleMenuItemClick = (section) => {
-    dispatch(setAboutModalSection(section));
-    if (!isAboutModalOpen) {
-      dispatch(setAboutModalOpen(true));
+    if (section === 'home') {
+      // Close AboutModal and reset map to initial position when Home is clicked
+      dispatch(setAboutModalOpen(false));
+      dispatch(setAboutModalSection('home'));
+      
+      // Reset map to initial position if map instance exists
+      if (map) {
+        map.flyTo({ 
+          center: [31, 25], 
+          zoom: 2, 
+          essential: true 
+        });
+      }
+    } else {
+      // Open AboutModal and set section for other items
+      dispatch(setAboutModalSection(section));
+      if (!isAboutModalOpen) {
+        dispatch(setAboutModalOpen(true));
+      }
     }
     // Close mobile menu after selection
     setIsMobileMenuOpen(false);

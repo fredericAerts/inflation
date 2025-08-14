@@ -75,18 +75,21 @@
   text-align: left
   text-transform: uppercase
   letter-spacing: 1px
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8)
   cursor: pointer
   transition: var(--transition-fast)
 
   &:hover
     border-color: var(--color-primary)
-    background: rgba(219, 197, 45, 0.1)
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.3) 0%, rgba(219, 197, 45, 0.1) 100%)
     color: var(--color-primary)
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 1)
 
   &--active
     border-color: var(--color-primary)
-    background: linear-gradient(135deg, rgba(219, 197, 45, 0.1) 0%, rgba(0, 0, 0, 0.3) 100%)
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.3) 0%, rgba(219, 197, 45, 0.1) 100%)
     color: var(--color-primary)
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 1)
 
     &::before
       position: absolute
