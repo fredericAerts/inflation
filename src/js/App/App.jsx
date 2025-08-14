@@ -4,6 +4,8 @@ import PriceBanner from '@library/PriceBanner/PriceBanner';
 import Globe from '@App/Globe/Globe';
 import MapLegend from '@library/MapLegend/MapLegend';
 import CountryModal from '@library/CountryModal/CountryModal';
+import NavMenu from '@library/NavMenu/NavMenu';
+import AboutModal from '@library/AboutModal/AboutModal';
 import { setViewHeight } from '@services/utils.service';
 
 import './app.styl';
@@ -24,6 +26,8 @@ function App() {
         <Globe />
         <MapLegend />
       </div>
+      <NavMenu />
+      <AboutModal />
       <CountryModal />
     </div>
   );
