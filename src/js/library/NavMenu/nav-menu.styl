@@ -4,33 +4,37 @@
   left: 0
   z-index: calc(var(--z-modal) - 1)
   
-  width: 320px
+  width: 240px
   padding: calc(var(--spacing) * 4)
   
+  transition: var(--transition-fast)
+
   &--modal-open
     z-index: calc(var(--z-modal) + 2)
     
     @media (max-width: 768px)
       display: none
 
+  &--map-covering
+    top: 0
+
 .nav-menu__toggle
   position: relative
   z-index: calc(var(--z-modal) + 3)
   
   display: none
-  padding: calc(var(--spacing) * 2)
-  border: 1px solid var(--color-primary)
+  padding: calc(var(--spacing) * 2) calc(var(--spacing) * 3)
+  border: 1px solid rgba(255, 255, 255, 0.3)
   border-radius: var(--border-radius)
   background: var(--color-black)
   
-  color: var(--color-primary)
-  font-size: calc(var(--font-size-base) * 1.2)
+  color: var(--color-white)
+  font-size: var(--font-size-base)
+  font-weight: var(--font-weight-medium)
+  text-transform: uppercase
+  letter-spacing: 1px
   cursor: pointer
   transition: var(--transition-fast)
-
-  &:hover
-    background: var(--color-primary)
-    color: var(--color-black)
 
   @media (max-width: 768px)
     display: block
@@ -41,25 +45,54 @@
   gap: calc(var(--spacing) * 2)
 
   @media (max-width: 768px)
-    position: absolute
-    top: 100%
+    position: fixed
+    top: 0
     left: 0
+    z-index: calc(var(--z-modal) + 4)
     
-    min-width: 200px
-    padding: calc(var(--spacing) * 3)
-    border: 1px solid var(--color-primary)
-    border-radius: var(--border-radius)
+    width: 100%
+    height: 100%
+    padding: calc(var(--spacing) * 8)
     background: var(--color-black)
     
-    transform: translateY(-100%)
+    justify-content: center
+    align-items: center
+    transform: translateX(-100%)
     opacity: 0
     visibility: hidden
-    transition: var(--transition-fast)
+    transition: var(--transition-normal)
 
     &--open
-      transform: translateY(0)
+      transform: translateX(0)
       opacity: 1
       visibility: visible
+
+.nav-menu__close
+  position: absolute
+  top: calc(var(--spacing) * 3)
+  right: calc(var(--spacing) * 3)
+  
+  display: none
+  width: calc(var(--spacing) * 8)
+  height: calc(var(--spacing) * 8)
+  border: 2px solid var(--color-primary)
+  border-radius: 50%
+  background: transparent
+  
+  color: var(--color-primary)
+  font-size: calc(var(--font-size-base) * 1.8)
+  font-weight: var(--font-weight-bold)
+  cursor: pointer
+  transition: var(--transition-fast)
+
+  &:hover
+    background: var(--color-primary)
+    color: var(--color-black)
+
+  @media (max-width: 768px)
+    display: flex
+    align-items: center
+    justify-content: center
 
 .nav-menu__item
   position: relative
@@ -79,18 +112,14 @@
   cursor: pointer
   transition: var(--transition-fast)
 
-  &:hover
-    border-color: var(--color-primary)
-    background: linear-gradient(135deg, rgba(0, 0, 0, 0.3) 0%, rgba(219, 197, 45, 0.1) 100%)
-    color: var(--color-primary)
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 1)
-
+  &:hover,
   &--active
     border-color: var(--color-primary)
     background: linear-gradient(135deg, rgba(0, 0, 0, 0.3) 0%, rgba(219, 197, 45, 0.1) 100%)
     color: var(--color-primary)
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 1)
 
+  &--active
     &::before
       position: absolute
       top: 0

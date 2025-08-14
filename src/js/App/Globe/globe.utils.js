@@ -301,10 +301,21 @@ const createMapInteractionHandlers = (map, dispatch, selectedCountryId) => {
   return { attachHandlers, detachHandlers };
 };
 
+const resetMapToInitialPosition = (map) => {
+  if (map) {
+    map.flyTo({ 
+      center: [31, 25], 
+      zoom: 2, 
+      essential: true 
+    });
+  }
+};
+
 export {
   addCountriesToMap,
   zoomToCountry,
   highlightCountryOutline,
   resetCountryOutlines,
   createMapInteractionHandlers,
+  resetMapToInitialPosition,
 }

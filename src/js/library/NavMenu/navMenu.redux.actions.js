@@ -1,5 +1,6 @@
 export const SET_ABOUT_MODAL_OPEN = 'SET_ABOUT_MODAL_OPEN';
 export const SET_ABOUT_MODAL_SECTION = 'SET_ABOUT_MODAL_SECTION';
+export const SET_MAP_COVERING_BANNER = 'SET_MAP_COVERING_BANNER';
 
 export const setAboutModalOpen = (isOpen) => ({
   type: SET_ABOUT_MODAL_OPEN,
@@ -9,4 +10,9 @@ export const setAboutModalOpen = (isOpen) => ({
 export const setAboutModalSection = (section) => ({
   type: SET_ABOUT_MODAL_SECTION,
   payload: section,
+});
+
+export const setMapCoveringBanner = (isCovering) => ({
+  type: SET_MAP_COVERING_BANNER,
+  payload: isCovering,
 });

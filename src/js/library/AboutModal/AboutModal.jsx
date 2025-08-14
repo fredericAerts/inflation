@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { setAboutModalOpen } from '../NavMenu/navMenu.redux.actions';
+import { setAboutModalOpen, setAboutModalSection } from '../NavMenu/navMenu.redux.actions';
 
 import './about-modal.styl';
 
@@ -71,6 +71,7 @@ function AboutModal() {
 
   const handleClose = () => {
     dispatch(setAboutModalOpen(false));
+    dispatch(setAboutModalSection('home'));
   };
 
   const handleBackdropClick = (e) => {
