@@ -257,14 +257,18 @@ const createMapInteractionHandlers = (map, dispatch, selectedCountryId) => {
       
       popup.setLngLat(map.unproject(e.point))
         .setHTML(`
-          <div style="background: black; color: white; padding: 8px 12px; border-radius: 4px; font-size: 12px;">
+          <div style="background: black; color: white; padding: 8px 12px; border-radius: 4px; font-size: 12px; pointer-events: none;">
             Inflation: ${inflationText}
           </div>
           <style>
+            .globe-popup {
+              pointer-events: none !important;
+            }
             .globe-popup .maplibregl-popup-content {
               background: transparent !important;
               box-shadow: none !important;
               padding: 0 !important;
+              pointer-events: none !important;
             }
             .globe-popup .maplibregl-popup-tip {
               display: none !important;

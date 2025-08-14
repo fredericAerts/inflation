@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 
 import PriceBanner from '@library/PriceBanner/PriceBanner';
+import NewsBanner from '@library/NewsBanner/NewsBanner';
 import Globe from '@App/Globe/Globe';
 import MapLegend from '@library/MapLegend/MapLegend';
 import CountryModal from '@library/CountryModal/CountryModal';
@@ -21,6 +22,7 @@ function App() {
     <div className="app">
       <div className="app__banner">
         <PriceBanner />
+        <NewsBanner />
       </div>
       <div className="app__body">
         <Globe />
