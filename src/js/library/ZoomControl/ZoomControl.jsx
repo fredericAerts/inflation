@@ -3,14 +3,8 @@ import { useSelector } from 'react-redux';
 import './zoom-control.styl';
 
 function ZoomControl() {
-  const { selectedCountryId, map } = useSelector((state) => state.globe);
-  const { isAboutModalOpen, isMapCoveringBanner } = useSelector((state) => state.navMenu);
-
-  // Hide ZoomControl when CountryModal is open
-  const isCountryModalOpen = Boolean(selectedCountryId);
-  if (isCountryModalOpen || isAboutModalOpen) {
-    return null;
-  }
+  const { map } = useSelector((state) => state.globe);
+  const { isMapCoveringBanner } = useSelector((state) => state.navMenu);
 
   const handleZoomIn = () => {
     if (map) {

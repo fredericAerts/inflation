@@ -16,7 +16,7 @@ const NAV_ITEMS = [
 function NavMenu() {
   const dispatch = useDispatch();
   const { isAboutModalOpen, activeSection, shouldResetMap, isMapCoveringBanner } = useSelector((state) => state.navMenu);
-  const { selectedCountryId, map } = useSelector((state) => state.globe);
+  const { map } = useSelector((state) => state.globe);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   // Effect to handle map reset when activeSection becomes 'home'
@@ -58,12 +58,6 @@ function NavMenu() {
       map.off('move', handleMapMove);
     };
   }, [map, dispatch]);
-
-  // Hide NavMenu when CountryModal is open
-  const isCountryModalOpen = Boolean(selectedCountryId);
-  if (isCountryModalOpen) {
-    return null;
-  }
 
   const handleMenuItemClick = (section) => {
     if (section === 'home') {
