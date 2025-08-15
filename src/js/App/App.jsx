@@ -7,6 +7,7 @@ import MapLegend from '@library/MapLegend/MapLegend';
 import CountryModal from '@library/CountryModal/CountryModal';
 import NavMenu from '@library/NavMenu/NavMenu';
 import AboutModal from '@library/AboutModal/AboutModal';
+import ZoomControl from '@library/ZoomControl/ZoomControl';
 import { setViewHeight } from '@services/utils.service';
 
 import './app.styl';
@@ -28,6 +29,7 @@ function App() {
         <Globe />
         <MapLegend />
       </div>
+      <ZoomControl />
       <NavMenu />
       <AboutModal />
       <CountryModal />

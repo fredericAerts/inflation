@@ -1,0 +1,75 @@
+.zoom-control
+  position: absolute
+  top: 60px
+  right: 0
+  z-index: calc(var(--z-modal) - 1)
+  
+  display: flex
+  flex-direction: column
+  padding: calc(var(--spacing) * 4)
+  
+  transition: var(--transition-fast)
+
+  &--map-covering
+    top: 0
+
+.zoom-control__button
+  position: relative
+  
+  display: flex
+  align-items: center
+  justify-content: center
+  width: calc(var(--spacing) * 8)
+  height: calc(var(--spacing) * 8)
+  border: none
+  background: var(--color-black)
+  
+  color: var(--color-white)
+  font-size: calc(var(--font-size-base) * 1.5)
+  font-weight: var(--font-weight-bold)
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8)
+  cursor: pointer
+  transition: var(--transition-fast)
+
+  &::before
+    position: absolute
+    top: 0
+    left: 0
+    
+    height: 100%
+    width: 100%
+    
+    border: 1px solid rgba(255, 255, 255, 0.3)
+    
+    content: ''
+    transition: var(--transition-fast)
+  
+  &:first-child::before
+    z-index: 1
+  
+  &:hover:not(:disabled)
+    z-index: 1
+    color: var(--color-primary)
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 1)
+
+    &::before
+      border-color: var(--color-primary)
+
+  &:disabled
+    opacity: 0.5
+    cursor: not-allowed
+
+  &--zoom-in
+    border-radius: var(--border-radius) var(--border-radius) 0 0
+
+    &::before
+      border-radius: var(--border-radius) var(--border-radius) 0 0
+      
+    &:not(:hover)::before
+      border-bottom: none
+
+  &--zoom-out
+    border-radius: 0 0 var(--border-radius) var(--border-radius)
+    
+    &::before
+      border-radius: 0 0 var(--border-radius) var(--border-radius)
