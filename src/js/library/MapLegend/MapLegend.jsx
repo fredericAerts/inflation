@@ -8,7 +8,7 @@ function MapLegend() {
       <div className="map-legend__label">Avg. inflation (YoY) over last 10 years</div>
       <div className="map-legend__values">
         <span>&lt; 2%</span>
-        <span>5%</span>
+        <span>6%</span>
         <span>&gt; 10%</span>
       </div>
       <div className="map-legend__colors">

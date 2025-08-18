@@ -28,15 +28,15 @@ ChartJS.register(
 function CountryModal() {
   const dispatch = useDispatch();
   const { selectedCountryId, modalData } = useSelector((state) => state.globe);
-  const { countries } = useSelector((state) => state.asyncState);
+  const { inflationData } = useSelector((state) => state.asyncState);
   const [selectedCurrency, setSelectedCurrency] = useState('GOLD');
   
   const isOpen = Boolean(selectedCountryId && modalData);
-  
-  // Get country data
-  const country = countries?.features?.find(
-    feature => feature.properties.iso_a3_eh === selectedCountryId
-  );
+
+  const inflationEntry = selectedCountryId && inflationData
+      .find(({ _id }) => _id === selectedCountryId);
+    
+  const { yoy_inflation } = inflationEntry || {};
   
   const handleClose = () => {
     dispatch(setSelectedCountryId(null));
@@ -49,13 +49,38 @@ function CountryModal() {
     }
   };
 
-  // Generate dummy inflation data for the last 10 years
-  const inflationData = {
-    labels: ['2014', '2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023'],
-    datasets: [
-      {
+  // Generate inflation chart data from actual yoy_inflation data
+  const inflationChartData = (() => {
+    if (!yoy_inflation || Object.keys(yoy_inflation).length === 0) {
+      return {
+        labels: [],
+        datasets: [{
+          label: 'YoY Inflation (%)',
+          data: [],
+          borderColor: '#dbc52d',
+          backgroundColor: 'rgba(219, 197, 45, 0.1)',
+          borderWidth: 2,
+          pointBackgroundColor: '#dbc52d',
+          pointBorderColor: '#ffffff',
+          pointBorderWidth: 2,
+          tension: 0.4,
+        }]
+      };
+    }
+
+    // Convert Map-like object to array and sort by year
+    const yearEntries = Object.entries(yoy_inflation).sort(([yearA], [yearB]) => 
+      parseInt(yearA) - parseInt(yearB)
+    );
+    
+    const labels = yearEntries.map(([year]) => year);
+    const data = yearEntries.map(([, value]) => value);
+
+    return {
+      labels,
+      datasets: [{
         label: 'YoY Inflation (%)',
-        data: [1.2, 0.8, 1.5, 2.1, 2.8, 1.9, 0.4, 4.2, 8.9, 3.1],
+        data,
         borderColor: '#dbc52d',
         backgroundColor: 'rgba(219, 197, 45, 0.1)',
         borderWidth: 2,
@@ -63,9 +88,9 @@ function CountryModal() {
         pointBorderColor: '#ffffff',
         pointBorderWidth: 2,
         tension: 0.4,
-      },
-    ],
-  };
+      }]
+    };
+  })();
 
   // Generate dummy currency performance data
   const getCurrencyData = () => {
@@ -148,11 +173,11 @@ function CountryModal() {
         <div className="country-modal__content__row">
           <div className="country-modal__content__row__cell tablet-50">
             <div className="country-modal__header">
-              <h2 className="country-name">{modalData?.countryName || 'Unknown Country'}</h2>
+              <h2 className="country-name">{modalData?.name || 'Unknown Country'}</h2>
               
               <div className="currency-section">
-                <div className="currency">EUR</div>
-                <div className="currency-label">Base Currency</div>
+                <div className="currency">{modalData?.currencyCode || 'N/A'}</div>
+                <div className="currency-label">{modalData?.currency || 'N/A'}</div>
               </div>
               
               <div className="inflation-section">
@@ -164,7 +189,7 @@ function CountryModal() {
           </div>
           <div className="country-modal__content__row__cell tablet-50">
             <div className="country-modal__chart-container">
-              <Line data={inflationData} options={chartOptions} />
+              <Line data={inflationChartData} options={chartOptions} />
             </div>
           </div>
         </div>

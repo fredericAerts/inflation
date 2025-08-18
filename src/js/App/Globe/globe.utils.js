@@ -6,7 +6,7 @@ function addCountriesToMap(map, countries, inflationData) {
 
   const enrichedFeatures = features.map((country) => {
     const inflationEntry = inflationData
-      .find(({ _id }) => _id === country.properties.iso_a3_eh);
+      .find(({ _id }) => _id === country.properties.iso_a3);
     
     const { avg_inflation_last_10_years } = inflationEntry || {};
 
@@ -97,24 +97,24 @@ function addCountriesToMap(map, countries, inflationData) {
   //   minzoom: 2
   // });
 
-//   map.addLayer({
-//     id: 'countries-labels',
-//     type: 'symbol',
-//     source: 'countries',
-//     layout: {
-//       'text-field': ['get', 'name'],
-//       'text-font': ['Open Sans Regular'],
-//       'text-size': 12,
-//       'text-anchor': 'center',
-//       'visibility': 'visible'
-//     },
-//     paint: {
-//       'text-color': '#ffffff',
-//       'text-halo-color': '#000000',
-//       'text-halo-width': 2
-//     },
-//     minzoom: 1
-//   });
+  // map.addLayer({
+  //   id: 'countries-labels',
+  //   type: 'symbol',
+  //   source: 'countries',
+  //   layout: {
+  //     'text-field': ['get', 'name'],
+  //     'text-font': ['Open Sans Regular'],
+  //     'text-size': 12,
+  //     'text-anchor': 'center',
+  //     'visibility': 'visible'
+  //   },
+  //   paint: {
+  //     'text-color': '#ffffff',
+  //     'text-halo-color': '#000000',
+  //     'text-halo-width': 2
+  //   },
+  //   minzoom: 1
+  // });
 }
 
 const COUNTRIES_WITH_ALL_POLYGONS = ['IDN', 'PHL', 'JPN', 'FJI', 'VUT'];
@@ -129,7 +129,7 @@ const zoomToCountry = (map, sourceCountry, duration = 600) => {
     
     const coordinates = sourceCountry.geometry.coordinates;
     const bounds = new maplibregl.LngLatBounds();
-    const countryCode = sourceCountry.properties.iso_a3_eh;
+    const countryCode = sourceCountry.properties.iso_a3;
     
     const addCoordinatesToBounds = (coords) => {
       coords.forEach(coord => {
@@ -199,14 +199,14 @@ const zoomToCountry = (map, sourceCountry, duration = 600) => {
 const highlightCountryOutline = (map, selectedCountryId) => {
   map.setPaintProperty('countries-outline', 'line-color', [
     'case',
-    ['==', ['get', 'iso_a3_eh'], selectedCountryId],
+    ['==', ['get', 'iso_a3'], selectedCountryId],
     '#FFD700', // Golden color for selected country
     'rgba(255, 255, 255, 0.3)' // Default color for other countries
   ]);
   
   map.setPaintProperty('countries-outline', 'line-width', [
     'case',
-    ['==', ['get', 'iso_a3_eh'], selectedCountryId],
+    ['==', ['get', 'iso_a3'], selectedCountryId],
     2, // Thicker line for selected country
     0.5 // Default width for other countries
   ]);
@@ -232,7 +232,7 @@ const createMapInteractionHandlers = (map, dispatch, selectedCountryId) => {
     });
     if (features?.length) {
       const clickedFeature = features[0];
-      const countryId = clickedFeature.properties.iso_a3_eh;
+      const countryId = clickedFeature.properties.iso_a3;
       
       dispatch({ type: 'SET_SELECTED_COUNTRY_ID', payload: countryId });
     }

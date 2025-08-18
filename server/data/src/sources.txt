@@ -1,0 +1,11 @@
+datahub/countries.geojson
+https://datahub.io/core/geo-countries
+
+datahub/population.json
+https://datahub.io/core/population
+
+datahub/currencies.json
+https://datahub.io/core/currency-codes
+
+imf/dataset_2025-07-18T04_21_18.063503982Z_DEFAULT_INTEGRATION_IMF.STA_CPI_4.0.0.csv
+https://data.imf.org/en/Data-Explorer?datasetUrn=IMF.STA:CPI(5.0.0)

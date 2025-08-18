@@ -82,9 +82,9 @@ function Globe() {
     }
 
     const handleCountryZoom = async () => {
-      // Find the complete country data from Redux using iso_a3_eh
+      // Find the complete country data from Redux using iso_a3
       const sourceCountry = countries.features.find(country => 
-        country.properties.iso_a3_eh === selectedCountryId
+        country.properties.iso_a3 === selectedCountryId
       );
       
       if (!sourceCountry) {
@@ -104,7 +104,7 @@ function Globe() {
           sourceLayer: 'countries'
         });
         const enrichedFeature = enrichedFeatures.find(feature => 
-          feature.properties.iso_a3_eh === selectedCountryId
+          feature.properties.iso_a3 === selectedCountryId
         );
         
         // Dispatch modal data instead of showing alert
@@ -112,7 +112,7 @@ function Globe() {
         const inflationText = inflation ? `${Math.round(inflation)}%` : 'N/A';
         
         dispatch(setCountryModalData({
-          countryName: sourceCountry.properties.name || 'Unknown Country',
+          ...(sourceCountry.properties || {}),
           inflation: inflationText,
         }));
       } catch (error) {

@@ -12,7 +12,7 @@ dotenv.config();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const inputFile = path.resolve(__dirname, '../server/data/imf/dataset_2025-07-18T04_21_18.063503982Z_DEFAULT_INTEGRATION_IMF.STA_CPI_4.0.0.csv');
+const inputFile = path.resolve(__dirname, '../src/imf/dataset_2025-07-18T04_21_18.063503982Z_DEFAULT_INTEGRATION_IMF.STA_CPI_4.0.0.csv');
 
 // MongoDB setup
 const MONGO_URI = `mongodb://${process.env.DB_USER}:${encodeURIComponent(process.env.DB_PASS)}@${process.env.DB_IP}:27017/${process.env.DB_NAME}?authSource=admin`;
@@ -41,6 +41,8 @@ fs.createReadStream(inputFile)
   })
   .on('end', async () => {
     const inflationData = {};
+    const skippedCountries = [];
+    
     /**
      * Added missing data for Argentina
      * https://data.bis.org/topics/CPI/BIS%2CWS_LONG_CPI%2C1.0/A.AR.628?view=observations
@@ -58,8 +60,30 @@ fs.createReadStream(inputFile)
       '2023': 5335.092,
       '2024': 17232.226
     }
+    
     for (const [country, yearValues] of Object.entries(rawData)) {
       const sortedYears = Object.keys(yearValues).map(Number).sort((a, b) => a - b);
+      
+      // Check if all required years are available (TIME_PERIOD[0]-1 through TIME_PERIOD[1])
+      const requiredYears = [];
+      for (let year = TIME_PERIOD[0] - 1; year <= TIME_PERIOD[1]; year++) {
+        requiredYears.push(year);
+      }
+      
+      const availableYears = sortedYears.filter(year => 
+        year >= TIME_PERIOD[0] - 1 && year <= TIME_PERIOD[1]
+      );
+      
+      const missingYears = requiredYears.filter(year => !availableYears.includes(year));
+      
+      if (missingYears.length > 0) {
+        skippedCountries.push({
+          country,
+          missingYears
+        });
+        continue; // Skip this country
+      }
+      
       const yoyInflation = {};
       let sumLast10 = 0;
       let countLast10 = 0;
@@ -90,6 +114,16 @@ fs.createReadStream(inputFile)
         yoy_inflation: yoyInflation
       };
     }
+
+    // Log skipped countries
+    if (skippedCountries.length > 0) {
+      console.log(`\n⚠️  Skipped ${skippedCountries.length} countries due to missing CPI data:`);
+      skippedCountries.forEach(({ country, missingYears }) => {
+        console.log(`  - ${country}: Missing years ${missingYears.join(', ')}`);
+      });
+    }
+
+    console.log(`\n✅ Processing ${Object.keys(inflationData).length} countries with complete data`);
 
     try {
       await client.connect();
