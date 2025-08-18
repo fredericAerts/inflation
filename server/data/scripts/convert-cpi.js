@@ -12,7 +12,7 @@ dotenv.config();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const inputFile = path.resolve(__dirname, '../src/imf/dataset_2025-07-18T04_21_18.063503982Z_DEFAULT_INTEGRATION_IMF.STA_CPI_4.0.0.csv');
+const inputFile = path.resolve(__dirname, '../src/imf/dataset_2025-08-18T13_51_04.709096225Z_DEFAULT_INTEGRATION_IMF.STA_CPI_5.0.0.csv');
 
 // MongoDB setup
 const MONGO_URI = `mongodb://${process.env.DB_USER}:${encodeURIComponent(process.env.DB_PASS)}@${process.env.DB_IP}:27017/${process.env.DB_NAME}?authSource=admin`;
