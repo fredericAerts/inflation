@@ -1,29 +1,64 @@
 import maplibregl from 'maplibre-gl';
 import { area } from '@turf/area';
 
-function addCountriesToMap(map, countries, inflationData) {
+async function addCountriesToMap(map, countries, inflationData) {
   const { type, features } = countries;
 
   const enrichedFeatures = features.map((country) => {
     const inflationEntry = inflationData
       .find(({ _id }) => _id === country.properties.iso_a3);
     
-    const { avg_inflation_last_10_years } = inflationEntry || {};
+    const { avg_inflation_last_10_years, skipped_years, data_source } = inflationEntry || {};
 
     return {
       ...country,
       properties: {
         ...country.properties,
         avg_inflation: avg_inflation_last_10_years || null,
+        data_source: data_source || null,
+        skipped_years: skipped_years || null,
       },
     };
   });
+
+  // Create diagonal stripe pattern
+  const createDiagonalPattern = async () => {
+    const size = 16;
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    
+    canvas.width = size;
+    canvas.height = size;
+    
+    ctx.clearRect(0, 0, size, size);
+    
+    // Draw diagonal lines with white color for visibility
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.6)';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    
+    // Increase spacing from 4 to 8 to make bands wider apart
+    for (let i = -size; i <= size * 2; i += 8) {
+      ctx.moveTo(i, 0);
+      ctx.lineTo(i + size, size);
+    }
+    
+    ctx.stroke();
+    
+    // Convert canvas to ImageBitmap for MapLibre GL v3+ compatibility
+    return await createImageBitmap(canvas);
+  };
 
   map.addSource('countries', {
     type: 'geojson',
     data: { type, features: enrichedFeatures },
   });
 
+  // Add diagonal pattern to map
+  const patternImageBitmap = await createDiagonalPattern();
+  map.addImage('diagonal-stripes', patternImageBitmap, { pixelRatio: 1 });
+
+  // Base fill layer for countries with complete data (no skipped years)
   map.addLayer({
     id: 'countries-fill',
     type: 'fill',
@@ -58,6 +93,18 @@ function addCountriesToMap(map, countries, inflationData) {
     }
   });
 
+  // Add diagonal pattern overlay for countries with skipped years
+  map.addLayer({
+    id: 'countries-pattern-overlay',
+    type: 'fill',
+    source: 'countries',
+    filter: ['!=', ['get', 'skipped_years'], null],
+    paint: {
+      'fill-pattern': 'diagonal-stripes',
+      'fill-opacity': 0.8
+    }
+  });
+
   map.addLayer({
     id: 'countries-outline',
     type: 'line',
@@ -67,7 +114,6 @@ function addCountriesToMap(map, countries, inflationData) {
       'line-width': 0.5,
     },
   });
-
 
   // map.addLayer({
   //   id: 'inflation-labels',
@@ -196,27 +242,6 @@ const zoomToCountry = (map, sourceCountry, duration = 600) => {
   });
 };
 
-const highlightCountryOutline = (map, selectedCountryId) => {
-  map.setPaintProperty('countries-outline', 'line-color', [
-    'case',
-    ['==', ['get', 'iso_a3'], selectedCountryId],
-    '#FFD700', // Golden color for selected country
-    'rgba(255, 255, 255, 0.3)' // Default color for other countries
-  ]);
-  
-  map.setPaintProperty('countries-outline', 'line-width', [
-    'case',
-    ['==', ['get', 'iso_a3'], selectedCountryId],
-    2, // Thicker line for selected country
-    0.5 // Default width for other countries
-  ]);
-};
-
-const resetCountryOutlines = (map) => {
-  map.setPaintProperty('countries-outline', 'line-color', 'rgba(255, 255, 255, 0.3)');
-  map.setPaintProperty('countries-outline', 'line-width', 0.5);
-};
-
 const createMapInteractionHandlers = (map, dispatch, selectedCountryId) => {
   const popup = new maplibregl.Popup({
     closeButton: false,
@@ -252,13 +277,21 @@ const createMapInteractionHandlers = (map, dispatch, selectedCountryId) => {
 
     if (features?.length) {
       const feature = features[0];
+      const country = feature.properties.name;
       const inflation = feature.properties.avg_inflation;
+      const dataSource = feature.properties.data_source;
+      const skippedYears = feature.properties.skipped_years;
       const inflationText = inflation ? `${Math.round(inflation)}%` : 'N/A';
+      const dataQuality = skippedYears ? ' (Incomplete data)' : '';
       
       popup.setLngLat(map.unproject(e.point))
         .setHTML(`
           <div style="background: black; color: white; padding: 8px 12px; border-radius: 4px; font-size: 12px; pointer-events: none;">
-            Inflation: ${inflationText}
+            ${country}
+            <br />
+            Inflation: ${inflationText}${dataQuality}
+            <br />
+            Data Source: ${dataSource}
           </div>
           <style>
             .globe-popup {
@@ -303,6 +336,33 @@ const createMapInteractionHandlers = (map, dispatch, selectedCountryId) => {
   };
 
   return { attachHandlers, detachHandlers };
+};
+
+const highlightCountryOutline = (map, selectedCountryId) => {
+  // Check if the layer exists before trying to style it
+  if (map.getLayer('countries-outline')) {
+    map.setPaintProperty('countries-outline', 'line-color', [
+      'case',
+      ['==', ['get', 'iso_a3'], selectedCountryId],
+      '#FFD700', // Golden color for selected country
+      'rgba(255, 255, 255, 0.3)' // Default color for other countries
+    ]);
+    
+    map.setPaintProperty('countries-outline', 'line-width', [
+      'case',
+      ['==', ['get', 'iso_a3'], selectedCountryId],
+      2, // Thicker line for selected country
+      0.5 // Default width for other countries
+    ]);
+  }
+};
+
+const resetCountryOutlines = (map) => {
+  // Check if the layer exists before trying to style it
+  if (map.getLayer('countries-outline')) {
+    map.setPaintProperty('countries-outline', 'line-color', 'rgba(255, 255, 255, 0.3)');
+    map.setPaintProperty('countries-outline', 'line-width', 0.5);
+  }
 };
 
 const resetMapToInitialPosition = (map) => {

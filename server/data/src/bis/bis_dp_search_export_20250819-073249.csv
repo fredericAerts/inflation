@@ -1,0 +1,45 @@
+﻿DATAFLOW_ID:Dataflow ID,KEY:Timeseries Key,FREQ:Frequency,REF_AREA:Reference area,UNIT_MEASURE:Unit of measure,Unit,Unit multiplier,TIME_PERIOD:Period,OBS_CONF:Confidentiality,OBS_PRE_BREAK:Pre-break value,OBS_STATUS:Status,OBS_VALUE:Value
+"BIS,WS_LONG_CPI,1.0",A.AR.628,A:Annual,AR:Argentina,"628:Index, 2010 = 100","Index, 2010 = 100",Units,2014-12-31,F:Free,,A:Normal value,162.1695741506
+"BIS,WS_LONG_CPI,1.0",A.AR.628,A:Annual,AR:Argentina,"628:Index, 2010 = 100","Index, 2010 = 100",Units,2015-12-31,F:Free,,A:Normal value,188.2362690804
+"BIS,WS_LONG_CPI,1.0",A.AR.628,A:Annual,AR:Argentina,"628:Index, 2010 = 100","Index, 2010 = 100",Units,2016-12-31,F:Free,,A:Normal value,249.0721010958
+"BIS,WS_LONG_CPI,1.0",A.AR.628,A:Annual,AR:Argentina,"628:Index, 2010 = 100","Index, 2010 = 100",Units,2017-12-31,F:Free,,A:Normal value,310.8269020959
+"BIS,WS_LONG_CPI,1.0",A.AR.628,A:Annual,AR:Argentina,"628:Index, 2010 = 100","Index, 2010 = 100",Units,2018-12-31,F:Free,,A:Normal value,416.9752205391
+"BIS,WS_LONG_CPI,1.0",A.AR.628,A:Annual,AR:Argentina,"628:Index, 2010 = 100","Index, 2010 = 100",Units,2019-12-31,F:Free,,A:Normal value,637.155776127
+"BIS,WS_LONG_CPI,1.0",A.AR.628,A:Annual,AR:Argentina,"628:Index, 2010 = 100","Index, 2010 = 100",Units,2020-12-31,F:Free,,A:Normal value,895.0916353614
+"BIS,WS_LONG_CPI,1.0",A.AR.628,A:Annual,AR:Argentina,"628:Index, 2010 = 100","Index, 2010 = 100",Units,2021-12-31,F:Free,,A:Normal value,1316.6910397521
+"BIS,WS_LONG_CPI,1.0",A.AR.628,A:Annual,AR:Argentina,"628:Index, 2010 = 100","Index, 2010 = 100",Units,2022-12-31,F:Free,,A:Normal value,2279.5251138771
+"BIS,WS_LONG_CPI,1.0",A.AR.628,A:Annual,AR:Argentina,"628:Index, 2010 = 100","Index, 2010 = 100",Units,2023-12-31,F:Free,,A:Normal value,5335.0918365124
+"BIS,WS_LONG_CPI,1.0",A.AR.628,A:Annual,AR:Argentina,"628:Index, 2010 = 100","Index, 2010 = 100",Units,2024-12-31,F:Free,,A:Normal value,17232.22552548
+"BIS,WS_LONG_CPI,1.0",A.LT.628,A:Annual,LT:Lithuania,"628:Index, 2010 = 100","Index, 2010 = 100",Units,2014-12-31,F:Free,,A:Normal value,108.584879
+"BIS,WS_LONG_CPI,1.0",A.LT.628,A:Annual,LT:Lithuania,"628:Index, 2010 = 100","Index, 2010 = 100",Units,2015-12-31,F:Free,,A:Normal value,107.624883
+"BIS,WS_LONG_CPI,1.0",A.LT.628,A:Annual,LT:Lithuania,"628:Index, 2010 = 100","Index, 2010 = 100",Units,2016-12-31,F:Free,,A:Normal value,108.599453
+"BIS,WS_LONG_CPI,1.0",A.LT.628,A:Annual,LT:Lithuania,"628:Index, 2010 = 100","Index, 2010 = 100",Units,2017-12-31,F:Free,,A:Normal value,112.64249
+"BIS,WS_LONG_CPI,1.0",A.LT.628,A:Annual,LT:Lithuania,"628:Index, 2010 = 100","Index, 2010 = 100",Units,2018-12-31,F:Free,,A:Normal value,115.681503
+"BIS,WS_LONG_CPI,1.0",A.LT.628,A:Annual,LT:Lithuania,"628:Index, 2010 = 100","Index, 2010 = 100",Units,2019-12-31,F:Free,,A:Normal value,118.382098
+"BIS,WS_LONG_CPI,1.0",A.LT.628,A:Annual,LT:Lithuania,"628:Index, 2010 = 100","Index, 2010 = 100",Units,2020-12-31,F:Free,,A:Normal value,119.802559
+"BIS,WS_LONG_CPI,1.0",A.LT.628,A:Annual,LT:Lithuania,"628:Index, 2010 = 100","Index, 2010 = 100",Units,2021-12-31,F:Free,,A:Normal value,125.413564
+"BIS,WS_LONG_CPI,1.0",A.LT.628,A:Annual,LT:Lithuania,"628:Index, 2010 = 100","Index, 2010 = 100",Units,2022-12-31,F:Free,,A:Normal value,150.126365
+"BIS,WS_LONG_CPI,1.0",A.LT.628,A:Annual,LT:Lithuania,"628:Index, 2010 = 100","Index, 2010 = 100",Units,2023-12-31,F:Free,,A:Normal value,163.813866
+"BIS,WS_LONG_CPI,1.0",A.LT.628,A:Annual,LT:Lithuania,"628:Index, 2010 = 100","Index, 2010 = 100",Units,2024-12-31,F:Free,,A:Normal value,164.986995
+"BIS,WS_LONG_CPI,1.0",A.MK.628,A:Annual,MK:North Macedonia,"628:Index, 2010 = 100","Index, 2010 = 100",Units,2014-12-31,F:Free,,A:Normal value,110.059172
+"BIS,WS_LONG_CPI,1.0",A.MK.628,A:Annual,MK:North Macedonia,"628:Index, 2010 = 100","Index, 2010 = 100",Units,2015-12-31,F:Free,,A:Normal value,109.72581
+"BIS,WS_LONG_CPI,1.0",A.MK.628,A:Annual,MK:North Macedonia,"628:Index, 2010 = 100","Index, 2010 = 100",Units,2016-12-31,F:Free,,A:Normal value,109.467456
+"BIS,WS_LONG_CPI,1.0",A.MK.628,A:Annual,MK:North Macedonia,"628:Index, 2010 = 100","Index, 2010 = 100",Units,2017-12-31,F:Free,,A:Normal value,110.934245
+"BIS,WS_LONG_CPI,1.0",A.MK.628,A:Annual,MK:North Macedonia,"628:Index, 2010 = 100","Index, 2010 = 100",Units,2018-12-31,F:Free,,A:Normal value,112.542712
+"BIS,WS_LONG_CPI,1.0",A.MK.628,A:Annual,MK:North Macedonia,"628:Index, 2010 = 100","Index, 2010 = 100",Units,2019-12-31,F:Free,,A:Normal value,113.426119
+"BIS,WS_LONG_CPI,1.0",A.MK.628,A:Annual,MK:North Macedonia,"628:Index, 2010 = 100","Index, 2010 = 100",Units,2020-12-31,F:Free,,A:Normal value,114.776231
+"BIS,WS_LONG_CPI,1.0",A.MK.628,A:Annual,MK:North Macedonia,"628:Index, 2010 = 100","Index, 2010 = 100",Units,2021-12-31,F:Free,,A:Normal value,118.47654
+"BIS,WS_LONG_CPI,1.0",A.MK.628,A:Annual,MK:North Macedonia,"628:Index, 2010 = 100","Index, 2010 = 100",Units,2022-12-31,F:Free,,A:Normal value,135.311276
+"BIS,WS_LONG_CPI,1.0",A.MK.628,A:Annual,MK:North Macedonia,"628:Index, 2010 = 100","Index, 2010 = 100",Units,2023-12-31,F:Free,,A:Normal value,147.978998
+"BIS,WS_LONG_CPI,1.0",A.MK.628,A:Annual,MK:North Macedonia,"628:Index, 2010 = 100","Index, 2010 = 100",Units,2024-12-31,F:Free,,A:Normal value,153.137761
+"BIS,WS_LONG_CPI,1.0",A.RU.628,A:Annual,RU:Russia,"628:Index, 2010 = 100","Index, 2010 = 100",Units,2014-12-31,F:Free,,A:Normal value,131.156686
+"BIS,WS_LONG_CPI,1.0",A.RU.628,A:Annual,RU:Russia,"628:Index, 2010 = 100","Index, 2010 = 100",Units,2015-12-31,F:Free,,A:Normal value,151.52051
+"BIS,WS_LONG_CPI,1.0",A.RU.628,A:Annual,RU:Russia,"628:Index, 2010 = 100","Index, 2010 = 100",Units,2016-12-31,F:Free,,A:Normal value,162.202351
+"BIS,WS_LONG_CPI,1.0",A.RU.628,A:Annual,RU:Russia,"628:Index, 2010 = 100","Index, 2010 = 100",Units,2017-12-31,F:Free,,A:Normal value,168.159853
+"BIS,WS_LONG_CPI,1.0",A.RU.628,A:Annual,RU:Russia,"628:Index, 2010 = 100","Index, 2010 = 100",Units,2018-12-31,F:Free,,A:Normal value,173.000844
+"BIS,WS_LONG_CPI,1.0",A.RU.628,A:Annual,RU:Russia,"628:Index, 2010 = 100","Index, 2010 = 100",Units,2019-12-31,F:Free,,A:Normal value,180.708101
+"BIS,WS_LONG_CPI,1.0",A.RU.628,A:Annual,RU:Russia,"628:Index, 2010 = 100","Index, 2010 = 100",Units,2020-12-31,F:Free,,A:Normal value,186.815581
+"BIS,WS_LONG_CPI,1.0",A.RU.628,A:Annual,RU:Russia,"628:Index, 2010 = 100","Index, 2010 = 100",Units,2021-12-31,F:Free,,A:Normal value,199.313836
+"BIS,WS_LONG_CPI,1.0",A.RU.628,A:Annual,RU:Russia,"628:Index, 2010 = 100","Index, 2010 = 100",Units,2022-12-31,F:Free,,A:Normal value,226.735007
+"BIS,WS_LONG_CPI,1.0",A.RU.628,A:Annual,RU:Russia,"628:Index, 2010 = 100","Index, 2010 = 100",Units,2023-12-31,F:Free,,A:Normal value,240.041483
+"BIS,WS_LONG_CPI,1.0",A.RU.628,A:Annual,RU:Russia,"628:Index, 2010 = 100","Index, 2010 = 100",Units,2024-12-31,F:Free,,A:Normal value,260.346981

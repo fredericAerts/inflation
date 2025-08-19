@@ -9,3 +9,12 @@ https://datahub.io/core/currency-codes
 
 imf/dataset_2025-07-18T04_21_18.063503982Z_DEFAULT_INTEGRATION_IMF.STA_CPI_4.0.0.csv
 https://data.imf.org/en/Data-Explorer?datasetUrn=IMF.STA:CPI(5.0.0)
+
+worldbank/API_FP.CPI.TOTL_DS2_en_csv_v2_37831/API_FP.CPI.TOTL_DS2_en_csv_v2_37831.csv
+https://databank.worldbank.org/metadataglossary/world-development-indicators/series/FP.CPI.TOTL
+
+bis/bis_dp_search_export_20250819-073249.csv
+https://data.bis.org/topics/CPI/BIS,WS_LONG_CPI,1.0/A.AR.628?filter=LAST_N_PERIODS%3D12&additional_ts=BIS%2CWS_LONG_CPI%2C1.0%255EA.MK%2BRU%2BLT.628
+
+bank.stat.gl/PRXPRISF_20250819-073721.csv
+https://bank.stat.gl/pxweb/en/Greenland/Greenland__PR/PRXPRISF.px/table/tableViewLayout1/

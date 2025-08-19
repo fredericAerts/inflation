@@ -16,6 +16,13 @@ function MapLegend() {
         <div className="map-legend__marker map-legend__marker--5" />
         <div className="map-legend__marker map-legend__marker--10" />
       </div>
+      
+      <div className="map-legend__pattern-section">
+        <div className="map-legend__pattern-indicator">
+          <div className="map-legend__pattern-sample" />
+          <span className="map-legend__pattern-label">Incomplete data</span>
+        </div>
+      </div>
     </div>
   );
 };

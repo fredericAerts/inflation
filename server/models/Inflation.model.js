@@ -15,6 +15,14 @@ const inflationSchema = new mongoose.Schema(
       of: Number, // keys are years as strings, values are inflation percentages
       required: true,
     },
+    data_source: {
+      type: String,
+      required: true,
+    },
+    skipped_years: {
+      type: [Number],
+      // No default value - only present when there are actual skipped years
+    },
   },
   { collection: 'inflation' }
 );
