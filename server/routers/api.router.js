@@ -7,13 +7,16 @@ const dataController = dataControllerFactory();
 const router = () => {
   const apiRouter = express.Router();
 
-  /*  USERS
+  /*  DATA ENDPOINTS
       ============================================================ */
   apiRouter.route('/countries')
     .get(dataController.getCountries);
   
   apiRouter.route('/inflation-data')
     .get(dataController.getInflationData);
+
+  apiRouter.route('/metrics/:iso3')
+    .get(dataController.getMetrics);
 
   return apiRouter;
 };

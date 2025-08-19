@@ -24,7 +24,24 @@ async function fetchInflationData() {
   }
 }
 
+async function fetchMetrics(iso3Code) {
+  try {
+    const response = await fetch(`/api/metrics/${iso3Code}`);
+    if (!response.ok) {
+      if (response.status === 404) {
+        return null; // No metrics found for this country
+      }
+      throw new Error(`Failed to fetch metrics: ${response.status} ${response.statusText}`);
+    }
+    return await response.json();
+  } catch (error) {
+    console.error(`[fetchMetrics] Error for ${iso3Code}:`, error);
+    throw error;
+  }
+}
+
 export {
   fetchCountriesGeoJson,
   fetchInflationData,
+  fetchMetrics,
 }

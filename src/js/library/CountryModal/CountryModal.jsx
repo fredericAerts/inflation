@@ -30,6 +30,7 @@ function CountryModal() {
   const { selectedCountryId, modalData } = useSelector((state) => state.globe);
   const { inflationData } = useSelector((state) => state.asyncState);
   const [selectedCurrency, setSelectedCurrency] = useState('GOLD');
+  const [metrics, setMetrics] = useState(null);
   
   const isOpen = Boolean(selectedCountryId && modalData);
 
@@ -37,6 +38,31 @@ function CountryModal() {
       .find(({ _id }) => _id === selectedCountryId);
     
   const { yoy_inflation } = inflationEntry || {};
+
+  // Fetch metrics when selectedCountryId changes
+  useEffect(() => {
+    const fetchCountryMetrics = async () => {
+      if (!selectedCountryId) {
+        setMetrics(null);
+        return;
+      }
+
+      try {
+        const response = await fetch(`/api/metrics/${selectedCountryId}`);
+        if (response.ok) {
+          const metricsData = await response.json();
+          setMetrics(metricsData);
+        } else {
+          setMetrics(null);
+        }
+      } catch (error) {
+        console.error('Error fetching metrics:', error);
+        setMetrics(null);
+      }
+    };
+
+    fetchCountryMetrics();
+  }, [selectedCountryId]);
   
   const handleClose = () => {
     dispatch(setSelectedCountryId(null));
@@ -333,8 +359,11 @@ function CountryModal() {
           <div className="country-modal__content__row__cell country-modal__content__row__cell--33">
             <div className="country-modal__metric">
               <div className="metric-title">Freedom Index</div>
-              <div className="metric-value">7.8</div>
+              <div className="metric-value">
+                {metrics?.freedom_index ? metrics.freedom_index.toFixed(1) : 'N/A'}
+              </div>
               <div className="metric-subtitle">out of 10</div>
+              <div className="metric-data-source">Cato Institute (2022)</div>
             </div>
           </div>
           <div className="country-modal__content__row__cell country-modal__content__row__cell--33">

@@ -18,3 +18,6 @@ https://data.bis.org/topics/CPI/BIS,WS_LONG_CPI,1.0/A.AR.628?filter=LAST_N_PERIO
 
 bank.stat.gl/PRXPRISF_20250819-073721.csv
 https://bank.stat.gl/pxweb/en/Greenland/Greenland__PR/PRXPRISF.px/table/tableViewLayout1/
+
+cato/human-freedom-index-data-2024.csv
+https://www.cato.org/human-freedom-index/2024
