@@ -9,6 +9,9 @@ const metricsSchema = new mongoose.Schema(
     freedom_index: {
       type: Number,
     },
+    gov_dept_per_gdp: {
+      type: Number,
+    },
   },
   { collection: 'metrics' }
 );

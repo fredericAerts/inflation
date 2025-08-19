@@ -352,8 +352,9 @@ function CountryModal() {
           <div className="country-modal__content__row__cell country-modal__content__row__cell--33">
             <div className="country-modal__metric">
               <div className="metric-title">Government Debt</div>
-              <div className="metric-value">87.3%</div>
+              <div className="metric-value">{metrics?.gov_dept_per_gdp ? metrics.gov_dept_per_gdp.toFixed(1) : 'N/A'}%</div>
               <div className="metric-subtitle">of GDP</div>
+              <div className="metric-data-source">IMF (2024)</div>
             </div>
           </div>
           <div className="country-modal__content__row__cell country-modal__content__row__cell--33">

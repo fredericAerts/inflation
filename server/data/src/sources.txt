@@ -10,6 +10,9 @@ https://datahub.io/core/currency-codes
 imf/dataset_2025-07-18T04_21_18.063503982Z_DEFAULT_INTEGRATION_IMF.STA_CPI_4.0.0.csv
 https://data.imf.org/en/Data-Explorer?datasetUrn=IMF.STA:CPI(5.0.0)
 
+imf/imf-dm-export-20250819.csv
+https://www.imf.org/external/datamapper/GGXWDG_NGDP@WEO/OEMDC/ADVEC/WEOWORLD
+
 worldbank/API_FP.CPI.TOTL_DS2_en_csv_v2_37831/API_FP.CPI.TOTL_DS2_en_csv_v2_37831.csv
 https://databank.worldbank.org/metadataglossary/world-development-indicators/series/FP.CPI.TOTL
 
