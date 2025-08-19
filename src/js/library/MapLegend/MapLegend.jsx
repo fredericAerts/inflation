@@ -5,7 +5,10 @@ import './map-legend.styl';
 function MapLegend() {
   return (
     <div className="map-legend">
-      <div className="map-legend__label">Avg. inflation (YoY) over last 10 years</div>
+      <div className="map-legend__label">
+        <span className="map-legend__label-highlight">Average Inflation</span>
+        <span className="map-legend__label-period">(2015-2024)</span>
+      </div>
       <div className="map-legend__values">
         <span>&lt; 2%</span>
         <span>6%</span>

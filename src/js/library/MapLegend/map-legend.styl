@@ -13,10 +13,30 @@
   font-size: var(--font-size-base)
 
 .map-legend__label
-  margin-bottom: var(--spacing)
+  position: relative
+  
+  display: flex
+  flex-direction: column
+  align-items: center
+  margin-bottom: calc(var(--spacing) * 1)
+  padding: calc(var(--spacing) * 1)
   
   text-align: center
+
+.map-legend__label-highlight
+  color: var(--color-primary)
+  font-size: calc(var(--font-size-base) * 1.1)
+  font-weight: var(--font-weight-bold)
+  text-transform: uppercase
+  letter-spacing: 2px
+  text-shadow: 0 0 10px rgba(219, 197, 45, 0.3)
+  margin-bottom: calc(var(--spacing) * 0.5)
+
+.map-legend__label-period
+  color: rgba(255, 255, 255, 0.7)
+  font-size: calc(var(--font-size-base) * 0.85)
   font-weight: var(--font-weight-medium)
+  letter-spacing: 1px
 
 .map-legend__values
   display: flex
