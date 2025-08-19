@@ -272,7 +272,7 @@ const createMapInteractionHandlers = (map, dispatch, selectedCountryId) => {
     }
 
     const features = map.queryRenderedFeatures(e.point, {
-      layers: ['countries-fill']
+      layers: ['countries-fill', 'countries-pattern-overlay']
     });
 
     if (features?.length) {
@@ -282,31 +282,15 @@ const createMapInteractionHandlers = (map, dispatch, selectedCountryId) => {
       const dataSource = feature.properties.data_source;
       const skippedYears = feature.properties.skipped_years;
       const inflationText = inflation ? `${Math.round(inflation)}%` : 'N/A';
-      const dataQuality = skippedYears ? ' (Incomplete data)' : '';
+      const incompleteClass = skippedYears ? ' globe-popup__inflation--incomplete' : '';
       
       popup.setLngLat(map.unproject(e.point))
         .setHTML(`
-          <div style="background: black; color: white; padding: 8px 12px; border-radius: 4px; font-size: 12px; pointer-events: none;">
-            ${country}
-            <br />
-            Inflation: ${inflationText}${dataQuality}
-            <br />
-            Data Source: ${dataSource}
+          <div class="globe-popup__content">
+            <div class="globe-popup__country">${country}</div>
+            <div class="globe-popup__inflation${incompleteClass}">${inflationText}</div>
+            <div class="globe-popup__data-source">${dataSource}</div>
           </div>
-          <style>
-            .globe-popup {
-              pointer-events: none !important;
-            }
-            .globe-popup .maplibregl-popup-content {
-              background: transparent !important;
-              box-shadow: none !important;
-              padding: 0 !important;
-              pointer-events: none !important;
-            }
-            .globe-popup .maplibregl-popup-tip {
-              display: none !important;
-            }
-          </style>
         `)
         .addTo(map);
 

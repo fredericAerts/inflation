@@ -1,4 +1,6 @@
 .globe
+  position: relative
+  
   display: flex
   align-items: center
   justify-content: center
@@ -16,3 +18,78 @@
     max-width: 33vw
     max-height: 33vh
     max-height: calc(var(--vh, 1vh) * 33)
+
+.globe-popup
+  pointer-events: none !important
+
+  .maplibregl-popup-content
+    background: transparent !important
+    box-shadow: none !important
+    padding: 0 !important
+    pointer-events: none !important
+  
+  .maplibregl-popup-tip
+    display: none !important
+
+.globe-popup__content
+  position: relative
+  
+  padding: calc(var(--spacing) * 1.5) calc(var(--spacing) * 2)
+  background: var(--color-black)
+  border: 1px solid rgba(219, 197, 45, 0.3)
+  border-radius: var(--border-radius)
+  
+  color: var(--color-white)
+  font-size: calc(var(--font-size-base) * 0.75)
+  pointer-events: none
+  
+  &::before
+    position: absolute
+    top: 0
+    left: 0
+    right: 0
+    
+    height: 2px
+    background: linear-gradient(90deg, transparent 0%, var(--color-primary) 50%, transparent 100%)
+    
+    content: ''
+
+.globe-popup__country
+  margin-bottom: calc(var(--spacing) * 1)
+  
+  color: rgba(255, 255, 255, 0.9)
+  font-size: calc(var(--font-size-base) * 0.8)
+  font-weight: var(--font-weight-medium)
+  text-transform: uppercase
+  letter-spacing: 1px
+
+.globe-popup__inflation
+  margin-bottom: calc(var(--spacing) * 0.5)
+  
+  color: var(--color-primary)
+  font-size: calc(var(--font-size-base) * 1.2)
+  font-weight: var(--font-weight-black)
+  text-shadow: 0 0 15px rgba(219, 197, 45, 0.3)
+
+  &--incomplete
+    &::before
+      font-weight: var(--font-weight-bold)
+      text-transform: uppercase
+      
+      content: '~ '
+
+.globe-popup__data-source
+  color: rgba(255, 255, 255, 0.4)
+  font-size: calc(var(--font-size-base) * 0.6)
+  font-weight: var(--font-weight-normal)
+  font-style: italic
+  text-transform: none
+  letter-spacing: 0.5px
+
+  &::before
+    content: 'Source: '
+    color: rgba(255, 255, 255, 0.6)
+    font-style: normal
+    text-transform: uppercase
+    font-size: calc(var(--font-size-base) * 0.55)
+    letter-spacing: 1px
