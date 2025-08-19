@@ -205,6 +205,29 @@
   border-radius: var(--border-radius)
   overflow: hidden
 
+  .chart-data-source
+    position: absolute
+    bottom: calc(var(--spacing) * 2)
+    right: calc(var(--spacing) * 2)
+    
+    color: rgba(255, 255, 255, 0.4)
+    font-size: calc(var(--font-size-base) * 0.7)
+    font-weight: var(--font-weight-normal)
+    font-style: italic
+    text-align: right
+
+  .chart-missing-data
+    position: absolute
+    bottom: calc(var(--spacing) * 2)
+    left: calc(var(--spacing) * 2)
+    
+    color: rgba(255, 255, 255, 0.4)
+    font-size: calc(var(--font-size-base) * 0.65)
+    font-weight: var(--font-weight-medium)
+    text-align: left
+    text-transform: uppercase
+    letter-spacing: 0.5px
+
 .country-modal__chart-section
   position: relative
   height: 400px

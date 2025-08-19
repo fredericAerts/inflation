@@ -51,12 +51,17 @@ function CountryModal() {
 
   // Generate inflation chart data from actual yoy_inflation data
   const inflationChartData = (() => {
+    const fullYearRange = [];
+    for (let year = 2015; year <= 2024; year++) {
+      fullYearRange.push(year.toString());
+    }
+
     if (!yoy_inflation || Object.keys(yoy_inflation).length === 0) {
       return {
-        labels: [],
+        labels: fullYearRange,
         datasets: [{
           label: 'YoY Inflation (%)',
-          data: [],
+          data: new Array(fullYearRange.length).fill(null),
           borderColor: '#dbc52d',
           backgroundColor: 'rgba(219, 197, 45, 0.1)',
           borderWidth: 2,
@@ -64,30 +69,31 @@ function CountryModal() {
           pointBorderColor: '#ffffff',
           pointBorderWidth: 2,
           tension: 0.4,
+          spanGaps: false, // Don't connect across null values
         }]
       };
     }
 
-    // Convert Map-like object to array and sort by year
-    const yearEntries = Object.entries(yoy_inflation).sort(([yearA], [yearB]) => 
-      parseInt(yearA) - parseInt(yearB)
-    );
-    
-    const labels = yearEntries.map(([year]) => year);
-    const data = yearEntries.map(([, value]) => value);
+    // Create data array aligned with full year range
+    const data = fullYearRange.map(year => {
+      return yoy_inflation[year] !== undefined ? yoy_inflation[year] : null;
+    });
 
     return {
-      labels,
+      labels: fullYearRange,
       datasets: [{
         label: 'YoY Inflation (%)',
         data,
         borderColor: '#dbc52d',
         backgroundColor: 'rgba(219, 197, 45, 0.1)',
         borderWidth: 2,
-        pointBackgroundColor: '#dbc52d',
-        pointBorderColor: '#ffffff',
+        pointBackgroundColor: data.map(value => value !== null ? '#dbc52d' : 'rgba(255, 255, 255, 0.3)'),
+        pointBorderColor: data.map(value => value !== null ? '#ffffff' : 'rgba(255, 255, 255, 0.5)'),
         pointBorderWidth: 2,
+        pointRadius: data.map(value => value !== null ? 4 : 6),
+        pointStyle: data.map(value => value !== null ? 'circle' : 'crossRot'),
         tension: 0.4,
+        spanGaps: false, // Don't connect lines across missing data
       }]
     };
   })();
@@ -144,15 +150,69 @@ function CountryModal() {
       legend: {
         display: false,
       },
+      title: {
+        display: true,
+        text: 'Year-over-Year Inflation',
+        color: '#ffffff',
+        font: {
+          size: 16,
+          weight: 'bold'
+        },
+        padding: {
+          bottom: 20
+        }
+      },
+      tooltip: {
+        callbacks: {
+          label: function(context) {
+            if (context.parsed.y === null) {
+              return 'No data available';
+            }
+            return `${context.parsed.y.toFixed(2)}%`;
+          }
+        }
+      }
     },
     scales: {
       x: {
-        ticks: { color: '#ffffff' },
-        grid: { color: 'rgba(255, 255, 255, 0.1)' },
+        type: 'category',
+        labels: ['2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024'],
+        ticks: { 
+          color: '#ffffff',
+          maxRotation: 0
+        },
+        grid: { 
+          color: 'rgba(255, 255, 255, 0.1)' 
+        },
+        title: {
+          display: true,
+          text: 'Year',
+          color: '#ffffff',
+          font: {
+            size: 12,
+            weight: 'normal'
+          }
+        }
       },
       y: {
-        ticks: { color: '#ffffff' },
-        grid: { color: 'rgba(255, 255, 255, 0.1)' },
+        ticks: { 
+          color: '#ffffff',
+          callback: function(value) {
+            return value + '%';
+          }
+        },
+        grid: { 
+          color: 'rgba(255, 255, 255, 0.1)' 
+        },
+        title: {
+          display: true,
+          text: 'Inflation Rate (%)',
+          color: '#ffffff',
+          font: {
+            size: 12,
+            weight: 'normal'
+          }
+        }
       },
     },
   };
@@ -190,6 +250,14 @@ function CountryModal() {
           <div className="country-modal__content__row__cell tablet-50">
             <div className="country-modal__chart-container">
               <Line data={inflationChartData} options={chartOptions} />
+              <div className="chart-data-source">
+                Data source: {inflationEntry?.data_source || 'N/A'}
+              </div>
+              {inflationEntry?.skipped_years && inflationEntry.skipped_years.length > 0 && (
+                <div className="chart-missing-data">
+                  Missing data for: {inflationEntry.skipped_years.join(', ')}
+                </div>
+              )}
             </div>
           </div>
         </div>
