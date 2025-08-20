@@ -13,8 +13,20 @@ const setInflationData = (inflationData) => ({
   payload: inflationData,
 });
 
+const setGoldMonthlyPrice = (data) => ({
+  type: 'SET_GOLD_MONTHLY_PRICE',
+  payload: data,
+});
+
+const setBitcoinMonthlyPrice = (data) => ({
+  type: 'SET_BITCOIN_MONTHLY_PRICE',
+  payload: data,
+});
+
 export {
   setInitialized,
   setCountries,
   setInflationData,
+  setGoldMonthlyPrice,
+  setBitcoinMonthlyPrice,
 };

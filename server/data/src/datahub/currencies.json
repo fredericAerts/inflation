@@ -193,14 +193,6 @@
   },
   {
     "Entity": "BHUTAN",
-    "Currency": "Indian Rupee",
-    "AlphabeticCode": "INR",
-    "NumericCode": 356,
-    "MinorUnit": 2,
-    "WithdrawalDate": null
-  },
-  {
-    "Entity": "BHUTAN",
     "Currency": "Ngultrum",
     "AlphabeticCode": "BTN",
     "NumericCode": 64,
@@ -212,14 +204,6 @@
     "Currency": "Boliviano",
     "AlphabeticCode": "BOB",
     "NumericCode": 68,
-    "MinorUnit": 2,
-    "WithdrawalDate": null
-  },
-  {
-    "Entity": "BOLIVIA",
-    "Currency": "Mvdol",
-    "AlphabeticCode": "BOV",
-    "NumericCode": 984,
     "MinorUnit": 2,
     "WithdrawalDate": null
   },
@@ -368,14 +352,6 @@
     "WithdrawalDate": null
   },
   {
-    "Entity": "CHILE",
-    "Currency": "Unidad de Fomento",
-    "AlphabeticCode": "CLF",
-    "NumericCode": 990,
-    "MinorUnit": 4,
-    "WithdrawalDate": null
-  },
-  {
     "Entity": "CHINA",
     "Currency": "Yuan Renminbi",
     "AlphabeticCode": "CNY",
@@ -404,14 +380,6 @@
     "Currency": "Colombian Peso",
     "AlphabeticCode": "COP",
     "NumericCode": 170,
-    "MinorUnit": 2,
-    "WithdrawalDate": null
-  },
-  {
-    "Entity": "COLOMBIA",
-    "Currency": "Unidad de Valor Real",
-    "AlphabeticCode": "COU",
-    "NumericCode": 970,
     "MinorUnit": 2,
     "WithdrawalDate": null
   },
@@ -548,14 +516,6 @@
     "Currency": "Egyptian Pound",
     "AlphabeticCode": "EGP",
     "NumericCode": 818,
-    "MinorUnit": 2,
-    "WithdrawalDate": null
-  },
-  {
-    "Entity": "EL SALVADOR",
-    "Currency": "El Salvador Colon",
-    "AlphabeticCode": "SVC",
-    "NumericCode": 222,
     "MinorUnit": 2,
     "WithdrawalDate": null
   },
@@ -816,14 +776,6 @@
     "WithdrawalDate": null
   },
   {
-    "Entity": "HAITI",
-    "Currency": "US Dollar",
-    "AlphabeticCode": "USD",
-    "NumericCode": 840,
-    "MinorUnit": 2,
-    "WithdrawalDate": null
-  },
-  {
     "Entity": "HEARD ISLAND AND McDONALD ISLANDS",
     "Currency": "Australian Dollar",
     "AlphabeticCode": "AUD",
@@ -1064,14 +1016,6 @@
     "WithdrawalDate": null
   },
   {
-    "Entity": "LESOTHO",
-    "Currency": "Rand",
-    "AlphabeticCode": "ZAR",
-    "NumericCode": 710,
-    "MinorUnit": 2,
-    "WithdrawalDate": null
-  },
-  {
     "Entity": "LIBERIA",
     "Currency": "Liberian Dollar",
     "AlphabeticCode": "LRD",
@@ -1224,14 +1168,6 @@
     "WithdrawalDate": null
   },
   {
-    "Entity": "MEXICO",
-    "Currency": "Mexican Unidad de Inversion (UDI)",
-    "AlphabeticCode": "MXV",
-    "NumericCode": 979,
-    "MinorUnit": 2,
-    "WithdrawalDate": null
-  },
-  {
     "Entity": "FEDERATED STATES OF MICRONESIA",
     "Currency": "US Dollar",
     "AlphabeticCode": "USD",
@@ -1308,14 +1244,6 @@
     "Currency": "Namibia Dollar",
     "AlphabeticCode": "NAD",
     "NumericCode": 516,
-    "MinorUnit": 2,
-    "WithdrawalDate": null
-  },
-  {
-    "Entity": "NAMIBIA",
-    "Currency": "Rand",
-    "AlphabeticCode": "ZAR",
-    "NumericCode": 710,
     "MinorUnit": 2,
     "WithdrawalDate": null
   },
@@ -1460,14 +1388,6 @@
     "Currency": "Balboa",
     "AlphabeticCode": "PAB",
     "NumericCode": 590,
-    "MinorUnit": 2,
-    "WithdrawalDate": null
-  },
-  {
-    "Entity": "PANAMA",
-    "Currency": "US Dollar",
-    "AlphabeticCode": "USD",
-    "NumericCode": 840,
     "MinorUnit": 2,
     "WithdrawalDate": null
   },
@@ -1832,22 +1752,6 @@
     "WithdrawalDate": null
   },
   {
-    "Entity": "SWITZERLAND",
-    "Currency": "WIR Euro",
-    "AlphabeticCode": "CHE",
-    "NumericCode": 947,
-    "MinorUnit": 2,
-    "WithdrawalDate": null
-  },
-  {
-    "Entity": "SWITZERLAND",
-    "Currency": "WIR Franc",
-    "AlphabeticCode": "CHW",
-    "NumericCode": 948,
-    "MinorUnit": 2,
-    "WithdrawalDate": null
-  },
-  {
     "Entity": "SYRIA",
     "Currency": "Syrian Pound",
     "AlphabeticCode": "SYP",
@@ -2021,22 +1925,6 @@
     "AlphabeticCode": "UYU",
     "NumericCode": 858,
     "MinorUnit": 2,
-    "WithdrawalDate": null
-  },
-  {
-    "Entity": "URUGUAY",
-    "Currency": "Uruguay Peso en Unidades Indexadas (UI)",
-    "AlphabeticCode": "UYI",
-    "NumericCode": 940,
-    "MinorUnit": 0,
-    "WithdrawalDate": null
-  },
-  {
-    "Entity": "URUGUAY",
-    "Currency": "Unidad Previsional",
-    "AlphabeticCode": "UYW",
-    "NumericCode": 927,
-    "MinorUnit": 4,
     "WithdrawalDate": null
   },
   {

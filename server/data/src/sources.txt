@@ -24,3 +24,12 @@ https://bank.stat.gl/pxweb/en/Greenland/Greenland__PR/PRXPRISF.px/table/tableVie
 
 cato/human-freedom-index-data-2024.csv
 https://www.cato.org/human-freedom-index/2024
+
+worldbank/CMO-Historical-Data-Annual/Annual Prices (Nominal)-Table 1.csv
+https://www.worldbank.org/en/research/commodity-markets
+
+imf/dataset_2025-08-20T10_43_39.018803329Z_DEFAULT_INTEGRATION_IMF.STA_ER_4.0.1
+https://data.imf.org/en/Data-Explorer?datasetUrn=IMF.STA:ER(4.0.1)
+
+fred/CBBTCUSD.csv
+https://fred.stlouisfed.org/series/CBBTCUSD

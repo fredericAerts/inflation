@@ -40,8 +40,24 @@ async function fetchMetrics(iso3Code) {
   }
 }
 
+async function fetchCurrencyPerformanceData(currencies = 'GOLD,BTC') {
+  try {
+    const response = await fetch(`/api/currency-performance?currencies=${currencies}`);
+    
+    if (!response.ok) {
+      throw new Error(`Failed to fetch currency performance data: ${response.status} ${response.statusText}`);
+    }
+    
+    return await response.json();
+  } catch (error) {
+    console.error('[fetchCurrencyPerformanceData] Error:', error);
+    throw error;
+  }
+}
+
 export {
   fetchCountriesGeoJson,
   fetchInflationData,
   fetchMetrics,
+  fetchCurrencyPerformanceData,
 }

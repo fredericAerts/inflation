@@ -28,9 +28,10 @@ ChartJS.register(
 function CountryModal() {
   const dispatch = useDispatch();
   const { selectedCountryId, modalData } = useSelector((state) => state.globe);
-  const { inflationData } = useSelector((state) => state.asyncState);
-  const [selectedCurrency, setSelectedCurrency] = useState('GOLD');
+  const { inflationData, gold_monthly_price, bitcoin_monthly_price } = useSelector((state) => state.asyncState);
   const [metrics, setMetrics] = useState(null);
+  const [monthlyPrice, setMonthlyPrice] = useState(null);
+  const [selectedComparison, setSelectedComparison] = useState('USD');
   
   const isOpen = Boolean(selectedCountryId && modalData);
 
@@ -63,6 +64,31 @@ function CountryModal() {
 
     fetchCountryMetrics();
   }, [selectedCountryId]);
+
+  // Fetch currency data when modalData?.currencyCode changes
+  useEffect(() => {
+    const fetchCurrencyData = async () => {
+      if (!modalData?.currencyCode) {
+        setMonthlyPrice(null);
+        return;
+      }
+
+      try {
+        const response = await fetch(`/api/currency-performance/${modalData.currencyCode}`);
+        if (response.ok) {
+          const currencyData = await response.json();
+          setMonthlyPrice(currencyData.monthly_data);
+        } else {
+          setMonthlyPrice(null);
+        }
+      } catch (error) {
+        console.error('Error fetching currency data:', error);
+        setMonthlyPrice(null);
+      }
+    };
+
+    fetchCurrencyData();
+  }, [modalData?.currencyCode]);
   
   const handleClose = () => {
     dispatch(setSelectedCountryId(null));
@@ -124,35 +150,84 @@ function CountryModal() {
     };
   })();
 
-  // Generate dummy currency performance data
+  // Generate currency performance data using actual data
   const getCurrencyData = () => {
-    const years = ['2014', '2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023'];
-    let data, label, yAxisLabel;
+    const currencyCode = modalData?.currencyCode;
     
-    switch (selectedCurrency) {
-      case 'GOLD':
-        data = [2.8, 2.6, 2.4, 2.2, 2.0, 1.8, 1.6, 1.4, 1.2, 1.0];
-        label = '100€ = X oz Gold';
-        yAxisLabel = 'Ounces of Gold';
-        break;
-      case 'USD':
-        data = [130, 125, 120, 115, 110, 105, 100, 95, 90, 85];
-        label = '100€ = X USD';
-        yAxisLabel = 'US Dollars';
-        break;
-      case 'BTC':
-        data = [0.25, 0.20, 0.15, 0.12, 0.08, 0.05, 0.03, 0.02, 0.01, 0.008];
-        label = '100€ = X BTC';
-        yAxisLabel = 'Bitcoin';
-        break;
-      default:
-        data = [];
-        label = '';
-        yAxisLabel = '';
+    // Generate date range from 2015-01 to 2024-12
+    const generateDateRange = () => {
+      const dates = [];
+      for (let year = 2015; year <= 2024; year++) {
+        for (let month = 1; month <= 12; month++) {
+          dates.push(`${year}-${month.toString().padStart(2, '0')}`);
+        }
+      }
+      return dates;
+    };
+
+    const dateRange = generateDateRange();
+    let data = [];
+    let label = '';
+
+    if (!monthlyPrice || monthlyPrice.length === 0) {
+      // No data available
+      return {
+        labels: dateRange,
+        datasets: [{
+          label: `${currencyCode} vs ${selectedComparison}`,
+          data: new Array(dateRange.length).fill(null),
+          borderColor: '#dbc52d',
+          backgroundColor: 'rgba(219, 197, 45, 0.1)',
+          borderWidth: 2,
+          pointBackgroundColor: '#dbc52d',
+          pointBorderColor: '#ffffff',
+          pointBorderWidth: 2,
+          tension: 0.4,
+        }],
+      };
+    }
+
+    // Create lookup maps for efficient data retrieval
+    const currencyMap = new Map(monthlyPrice.map(item => [item.date, item.price_usd]));
+    
+    if (selectedComparison === 'USD') {
+      // Show currency price in USD directly
+      data = dateRange.map(date => currencyMap.get(date) || null);
+      label = `1 ${currencyCode} = X USD`;
+    } else if (selectedComparison === 'GOLD') {
+      // Calculate currency performance against GOLD
+      const goldMap = new Map((gold_monthly_price || []).map(item => [item.date, item.price_usd]));
+      
+      data = dateRange.map(date => {
+        const currencyPriceUSD = currencyMap.get(date);
+        const goldPriceUSD = goldMap.get(date);
+        
+        if (currencyPriceUSD && goldPriceUSD) {
+          // How much gold can you buy with 1 unit of currency
+          return currencyPriceUSD / goldPriceUSD;
+        }
+        return null;
+      });
+      label = `1 ${currencyCode} = X oz Gold`;
+    } else if (selectedComparison === 'BITCOIN') {
+      // Calculate currency performance against BITCOIN
+      const bitcoinMap = new Map((bitcoin_monthly_price || []).map(item => [item.date, item.price_usd]));
+      
+      data = dateRange.map(date => {
+        const currencyPriceUSD = currencyMap.get(date);
+        const bitcoinPriceUSD = bitcoinMap.get(date);
+        
+        if (currencyPriceUSD && bitcoinPriceUSD) {
+          // How much bitcoin can you buy with 1 unit of currency
+          return currencyPriceUSD / bitcoinPriceUSD;
+        }
+        return null;
+      });
+      label = `1 ${currencyCode} = X BTC`;
     }
 
     return {
-      labels: years,
+      labels: dateRange,
       datasets: [
         {
           label,
@@ -164,6 +239,7 @@ function CountryModal() {
           pointBorderColor: '#ffffff',
           pointBorderWidth: 2,
           tension: 0.4,
+          spanGaps: false,
         },
       ],
     };
@@ -243,6 +319,103 @@ function CountryModal() {
     },
   };
 
+  const currencyChartOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        display: false,
+      },
+      title: {
+        display: true,
+        text: `${modalData?.currencyCode || 'Currency'} Performance vs ${selectedComparison}`,
+        color: '#ffffff',
+        font: {
+          size: 16,
+          weight: 'bold'
+        },
+        padding: {
+          bottom: 20
+        }
+      },
+      tooltip: {
+        callbacks: {
+          label: function(context) {
+            if (context.parsed.y === null) {
+              return 'No data available';
+            }
+            const value = context.parsed.y;
+            if (selectedComparison === 'USD') {
+              return `$${value.toFixed(4)}`;
+            } else if (selectedComparison === 'GOLD') {
+              return `${value.toFixed(6)} oz`;
+            } else if (selectedComparison === 'BITCOIN') {
+              return `${value.toFixed(8)} BTC`;
+            }
+            return value.toString();
+          }
+        }
+      }
+    },
+    scales: {
+      x: {
+        type: 'category',
+        ticks: { 
+          color: '#ffffff',
+          maxRotation: 45,
+          callback: function(value, index) {
+            // Show only January of each year for cleaner display
+            const date = this.getLabelForValue(value);
+            if (date && date.endsWith('-01')) {
+              return date.substring(0, 4);
+            }
+            return '';
+          }
+        },
+        grid: { 
+          color: 'rgba(255, 255, 255, 0.1)' 
+        },
+        title: {
+          display: true,
+          text: 'Date',
+          color: '#ffffff',
+          font: {
+            size: 12,
+            weight: 'normal'
+          }
+        }
+      },
+      y: {
+        ticks: { 
+          color: '#ffffff',
+          callback: function(value) {
+            if (selectedComparison === 'USD') {
+              return '$' + value.toFixed(4);
+            } else if (selectedComparison === 'GOLD') {
+              return value.toFixed(6) + ' oz';
+            } else if (selectedComparison === 'BITCOIN') {
+              return value.toFixed(8) + ' BTC';
+            }
+            return value;
+          }
+        },
+        grid: { 
+          color: 'rgba(255, 255, 255, 0.1)' 
+        },
+        title: {
+          display: true,
+          text: selectedComparison === 'USD' ? 'USD' : 
+                selectedComparison === 'GOLD' ? 'Ounces of Gold' : 'Bitcoin',
+          color: '#ffffff',
+          font: {
+            size: 12,
+            weight: 'normal'
+          }
+        }
+      },
+    },
+  };
+
   if (!isOpen) return null;
 
   return (
@@ -295,36 +468,36 @@ function CountryModal() {
                 <label>
                   <input
                     type="radio"
-                    name="currency"
-                    value="GOLD"
-                    checked={selectedCurrency === 'GOLD'}
-                    onChange={(e) => setSelectedCurrency(e.target.value)}
-                  />
-                  Gold
-                </label>
-                <label>
-                  <input
-                    type="radio"
-                    name="currency"
+                    name="comparison"
                     value="USD"
-                    checked={selectedCurrency === 'USD'}
-                    onChange={(e) => setSelectedCurrency(e.target.value)}
+                    checked={selectedComparison === 'USD'}
+                    onChange={(e) => setSelectedComparison(e.target.value)}
                   />
                   USD
                 </label>
                 <label>
                   <input
                     type="radio"
-                    name="currency"
-                    value="BTC"
-                    checked={selectedCurrency === 'BTC'}
-                    onChange={(e) => setSelectedCurrency(e.target.value)}
+                    name="comparison"
+                    value="GOLD"
+                    checked={selectedComparison === 'GOLD'}
+                    onChange={(e) => setSelectedComparison(e.target.value)}
+                  />
+                  Gold
+                </label>
+                <label>
+                  <input
+                    type="radio"
+                    name="comparison"
+                    value="BITCOIN"
+                    checked={selectedComparison === 'BITCOIN'}
+                    onChange={(e) => setSelectedComparison(e.target.value)}
                   />
                   Bitcoin
                 </label>
               </div>
               <div className="chart-wrapper">
-                <Line data={getCurrencyData()} options={chartOptions} />
+                <Line data={getCurrencyData()} options={currencyChartOptions} />
               </div>
             </div>
           </div>

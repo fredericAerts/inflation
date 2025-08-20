@@ -1,5 +1,6 @@
 import express from 'express';
 import dataControllerFactory from '../controllers/api/data.controller.js';
+
 const dataController = dataControllerFactory();
 
 /*  Routing
@@ -17,6 +18,12 @@ const router = () => {
 
   apiRouter.route('/metrics/:iso3')
     .get(dataController.getMetrics);
+
+  apiRouter.route('/currency-performance')
+    .get(dataController.getMultipleCurrencyPerformance);
+    
+  apiRouter.route('/currency-performance/:currencyCode')
+    .get(dataController.getCurrencyPerformance);
 
   return apiRouter;
 };
