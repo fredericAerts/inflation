@@ -71,7 +71,7 @@ const processFiatData = () => {
               
               if (!isNaN(parsedRate)) {
                 currencyData[currencyCode].push({
-                  Date: `${year}-${month}`,
+                  Date: `${year}-${month.toString().padStart(2, '0')}`,
                   Price: parsedRate
                 });
               }

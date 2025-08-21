@@ -2,8 +2,8 @@ const defaultState = {
   initialized: false,
   countries: null,
   inflationData: null,
-  gold_monthly_price: null,
-  bitcoin_monthly_price: null,
+  usd_per_xau: null,
+  btc_per_xau: null,
 };
 
 function asyncState(state = defaultState, action) {
@@ -14,10 +14,10 @@ function asyncState(state = defaultState, action) {
       return { ...state, countries: action.payload };
     case 'SET_INFLATION_DATA':
       return { ...state, inflationData: action.payload };
-    case 'SET_GOLD_MONTHLY_PRICE':
-      return { ...state, gold_monthly_price: action.payload };
-    case 'SET_BITCOIN_MONTHLY_PRICE':
-      return { ...state, bitcoin_monthly_price: action.payload };
+    case 'SET_USD_PER_XAU':
+      return { ...state, usd_per_xau: action.payload };
+    case 'SET_BTC_PER_XAU':
+      return { ...state, btc_per_xau: action.payload };
     default:
       return state;
   }

@@ -33,58 +33,47 @@ const isDateInRange = (dateString) => {
   return true;
 };
 
-// Helper function to generate date strings for the expected date range
-const generateDateStrings = (startIndex, length) => {
-  const dates = [];
-  const startYear = 2015;
-  const startMonth = 1;
-  
-  for (let i = 0; i < length; i++) {
-    const totalMonths = (startYear * 12) + startMonth - 1 + startIndex + i;
-    const year = Math.floor(totalMonths / 12);
-    const month = (totalMonths % 12) + 1;
-    const dateString = `${year}-${month.toString().padStart(2, '0')}`;
-    
-    // Only include dates within our range (2015-01 to 2024-12)
-    if (year >= 2015 && year <= 2024) {
-      dates.push(dateString);
-    }
-  }
-  
-  return dates;
-};
-
-// Transform fiat currency data (IMF format)
-const transformFiatData = (fiatData) => {
+// Transform fiat currency data to units_per_xau
+const transformFiatData = (fiatData, goldData) => {
   const transformedData = [];
+  
+  // Create a map of gold prices by date for quick lookup
+  const goldPriceMap = new Map();
+  goldData.forEach(item => {
+    if (item.Date && item.Price) {
+      goldPriceMap.set(item.Date, item.Price);
+    }
+  });
   
   for (const [currencyCode, priceArray] of Object.entries(fiatData)) {
     if (!priceArray || priceArray.length === 0) continue;
     
-    // The fiat data appears to be in reverse chronological order (newest to oldest)
-    // We need to reverse it and take the data from 2015-01 onwards
-    const reversedData = [...priceArray].reverse();
+    const monthlyData = [];
     
-    // Calculate the expected number of months from 2015-01 to 2024-12
-    const expectedMonths = (2024 - 2015 + 1) * 12; // 120 months
-    
-    // Take only the data we need (last 120 months if available)
-    const relevantData = reversedData.slice(-expectedMonths);
-    
-    // Generate dates starting from 2015-01
-    const dates = generateDateStrings(0, relevantData.length);
-    
-    const monthlyData = relevantData.map((item, index) => {
-      if (index < dates.length && item && typeof item.Price === 'number') {
-        return {
-          date: dates[index],
-          price_usd: item.Price
-        };
+    for (const item of priceArray) {
+      if (!item.Date || !item.Price) continue;
+      
+      // Only include dates within our range
+      if (!isDateInRange(item.Date)) continue;
+      
+      const goldPriceUSD = goldPriceMap.get(item.Date);
+      if (!goldPriceUSD) {
+        console.log(pc.yellow(`⚠️  No gold price found for ${item.Date}, skipping ${currencyCode}`));
+        continue;
       }
-      return null;
-    }).filter(Boolean);
+      
+      // Calculate units of fiat currency per ounce of gold
+      // item.Price = units of fiat per USD
+      // goldPriceUSD = USD per ounce of gold
+      // So: units_per_xau = (units of fiat per USD) * (USD per ounce of gold)
+      const unitsPerXau = item.Price * goldPriceUSD;
+      
+      monthlyData.push({
+        date: item.Date,
+        units_per_xau: unitsPerXau
+      });
+    }
     
-    // Only add currencies that have valid data
     if (monthlyData.length > 0) {
       transformedData.push({
         _id: currencyCode,
@@ -96,24 +85,50 @@ const transformFiatData = (fiatData) => {
   return transformedData;
 };
 
-// Transform WorldBank/FRED data (Date/Price format)
-const transformDatePriceData = (data, currencyCode) => {
-  if (!data || data.length === 0) return null;
+// Transform Bitcoin data to units_per_xau
+const transformBitcoinData = (bitcoinData, goldData) => {
+  // Create a map of gold prices by date for quick lookup
+  const goldPriceMap = new Map();
+  goldData.forEach(item => {
+    if (item.Date && item.Price) {
+      goldPriceMap.set(item.Date, item.Price);
+    }
+  });
   
-  // Filter data to only include dates within our range
-  const filteredData = data.filter(item => isDateInRange(item.Date));
+  const monthlyData = [];
   
-  if (filteredData.length === 0) return null;
+  for (const item of bitcoinData) {
+    if (!item.Date || !item.Price) continue;
+    
+    // Only include dates within our range
+    if (!isDateInRange(item.Date)) continue;
+    
+    const goldPriceUSD = goldPriceMap.get(item.Date);
+    if (!goldPriceUSD) {
+      console.log(pc.yellow(`⚠️  No gold price found for ${item.Date}, skipping Bitcoin`));
+      continue;
+    }
+    
+    // Calculate units of bitcoin per ounce of gold
+    // item.Price = USD per bitcoin
+    // goldPriceUSD = USD per ounce of gold
+    // So: units_per_xau = (USD per ounce of gold) / (USD per bitcoin)
+    const unitsPerXau = goldPriceUSD / item.Price;
+    
+    monthlyData.push({
+      date: item.Date,
+      units_per_xau: unitsPerXau
+    });
+  }
   
-  const monthlyData = filteredData.map(item => ({
-    date: item.Date,
-    price_usd: item.Price
-  }));
+  if (monthlyData.length > 0) {
+    return {
+      _id: 'BTC',
+      monthly_data: monthlyData
+    };
+  }
   
-  return {
-    _id: currencyCode,
-    monthly_data: monthlyData
-  };
+  return null;
 };
 
 const processCurrencyPerformanceData = async () => {
@@ -145,18 +160,12 @@ const processCurrencyPerformanceData = async () => {
     
     const allCurrencyData = [];
     
-    // Process fiat currencies
-    const transformedFiatData = transformFiatData(fiatData);
+    // Process fiat currencies (calculate units per XAU)
+    const transformedFiatData = transformFiatData(fiatData, goldData);
     allCurrencyData.push(...transformedFiatData);
     
-    // Process gold data
-    const goldCurrencyData = transformDatePriceData(goldData, 'GOLD');
-    if (goldCurrencyData) {
-      allCurrencyData.push(goldCurrencyData);
-    }
-    
-    // Process bitcoin data
-    const bitcoinCurrencyData = transformDatePriceData(bitcoinData, 'BTC');
+    // Process bitcoin data (calculate units per XAU)
+    const bitcoinCurrencyData = transformBitcoinData(bitcoinData, goldData);
     if (bitcoinCurrencyData) {
       allCurrencyData.push(bitcoinCurrencyData);
     }
@@ -210,7 +219,7 @@ const processCurrencyPerformanceData = async () => {
       console.log(pc.cyan(`   ${currency._id}: ${currency.monthly_data.length} data points`));
       if (currency.monthly_data.length > 0) {
         const latest = currency.monthly_data[currency.monthly_data.length - 1];
-        console.log(pc.gray(`      Latest: ${latest.date} - $${latest.price_usd}`));
+        console.log(pc.gray(`      Latest: ${latest.date} - ${latest.units_per_xau.toFixed(2)} units per XAU`));
       }
     });
     

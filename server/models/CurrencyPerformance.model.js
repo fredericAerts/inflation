@@ -11,7 +11,7 @@ const currencyPerformanceSchema = new mongoose.Schema(
         type: String, // Format: "YYYY-MM"
         required: true,
       },
-      price_usd: {
+      units_per_xau: {
         type: Number,
         required: true,
       }

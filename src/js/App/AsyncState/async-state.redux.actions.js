@@ -13,13 +13,13 @@ const setInflationData = (inflationData) => ({
   payload: inflationData,
 });
 
-const setGoldMonthlyPrice = (data) => ({
-  type: 'SET_GOLD_MONTHLY_PRICE',
+const setUsdPerXau = (data) => ({
+  type: 'SET_USD_PER_XAU',
   payload: data,
 });
 
-const setBitcoinMonthlyPrice = (data) => ({
-  type: 'SET_BITCOIN_MONTHLY_PRICE',
+const setBtcPerXau = (data) => ({
+  type: 'SET_BTC_PER_XAU',
   payload: data,
 });
 
@@ -27,6 +27,6 @@ export {
   setInitialized,
   setCountries,
   setInflationData,
-  setGoldMonthlyPrice,
-  setBitcoinMonthlyPrice,
+  setUsdPerXau,
+  setBtcPerXau,
 };

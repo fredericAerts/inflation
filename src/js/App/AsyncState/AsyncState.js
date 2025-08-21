@@ -4,8 +4,8 @@ import {
   setInitialized, 
   setCountries, 
   setInflationData,
-  setGoldMonthlyPrice,
-  setBitcoinMonthlyPrice,
+  setUsdPerXau,
+  setBtcPerXau,
 } from '@App/AsyncState/async-state.redux.actions';
 import { 
   fetchCountriesGeoJson, 
@@ -25,13 +25,13 @@ function AsyncState() {
         fetchCurrencyPerformanceData(),
       ])
         .then(([countries, inflationData, currencyPerformanceData]) => {
-          const btc_monthly_price = currencyPerformanceData.find(x => x._id === 'BTC')?.monthly_data;
-          const gold_monthly_price = currencyPerformanceData.find(x => x._id === 'GOLD')?.monthly_data;
+          const btc_per_xau = currencyPerformanceData.find(x => x._id === 'BTC')?.monthly_data;
+          const usd_per_xau = currencyPerformanceData.find(x => x._id === 'USD')?.monthly_data;
 
           dispatch(setCountries(countries));
           dispatch(setInflationData(inflationData));
-          dispatch(setGoldMonthlyPrice(gold_monthly_price));
-          dispatch(setBitcoinMonthlyPrice(btc_monthly_price));
+          dispatch(setUsdPerXau(usd_per_xau));
+          dispatch(setBtcPerXau(btc_per_xau));
         })
         .catch((err) => console.error(err))
         .finally(() => dispatch(setInitialized(true)));

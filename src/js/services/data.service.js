@@ -40,7 +40,7 @@ async function fetchMetrics(iso3Code) {
   }
 }
 
-async function fetchCurrencyPerformanceData(currencies = 'GOLD,BTC') {
+async function fetchCurrencyPerformanceData(currencies = 'USD,BTC') {
   try {
     const response = await fetch(`/api/currency-performance?currencies=${currencies}`);
     

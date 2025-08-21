@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -28,11 +28,11 @@ ChartJS.register(
 function CountryModal() {
   const dispatch = useDispatch();
   const { selectedCountryId, modalData } = useSelector((state) => state.globe);
-  const { inflationData, gold_monthly_price, bitcoin_monthly_price } = useSelector((state) => state.asyncState);
+  const { inflationData, usd_per_xau, btc_per_xau } = useSelector((state) => state.asyncState);
   const [metrics, setMetrics] = useState(null);
   const [monthlyPrice, setMonthlyPrice] = useState(null);
-  const [selectedComparison, setSelectedComparison] = useState('USD');
-  
+  const [selectedComparison, setSelectedComparison] = useState('USD');  
+
   const isOpen = Boolean(selectedCountryId && modalData);
 
   const inflationEntry = selectedCountryId && inflationData
@@ -89,7 +89,7 @@ function CountryModal() {
 
     fetchCurrencyData();
   }, [modalData?.currencyCode]);
-  
+
   const handleClose = () => {
     dispatch(setSelectedCountryId(null));
     dispatch(clearSelectedCountryId());
@@ -188,38 +188,47 @@ function CountryModal() {
     }
 
     // Create lookup maps for efficient data retrieval
-    const currencyMap = new Map(monthlyPrice.map(item => [item.date, item.price_usd]));
+    const currencyMap = new Map(monthlyPrice.map(item => [item.date, item.units_per_xau]));
     
     if (selectedComparison === 'USD') {
-      // Show currency price in USD directly
-      data = dateRange.map(date => currencyMap.get(date) || null);
-      label = `1 ${currencyCode} = X USD`;
-    } else if (selectedComparison === 'GOLD') {
-      // Calculate currency performance against GOLD
-      const goldMap = new Map((gold_monthly_price || []).map(item => [item.date, item.price_usd]));
+      // For USD comparison, we need to convert units_per_xau to USD
+      const usdMap = new Map((usd_per_xau || []).map(item => [item.date, item.units_per_xau]));
       
       data = dateRange.map(date => {
-        const currencyPriceUSD = currencyMap.get(date);
-        const goldPriceUSD = goldMap.get(date);
+        const currencyUnitsPerXau = currencyMap.get(date);
+        const usdUnitsPerXau = usdMap.get(date);
         
-        if (currencyPriceUSD && goldPriceUSD) {
-          // How much gold can you buy with 1 unit of currency
-          return currencyPriceUSD / goldPriceUSD;
+        if (currencyUnitsPerXau && usdUnitsPerXau) {
+          // 1 unit of currency = usdUnitsPerXau / currencyUnitsPerXau USD
+          return usdUnitsPerXau / currencyUnitsPerXau;
+        }
+        return null;
+      });
+      label = `1 ${currencyCode} = X USD`;
+    } else if (selectedComparison === 'GOLD') {
+      // For GOLD comparison, we can directly use the inverse of units_per_xau
+      data = dateRange.map(date => {
+        const currencyUnitsPerXau = currencyMap.get(date);
+        
+        if (currencyUnitsPerXau) {
+          // 1 unit of currency = 1/units_per_xau ounces of gold
+          return 1 / currencyUnitsPerXau;
         }
         return null;
       });
       label = `1 ${currencyCode} = X oz Gold`;
     } else if (selectedComparison === 'BITCOIN') {
-      // Calculate currency performance against BITCOIN
-      const bitcoinMap = new Map((bitcoin_monthly_price || []).map(item => [item.date, item.price_usd]));
+      // For BITCOIN comparison, we need both currency and bitcoin data
+      const bitcoinMap = new Map((btc_per_xau || []).map(item => [item.date, item.units_per_xau]));
       
       data = dateRange.map(date => {
-        const currencyPriceUSD = currencyMap.get(date);
-        const bitcoinPriceUSD = bitcoinMap.get(date);
+        const currencyUnitsPerXau = currencyMap.get(date);
+        const bitcoinUnitsPerXau = bitcoinMap.get(date);
         
-        if (currencyPriceUSD && bitcoinPriceUSD) {
+        if (currencyUnitsPerXau && bitcoinUnitsPerXau) {
           // How much bitcoin can you buy with 1 unit of currency
-          return currencyPriceUSD / bitcoinPriceUSD;
+          // 1 unit of currency gets you bitcoinUnitsPerXau / currencyUnitsPerXau bitcoin
+          return bitcoinUnitsPerXau / currencyUnitsPerXau;
         }
         return null;
       });
@@ -243,6 +252,71 @@ function CountryModal() {
         },
       ],
     };
+  };
+
+  // Calculate percentage change for the currency data
+  const getCurrencyPerformance = () => {
+    if (!monthlyPrice || monthlyPrice.length === 0) {
+      return null;
+    }
+
+    const currencyMap = new Map(monthlyPrice.map(item => [item.date, item.units_per_xau]));
+    
+    // Get first and last available data points for the selected comparison
+    let firstValue = null;
+    let lastValue = null;
+    
+    const dateRange = [];
+    for (let year = 2015; year <= 2024; year++) {
+      for (let month = 1; month <= 12; month++) {
+        dateRange.push(`${year}-${month.toString().padStart(2, '0')}`);
+      }
+    }
+
+    if (selectedComparison === 'USD') {
+      const usdMap = new Map((usd_per_xau || []).map(item => [item.date, item.units_per_xau]));
+      
+      for (const date of dateRange) {
+        const currencyUnitsPerXau = currencyMap.get(date);
+        const usdUnitsPerXau = usdMap.get(date);
+        
+        if (currencyUnitsPerXau && usdUnitsPerXau) {
+          const value = usdUnitsPerXau / currencyUnitsPerXau;
+          if (firstValue === null) firstValue = value;
+          lastValue = value;
+        }
+      }
+    } else if (selectedComparison === 'GOLD') {
+      for (const date of dateRange) {
+        const currencyUnitsPerXau = currencyMap.get(date);
+        
+        if (currencyUnitsPerXau) {
+          const value = 1 / currencyUnitsPerXau;
+          if (firstValue === null) firstValue = value;
+          lastValue = value;
+        }
+      }
+    } else if (selectedComparison === 'BITCOIN') {
+      const bitcoinMap = new Map((btc_per_xau || []).map(item => [item.date, item.units_per_xau]));
+      
+      for (const date of dateRange) {
+        const currencyUnitsPerXau = currencyMap.get(date);
+        const bitcoinUnitsPerXau = bitcoinMap.get(date);
+        
+        if (currencyUnitsPerXau && bitcoinUnitsPerXau) {
+          const value = bitcoinUnitsPerXau / currencyUnitsPerXau;
+          if (firstValue === null) firstValue = value;
+          lastValue = value;
+        }
+      }
+    }
+
+    if (firstValue === null || lastValue === null) {
+      return null;
+    }
+
+    const percentageChange = ((lastValue - firstValue) / firstValue) * 100;
+    return percentageChange;
   };
 
   const chartOptions = {
@@ -328,7 +402,7 @@ function CountryModal() {
       },
       title: {
         display: true,
-        text: `${modalData?.currencyCode || 'Currency'} Performance vs ${selectedComparison}`,
+        text: `${modalData?.currencyCode || 'Currency'} Purchasing Power vs ${selectedComparison}`,
         color: '#ffffff',
         font: {
           size: 16,
@@ -495,6 +569,25 @@ function CountryModal() {
                   />
                   Bitcoin
                 </label>
+                {(() => {
+                  const performance = getCurrencyPerformance();
+                  if (performance !== null) {
+                    return (
+                      <div className="currency-performance-indicator">
+                        <span className="currency-performance-indicator__label">
+                          ~10-year change:
+                        </span>
+                        <div className={`currency-performance-indicator__perf ${performance >= 0 ? 'currency-performance-indicator__perf--positive' : ''}`}>
+                          <div className="currency-performance-indicator__perf__value">
+                            {performance >= 0 ? '+' : ''}{performance.toFixed(1)}%
+                          </div>
+                          <div className="currency-performance-indicator__perf__arrow"/>
+                        </div>
+                      </div>
+                    );
+                  }
+                  return null;
+                })()}
               </div>
               <div className="chart-wrapper">
                 <Line data={getCurrencyData()} options={currencyChartOptions} />

@@ -76,7 +76,7 @@ const dataController = () => {
 
   const getMultipleCurrencyPerformance = async (req, res) => {
     try {
-      const { currencies } = req.query; // Expected format: "GOLD,BTC"
+      const { currencies } = req.query; // Expected format: "USD,BTC"
       
       if (!currencies) {
         return res.status(400).json({ error: 'currencies query parameter is required' });
