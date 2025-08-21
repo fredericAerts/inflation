@@ -4,6 +4,7 @@ import {
   Chart as ChartJS,
   CategoryScale,
   LinearScale,
+  LogarithmicScale,
   PointElement,
   LineElement,
   Title,
@@ -18,6 +19,7 @@ import './country-modal.styl';
 ChartJS.register(
   CategoryScale,
   LinearScale,
+  LogarithmicScale,
   PointElement,
   LineElement,
   Title,
@@ -32,6 +34,7 @@ function CountryModal() {
   const [metrics, setMetrics] = useState(null);
   const [monthlyPrice, setMonthlyPrice] = useState(null);
   const [selectedComparison, setSelectedComparison] = useState('USD');  
+  const [isLogScale, setIsLogScale] = useState(false);
 
   const isOpen = Boolean(selectedCountryId && modalData);
 
@@ -460,18 +463,35 @@ function CountryModal() {
         }
       },
       y: {
+        type: isLogScale ? 'logarithmic' : 'linear',
         ticks: { 
           color: '#ffffff',
-          callback: function(value) {
-            if (selectedComparison === 'USD') {
-              return '$' + value.toFixed(4);
-            } else if (selectedComparison === 'GOLD') {
-              return value.toFixed(6) + ' oz';
-            } else if (selectedComparison === 'BITCOIN') {
-              return value.toFixed(8) + ' BTC';
+          ...(isLogScale && {
+            maxTicksLimit: 8,
+            callback: function(value, index, values) {
+              // For log scale, show cleaner tick labels
+              if (selectedComparison === 'USD') {
+                return '$' + value.toFixed(value < 0.001 ? 6 : value < 0.01 ? 4 : value < 1 ? 3 : 2);
+              } else if (selectedComparison === 'GOLD') {
+                return value.toExponential(2) + ' oz';
+              } else if (selectedComparison === 'BITCOIN') {
+                return value.toExponential(2) + ' BTC';
+              }
+              return value.toExponential(2);
             }
-            return value;
-          }
+          }),
+          ...(!isLogScale && {
+            callback: function(value) {
+              if (selectedComparison === 'USD') {
+                return '$' + value.toFixed(4);
+              } else if (selectedComparison === 'GOLD') {
+                return value.toFixed(6) + ' oz';
+              } else if (selectedComparison === 'BITCOIN') {
+                return value.toFixed(8) + ' BTC';
+              }
+              return value;
+            }
+          })
         },
         grid: { 
           color: 'rgba(255, 255, 255, 0.1)' 
@@ -569,6 +589,13 @@ function CountryModal() {
                   />
                   Bitcoin
                 </label>
+                <button
+                  className="scale-toggle"
+                  onClick={() => setIsLogScale(!isLogScale)}
+                  type="button"
+                >
+                  {isLogScale ? 'Switch to Linear' : 'Switch to Log'}
+                </button>
                 {(() => {
                   const performance = getCurrencyPerformance();
                   if (performance !== null) {
