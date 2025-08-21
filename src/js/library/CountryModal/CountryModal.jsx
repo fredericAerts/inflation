@@ -514,15 +514,15 @@ function CountryModal() {
 
   return (
     <div className="country-modal" onClick={handleBackdropClick}>
+      <button 
+        className="country-modal__close" 
+        onClick={handleClose}
+        aria-label="Close modal"
+      >
+        ×
+      </button>
+      
       <div className="country-modal__content">
-        <button 
-          className="country-modal__close" 
-          onClick={handleClose}
-          aria-label="Close modal"
-        >
-          ×
-        </button>
-
         <div className="country-modal__content__row">
           <div className="country-modal__content__row__cell tablet-50">
             <div className="country-modal__header">
