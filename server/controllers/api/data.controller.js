@@ -76,15 +76,17 @@ const dataController = () => {
 
   const getMultipleCurrencyPerformance = async (req, res) => {
     try {
-      const { currencies } = req.query; // Expected format: "USD,BTC"
+      const { currencies } = req.query; // Expected format: "USD,BTC" or omit for all
+      
+      let currencyData;
       
       if (!currencies) {
-        return res.status(400).json({ error: 'currencies query parameter is required' });
+        // Fetch all currencies from the collection
+        currencyData = await fetchMultipleCurrencyPerformance(null);
+      } else {
+        const currencyCodes = currencies.split(',').map(code => code.trim());
+        currencyData = await fetchMultipleCurrencyPerformance(currencyCodes);
       }
-      
-      const currencyCodes = currencies.split(',').map(code => code.trim());
-      
-      const currencyData = await fetchMultipleCurrencyPerformance(currencyCodes);
       
       res.json(currencyData);
     } catch (error) {

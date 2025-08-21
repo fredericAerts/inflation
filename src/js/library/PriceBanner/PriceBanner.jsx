@@ -1,24 +1,40 @@
 import { useEffect, useRef } from 'react';
+import { useSelector } from 'react-redux';
 import PriceBannerItem from '@library/PriceBannerItem/PriceBannerItem';
 import './price-banner.styl';
 
-function generatePriceBannerItems() {
-  const currencies = ['USD', 'EUR', 'GBP', 'JPY', 'BTC', 'ETH', 'CAD', 'AUD', 'CHF', 'CNY'];
-  const items = [];
-
-  for (let i = 0; i < 50; i++) {
-    const currency = currencies[Math.floor(Math.random() * currencies.length)];
-    const value = parseFloat((Math.random() * 2000 - 1000).toFixed(2));
-    items.push({ id: `${i}-${currency}`, currency, value });
-  }
-
-  return items;
-}
-
 function PriceBanner() {
-  const items = generatePriceBannerItems();
+  const { all_fiat_per_xau = [] } = useSelector((state) => state.asyncState);
   const containerRef = useRef(null);
   const tickerRef = useRef(null);
+
+  const btc_per_xau = all_fiat_per_xau.find(({ _id }) => _id === 'BTC');
+
+  // Create array with evenly distributed Bitcoin entries
+  const createDistributedArray = () => {
+    const fiatOnly = all_fiat_per_xau.filter(({ _id }) => _id !== 'BTC');
+
+    if (!btc_per_xau || fiatOnly.length === 0) {
+      return all_fiat_per_xau;
+    }
+
+    const result = [...fiatOnly];
+    const interval = Math.floor(result.length / 10);
+
+    // Insert Bitcoin at evenly spaced positions
+    result.splice(interval, 0, btc_per_xau);
+    result.splice(interval * 2 + 1, 0, btc_per_xau);
+    result.splice(interval * 3 + 2, 0, btc_per_xau);
+    result.splice(interval * 4 + 3, 0, btc_per_xau);
+    result.splice(interval * 5 + 4, 0, btc_per_xau);
+    result.splice(interval * 6 + 5, 0, btc_per_xau);
+    result.splice(interval * 7 + 6, 0, btc_per_xau);
+    result.splice(interval * 8 + 7, 0, btc_per_xau);
+    result.splice(interval * 9 + 8, 0, btc_per_xau);
+    result.splice(interval * 10 + 9, 0, btc_per_xau);
+
+    return result;
+  };
 
   useEffect(() => {
     const ticker = tickerRef.current;
@@ -44,7 +60,7 @@ function PriceBanner() {
     return () => cancelAnimationFrame(animationFrame);
   }, []);
 
-  const duplicatedItems = [...items, ...items]; // two copies side by side
+  const duplicatedItems = [...createDistributedArray(), ...createDistributedArray()]; // two copies side by side
 
   return (
     <div className="price-banner" ref={containerRef}>
@@ -55,9 +71,9 @@ function PriceBanner() {
       </div>
       <div className="price-banner__scroll">
         <ul className="price-banner__scroll__ticker" ref={tickerRef}>
-          {duplicatedItems.map(({ id, currency, value }, i) => (
-            <li key={`${id}-${i}`}>
-              <PriceBannerItem currency={currency} value={value} />
+          {duplicatedItems.map(({ _id, ten_year_performance_vs_xau_in_perc }, i) => (
+            <li key={`${_id}-${i}`}>
+              <PriceBannerItem currency={_id} value={ten_year_performance_vs_xau_in_perc} />
             </li>
           ))}
         </ul>

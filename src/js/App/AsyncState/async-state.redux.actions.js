@@ -23,10 +23,16 @@ const setBtcPerXau = (data) => ({
   payload: data,
 });
 
+const setAllFiatPerXau = (data) => ({
+  type: 'SET_ALL_FIAT_PER_XAU',
+  payload: data,
+});
+
 export {
   setInitialized,
   setCountries,
   setInflationData,
   setUsdPerXau,
   setBtcPerXau,
+  setAllFiatPerXau,
 };

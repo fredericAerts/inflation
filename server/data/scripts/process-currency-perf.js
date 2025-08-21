@@ -1,7 +1,6 @@
 import fs from 'fs';
-import { fileURLToPath } from 'url';
 import path from 'path';
-import csv from 'csv-parser';
+import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
 import { MongoClient } from 'mongodb';
 import pc from 'picocolors';
@@ -131,6 +130,36 @@ const transformBitcoinData = (bitcoinData, goldData) => {
   return null;
 };
 
+// Helper function to calculate 10-year performance vs XAU
+const calculateTenYearPerformanceVsXau = (monthlyData) => {
+  if (!monthlyData || monthlyData.length === 0) {
+    return null;
+  }
+
+  // Find first and last valid data points
+  let firstValue = null;
+  let lastValue = null;
+
+  // Sort by date to ensure proper order
+  const sortedData = [...monthlyData].sort((a, b) => a.date.localeCompare(b.date));
+
+  for (const item of sortedData) {
+    if (item.units_per_xau) {
+      // For gold comparison, we use the inverse of units_per_xau
+      const value = 1 / item.units_per_xau;
+      if (firstValue === null) firstValue = value;
+      lastValue = value;
+    }
+  }
+
+  if (firstValue === null || lastValue === null) {
+    return null;
+  }
+
+  const percentageChange = ((lastValue - firstValue) / firstValue) * 100;
+  return percentageChange;
+};
+
 const processCurrencyPerformanceData = async () => {
   try {
     console.log(pc.blue('🔄 Starting currency performance data processing...'));
@@ -170,6 +199,14 @@ const processCurrencyPerformanceData = async () => {
       allCurrencyData.push(bitcoinCurrencyData);
     }
     
+    // Calculate ten_year_performance_vs_xau_in_perc for each currency
+    console.log(pc.yellow('📊 Calculating 10-year performance vs XAU...'));
+    allCurrencyData.forEach(currencyData => {
+      const tenYearPerformance = calculateTenYearPerformanceVsXau(currencyData.monthly_data);
+      currencyData.ten_year_performance_vs_xau_in_perc = tenYearPerformance !== null ? 
+        Math.round(tenYearPerformance * 10) / 10 : null;
+    });
+
     console.log(pc.green(`✅ Transformed ${allCurrencyData.length} currency datasets`));
     
     // Clear existing collection

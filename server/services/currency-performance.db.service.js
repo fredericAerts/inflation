@@ -12,10 +12,15 @@ const fetchCurrencyPerformance = async (currencyCode) => {
 
 const fetchMultipleCurrencyPerformance = async (currencyCodes) => {
   try {
-    const currencyData = await CurrencyPerformance.find({
-      _id: { $in: currencyCodes }
-    });
-    return currencyData;
+    let query = {};
+    
+    // If currencyCodes is null or undefined, fetch all currencies
+    if (currencyCodes && currencyCodes.length > 0) {
+      query = { _id: { $in: currencyCodes } };
+    }
+    
+    const currencies = await CurrencyPerformance.find(query);
+    return currencies;
   } catch (error) {
     console.error('Error fetching multiple currency performance data:', error);
     throw error;

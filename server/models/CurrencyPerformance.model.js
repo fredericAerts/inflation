@@ -14,8 +14,12 @@ const currencyPerformanceSchema = new mongoose.Schema(
       units_per_xau: {
         type: Number,
         required: true,
-      }
+      },
     }],
+    ten_year_performance_vs_xau_in_perc: {
+      type: Number,
+      required: true,
+    },
   },
   { collection: 'currency_performance' }
 );

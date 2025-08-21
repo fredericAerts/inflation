@@ -40,17 +40,23 @@ async function fetchMetrics(iso3Code) {
   }
 }
 
-async function fetchCurrencyPerformanceData(currencies = 'USD,BTC') {
+async function fetchCurrencyPerformanceData(currencies) {
   try {
-    const response = await fetch(`/api/currency-performance?currencies=${currencies}`);
+    let url = '/api/currency-performance';
     
-    if (!response.ok) {
-      throw new Error(`Failed to fetch currency performance data: ${response.status} ${response.statusText}`);
+    // Only add currencies query param if currencies is truthy
+    if (currencies) {
+      const queryParam = Array.isArray(currencies) ? currencies.join(',') : currencies;
+      url += `?currencies=${queryParam}`;
     }
     
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
     return await response.json();
   } catch (error) {
-    console.error('[fetchCurrencyPerformanceData] Error:', error);
+    console.error('Error fetching all currency performance data:', error);
     throw error;
   }
 }
