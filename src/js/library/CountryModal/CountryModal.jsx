@@ -615,7 +615,7 @@ function CountryModal() {
         </div>
 
         <div className="country-modal__content__row">
-          <div className="country-modal__content__row__cell country-modal__content__row__cell--33">
+          <div className="country-modal__content__row__cell country-modal__content__row__cell--50">
             <div className="country-modal__metric">
               <div className="metric-title">Government Debt</div>
               <div className="metric-value">{metrics?.gov_dept_per_gdp ? metrics.gov_dept_per_gdp.toFixed(1) : 'N/A'}%</div>
@@ -623,7 +623,7 @@ function CountryModal() {
               <div className="metric-data-source">IMF (2024)</div>
             </div>
           </div>
-          <div className="country-modal__content__row__cell country-modal__content__row__cell--33">
+          <div className="country-modal__content__row__cell country-modal__content__row__cell--50">
             <div className="country-modal__metric">
               <div className="metric-title">Freedom Index</div>
               <div className="metric-value">
@@ -631,13 +631,6 @@ function CountryModal() {
               </div>
               <div className="metric-subtitle">out of 10</div>
               <div className="metric-data-source">Cato Institute (2022)</div>
-            </div>
-          </div>
-          <div className="country-modal__content__row__cell country-modal__content__row__cell--33">
-            <div className="country-modal__metric">
-              <div className="metric-title">GDP per Capita</div>
-              <div className="metric-value">€47,200</div>
-              <div className="metric-subtitle">PPP adjusted</div>
             </div>
           </div>
         </div>
