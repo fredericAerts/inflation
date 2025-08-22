@@ -521,18 +521,22 @@ function CountryModal() {
       >
         ×
       </button>
-      
+      {modalData?.withdrawnCurrency && modalData?.withdrawnCurrencyCode && modalData?.withdrawnCurrencyDate && (
+        <div className="withdrawn-currency-banner">
+          <span>
+            Previous currency: {modalData.withdrawnCurrency} ({modalData.withdrawnCurrencyCode}), withdrawn {modalData.withdrawnCurrencyDate}
+          </span>
+        </div>
+      )}
       <div className="country-modal__content">
         <div className="country-modal__content__row">
           <div className="country-modal__content__row__cell tablet-50">
             <div className="country-modal__header">
               <h2 className="country-name">{modalData?.name || 'Unknown Country'}</h2>
-              
               <div className="currency-section">
                 <div className="currency">{modalData?.currencyCode || 'N/A'}</div>
                 <div className="currency-label">{modalData?.currency || 'N/A'}</div>
               </div>
-              
               <div className="inflation-section">
                 <div className="inflation-label">Average Inflation</div>
                 <div className="inflation-value">{modalData?.inflation || 'N/A'}</div>

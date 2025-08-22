@@ -1,0 +1,27 @@
+{
+  "metadata": {
+    "generatedAt": "2025-08-22T11:50:29.166Z",
+    "sourceFile": "../src/datahub/flat-ui__data-Fri_Aug_22_2025.json",
+    "dateRange": {
+      "after": "2014-12",
+      "before": "2025-01"
+    },
+    "totalCount": 12
+  },
+  "currencies": [
+    {
+      "entity": "CROATIA",
+      "currency": "Kuna",
+      "alphabeticCode": "HRK",
+      "withdrawalDate": "2023-01",
+      "numericCode": 191
+    },
+    {
+      "entity": "ZIMBABWE",
+      "currency": "Zimbabwe Dollar",
+      "alphabeticCode": "ZWL",
+      "withdrawalDate": "2024-09",
+      "numericCode": 932
+    }
+  ]
+}

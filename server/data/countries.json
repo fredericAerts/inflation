@@ -163396,6 +163396,9 @@
         "iso_a3": "HRV",
         "currency": "Euro",
         "currencyCode": "EUR",
+        "withdrawnCurrency": "Kuna",
+        "withdrawnCurrencyCode": "HRK",
+        "withdrawnCurrencyDate": "2023-01",
         "population": 3859686,
         "populationYear": 2023
       },
@@ -166679,6 +166682,9 @@
         "iso_a3": "ZWE",
         "currency": "Zimbabwe Gold",
         "currencyCode": "ZWG",
+        "withdrawnCurrency": "Zimbabwe Dollar",
+        "withdrawnCurrencyCode": "ZWL",
+        "withdrawnCurrencyDate": "2024-04",
         "population": 16340822,
         "populationYear": 2023
       },
