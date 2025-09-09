@@ -1,9 +1,16 @@
+import { useDispatch } from 'react-redux';
+import { setAboutModalSection } from '../../NavMenu/navMenu.redux.actions';
 import './story.styl';
 
 function Story() {
+  const dispatch = useDispatch();
+
+  const handleReadingLinkClick = () => {
+    dispatch(setAboutModalSection('reading'));
+  };
+
   return (
     <article className="story"><section className="story__section">
-        <h2 className="story__section-title">What's the Problem</h2>
         <p className="story__paragraph">
           Inflation is a persistent feature of the modern global economy. For billions of people, wages struggle to keep pace with rising prices, and saving for the future becomes an increasingly uphill task. Even in developed nations, individuals and businesses face uncertainty when making long-term financial plans, while in many developing nations, citizens contend with periods of sharp devaluation or even hyperinflation.
         </p>
@@ -53,12 +60,17 @@ function Story() {
           The system is outdated, increasingly fragile, and misaligned with the needs of a globalized world. As past centuries have shown, monetary orders do not last forever. They evolve, collapse, and are rebuilt in response to imbalances, technological shifts, and geopolitical change. The system established in the 1970s is showing signs of strain, and the choices societies make in the coming years will determine whether its successor offers greater stability and fairness—or deeper division and fragility.
         </p>
       </section>
-
-      <footer className="story__footer">
-        <p className="story__paragraph">
-          If you're interested in learning more about this topic, head over to the Further Reading section.
-        </p>
-      </footer>
+      <small className="disclaimer">
+        If you're interested in learning more about this topic, head over to the{' '}
+        <button 
+          className="story__link" 
+          onClick={handleReadingLinkClick}
+          type="button"
+        >
+          Further Reading
+        </button>{' '}
+        section.
+      </small>
     </article>
   );
 }

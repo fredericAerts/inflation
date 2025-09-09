@@ -1,0 +1,125 @@
+.further-reading
+  // Inherit color and typography from parent modal
+
+  p:first-letter
+    color inherit
+    font-size inherit
+    font-weight inherit
+
+.further-reading__section
+  margin-bottom calc(var(--spacing) * 8)
+  
+  &:last-of-type
+    margin-bottom calc(var(--spacing) * 4)
+
+.further-reading__section-title
+  // Inherits h3 styling from about-modal.styl
+
+.further-reading__intro
+  // Inherits p styling from about-modal.styl
+  
+  font-style italic
+
+.further-reading__book
+  position relative
+  
+  margin-bottom calc(var(--spacing) * 6)
+  padding calc(var(--spacing) * 4)
+  
+  border 1px solid rgba(255, 255, 255, 0.2)
+  border-radius calc(var(--spacing) * 1)
+  background rgba(255, 255, 255, 0.05)
+  
+  &--featured
+    border-color var(--color-primary)
+
+.further-reading__book-title
+  margin 0 0 calc(var(--spacing) * 1) 0
+  
+  color var(--color-primary)
+  font-size calc(var(--font-size-base) * 1.2)
+  font-weight var(--font-weight-bold)
+
+.further-reading__book-subtitle
+  margin 0 0 calc(var(--spacing)) 0 !important
+  
+  color rgba(255, 255, 255, 0.7)
+  font-size calc(var(--font-size-base) * 0.85)
+  font-style italic
+
+.further-reading__book-author
+  margin 0 0 calc(var(--spacing) * 3) 0
+  
+  color rgba(255, 255, 255, 0.8)
+  font-size calc(var(--font-size-base) * 0.9)
+  font-weight var(--font-weight-medium)
+
+.further-reading__book-description
+  margin 0 0 calc(var(--spacing) * 4) 0
+  
+  color rgba(255, 255, 255, 0.9)
+  font-size calc(var(--font-size-base) * 1)
+  line-height var(--line-height-relaxed)
+
+.further-reading__books
+  display grid
+  gap calc(var(--spacing) * 4)
+  
+  @media (min-width: 900px)
+    grid-template-columns repeat(auto-fit, minmax(300px, 1fr))
+
+.further-reading__videos
+  display grid
+  gap calc(var(--spacing) * 4)
+
+.further-reading__video
+  position relative
+  
+  margin-bottom calc(var(--spacing) * 4)
+  padding calc(var(--spacing) * 4)
+  
+  border 1px solid rgba(255, 255, 255, 0.2)
+  border-radius calc(var(--spacing) * 1)
+  background rgba(255, 255, 255, 0.05)
+
+.further-reading__video-title
+  margin 0 0 calc(var(--spacing) * 1) 0
+  
+  color var(--color-primary)
+  font-size calc(var(--font-size-base) * 1.1)
+  font-weight var(--font-weight-bold)
+
+.further-reading__video-subtitle
+  margin 0 0 calc(var(--spacing) * 2) 0
+  
+  color rgba(255, 255, 255, 0.7)
+  font-size calc(var(--font-size-base) * 0.85)
+  font-style italic
+
+.further-reading__video-description
+  margin 0 0 calc(var(--spacing) * 4) 0
+  
+  color rgba(255, 255, 255, 0.9)
+  font-size calc(var(--font-size-base) * 1)
+
+.further-reading__link
+  display inline-block
+  
+  color var(--color-primary)
+  font-size calc(var(--font-size-base) * 0.9)
+  font-weight var(--font-weight-medium)
+  text-decoration underline
+  text-transform uppercase
+  letter-spacing 0.5px
+
+.further-reading__footer
+  margin-top calc(var(--spacing) * 8)
+  padding-top calc(var(--spacing) * 4)
+  
+  border-top 1px solid rgba(255, 255, 255, 0.2)
+
+.further-reading__disclaimer
+  color rgba(255, 255, 255, 0.6)
+  font-size calc(var(--font-size-base) * 0.85)
+  font-style italic
+  text-align center

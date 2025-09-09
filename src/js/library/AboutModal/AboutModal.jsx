@@ -1,6 +1,7 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { setAboutModalOpen, setAboutModalSection } from '../NavMenu/navMenu.redux.actions';
 import Story from './Story/Story';
+import FurtherReading from './FurtherReading/FurtherReading';
 
 import './about-modal.styl';
 
@@ -27,23 +28,7 @@ const CONTENT_SECTIONS = {
   },
   reading: {
     title: 'Further Reading',
-    content: (
-      <>
-        <h3>Recommended Resources:</h3>
-        <ul>
-          <li><strong>"The Bitcoin Standard"</strong> by Saifedean Ammous - Understanding sound money principles</li>
-          <li><strong>"What Has Government Done to Our Money?"</strong> by Murray Rothbard - Monetary theory fundamentals</li>
-          <li><strong>"The Creature from Jekyll Island"</strong> by G. Edward Griffin - Federal Reserve history</li>
-        </ul>
-        <h3>Online Resources:</h3>
-        <ul>
-          <li>Mises Institute - Austrian Economics research and articles</li>
-          <li>Federal Reserve Economic Data (FRED) - Historical economic data</li>
-          <li>CoinMetrics - Cryptocurrency and monetary analysis</li>
-        </ul>
-        <p>These resources provide deeper insights into monetary theory, inflation mechanisms, and alternative monetary systems.</p>
-      </>
-    ),
+    content: <FurtherReading />,
   },
   about: {
     title: 'About',
