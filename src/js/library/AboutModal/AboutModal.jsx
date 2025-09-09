@@ -2,6 +2,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { setAboutModalOpen, setAboutModalSection } from '../NavMenu/navMenu.redux.actions';
 import Story from './Story/Story';
 import FurtherReading from './FurtherReading/FurtherReading';
+import DataSources from './DataSources/DataSources';
 
 import './about-modal.styl';
 
@@ -12,19 +13,7 @@ const CONTENT_SECTIONS = {
   },
   data: {
     title: 'Data Sources',
-    content: (
-      <>
-        <p>Our inflation data is sourced from reputable international organizations and central banks to ensure accuracy and reliability.</p>
-        <h3>Primary Sources:</h3>
-        <ul>
-          <li>International Monetary Fund (IMF) - Consumer Price Index data</li>
-          <li>World Bank - Economic indicators and GDP data</li>
-          <li>OECD Statistics - Inflation rates for member countries</li>
-          <li>National Central Banks - Country-specific monetary data</li>
-        </ul>
-        <p>All data is processed and normalized to provide consistent comparisons across different economies and time periods.</p>
-      </>
-    ),
+    content: <DataSources />,
   },
   reading: {
     title: 'Further Reading',
