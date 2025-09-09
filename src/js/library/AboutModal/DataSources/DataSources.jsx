@@ -3,6 +3,27 @@ import './data-sources.styl';
 function DataSources() {
   return (
     <article className="data-sources">
+      <small className="disclaimer">
+        If you have questions about how this data was integrated into the website and the methodologies behind it, 
+        you can contact me at{' '}
+        <a 
+          href="mailto:info@fredericaerts.com"
+          className="data-sources__link"
+        >
+          info@fredericaerts.com
+        </a>
+        . You can also review the code of the scripts that processed the data{' '}
+        <a 
+          href="https://github.com/fredericAerts/inflation/tree/main/server/data/scripts" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="data-sources__link"
+        >
+          here
+        </a>
+        .
+      </small>
+      
       <section className="data-sources__section">
         <h3 className="data-sources__section-title">Datahub</h3>
         <ul className="data-sources__list">
@@ -188,27 +209,6 @@ function DataSources() {
           </li>
         </ul>
       </section>
-
-      <small className="disclaimer">
-        If you have questions about how this data was integrated into the website and the methodologies behind it, 
-        you can contact me at{' '}
-        <a 
-          href="mailto:info@fredericaerts.com"
-          className="data-sources__link"
-        >
-          info@fredericaerts.com
-        </a>
-        . You can also review the code of the scripts that processed the data{' '}
-        <a 
-          href="https://github.com/fredericAerts/inflation/tree/main/server/data/scripts" 
-          target="_blank" 
-          rel="noopener noreferrer"
-          className="data-sources__link"
-        >
-          here
-        </a>
-        .
-      </small>
     </article>
   );
 }
