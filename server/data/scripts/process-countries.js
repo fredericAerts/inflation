@@ -3,6 +3,11 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import pc from 'picocolors';
 import { simplify } from '@turf/simplify';
+import dotenv from 'dotenv';
+import mongoose from 'mongoose';
+import Country from '../../models/Country.model.js';
+
+dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -13,10 +18,17 @@ const COUNTRIES_FILE = path.join(DATAHUB_DIR, 'countries.geojson');
 const COUNTRIES_EXTENDED_FILE = path.join(MISC_DIR, 'countries_extended.geojson');
 const POPULATION_FILE = path.join(DATAHUB_DIR, 'population.json');
 const CURRENCIES_FILE = path.join(DATAHUB_DIR, 'currencies.json');
-const OUTPUT_FILE = path.join(__dirname, '../countries.json');
+const WITHDRAWN_CURRENCIES_FILE = path.join(DATAHUB_DIR, 'withdrawn-currencies.json');
+
+// MongoDB connection string - use environment variable with proper authentication
+const MONGODB_URI = `mongodb://${process.env.DB_USER}:${encodeURIComponent(process.env.DB_PASS)}@${process.env.DB_IP}:27017/${process.env.DB_NAME}?authSource=admin`;
 
 async function processCountries() {
   try {
+    // Connect to MongoDB
+    await mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+    console.log(pc.blue(`${new Date().toISOString()} - Connected to MongoDB`));
+
     console.log(pc.blue(`${new Date().toISOString()} - Starting countries processing...`));
     
     // Read the countries data
@@ -93,6 +105,21 @@ async function processCountries() {
     
     console.log(pc.blue(`${new Date().toISOString()} - Processed currency data for ${entityToCurrencyMap.size} entities`));
     
+    // Read withdrawn currencies data
+    const withdrawnCurrenciesData = JSON.parse(await fs.readFile(WITHDRAWN_CURRENCIES_FILE, 'utf8'));
+    
+    // Create a map for quick lookup of withdrawn currency by entity (uppercase)
+    const withdrawnCurrencyMap = new Map();
+    if (withdrawnCurrenciesData.currencies) {
+      withdrawnCurrenciesData.currencies.forEach(entry => {
+        if (entry.entity) {
+          withdrawnCurrencyMap.set(entry.entity.toUpperCase(), entry);
+        }
+      });
+    }
+    
+    console.log(pc.blue(`${new Date().toISOString()} - Processed ${withdrawnCurrencyMap.size} withdrawn currencies`));
+    
     const countriesWithoutPopulation = [];
     const countriesWithoutCurrency = [];
     let countriesWithPopulation = 0;
@@ -164,6 +191,18 @@ async function processCountries() {
           iso3: iso3Code || 'No ISO3 code'
         });
       }
+      
+      // Add withdrawn currency info if available
+      const withdrawn = withdrawnCurrencyMap.get(normalizedCountryName);
+      if (withdrawn) {
+        feature.properties.withdrawnCurrency = withdrawn.currency ?? null;
+        feature.properties.withdrawnCurrencyCode = withdrawn.alphabeticCode ?? null;
+        feature.properties.withdrawnCurrencyDate = withdrawn.withdrawalDate ?? null;
+      } else {
+        feature.properties.withdrawnCurrency = null;
+        feature.properties.withdrawnCurrencyCode = null;
+        feature.properties.withdrawnCurrencyDate = null;
+      }
     });
     
     // Log summary
@@ -207,15 +246,29 @@ async function processCountries() {
     const reductionPercent = ((originalSize - simplifiedSize) / originalSize * 100).toFixed(1);
     console.log(pc.green(`Geometry simplification complete: ${(originalSize / 1024 / 1024).toFixed(1)}MB → ${(simplifiedSize / 1024 / 1024).toFixed(1)}MB (${reductionPercent}% reduction)`));
     
-    // Write the updated data
-    console.log(`\nWriting processed data to ${OUTPUT_FILE}...`);
-    await fs.writeFile(OUTPUT_FILE, JSON.stringify(countriesData, null, 2));
+    // Clear existing data and write to MongoDB
+    console.log(pc.blue(`${new Date().toISOString()} - Writing countries data to MongoDB...`));
+    await Country.deleteMany({});
     
-    console.log(pc.green(`${new Date().toISOString()} - Successfully processed ${countriesData.features.length} countries`));
-    console.log(pc.green(`${new Date().toISOString()} - Output written to: ${OUTPUT_FILE}`));
+    const countryDocuments = countriesData.features.map(feature => ({
+      type: feature.type,
+      properties: feature.properties,
+      geometry: feature.geometry
+    }));
+    
+    await Country.insertMany(countryDocuments);
+    
+    console.log(pc.green(`${new Date().toISOString()} - Successfully written ${countryDocuments.length} countries to MongoDB`));
+    
+    // Disconnect from MongoDB
+    await mongoose.disconnect();
+    console.log(pc.blue(`${new Date().toISOString()} - Disconnected from MongoDB`));
     
   } catch (error) {
     console.error(pc.red(`${new Date().toISOString()} - Error processing countries:`), error.message);
+    if (mongoose.connection.readyState === 1) {
+      await mongoose.disconnect();
+    }
     process.exit(1);
   }
 }

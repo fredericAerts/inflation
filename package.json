@@ -31,6 +31,7 @@
     "@reduxjs/toolkit": "^2.8.2",
     "@turf/area": "^7.2.0",
     "@turf/centroid": "^7.2.0",
+    "@turf/simplify": "^7.2.0",
     "@vitejs/plugin-react": "^4.6.0",
     "chart.js": "^4.5.0",
     "css-loader": "^7.1.2",

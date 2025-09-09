@@ -1,11 +1,11 @@
-import { fetchCountriesJson } from '../../services/data.service.js';
+import { fetchCountryData } from '../../services/country.service.js';
 import { fetchInflationData } from '../../services/inflation.db.service.js';
 import { fetchMetrics } from '../../services/metrics.db.service.js';
 import { fetchCurrencyPerformance, fetchMultipleCurrencyPerformance } from '../../services/currency-performance.db.service.js';
 
 const dataController = () => {
   const getCountries = (_, res) => {
-    fetchCountriesJson()
+    fetchCountryData()
       .then((countries) => {
         if (!countries) {
           throw new Error('Something went wrong!');
