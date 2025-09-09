@@ -1,18 +1,13 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { setAboutModalOpen, setAboutModalSection } from '../NavMenu/navMenu.redux.actions';
+import Story from './Story/Story';
 
 import './about-modal.styl';
 
 const CONTENT_SECTIONS = {
   story: {
     title: 'The Story',
-    content: (
-      <>
-        <p>Inflation affects everyone, yet understanding its true impact on purchasing power remains complex. This interactive globe visualizes inflation data across countries, making economic patterns accessible and understandable.</p>
-        <p>Through visual storytelling, we aim to illuminate how monetary policies shape the economic reality of citizens worldwide. Each country tells a story of fiscal decisions, central bank interventions, and their consequences on everyday life.</p>
-        <p>The visualization reveals patterns that might otherwise remain hidden in spreadsheets and economic reports, empowering users to draw their own conclusions about global economic trends.</p>
-      </>
-    ),
+    content: <Story />,
   },
   data: {
     title: 'Data Sources',
