@@ -121,13 +121,6 @@ function FurtherReading() {
           </div>
         </div>
       </section>
-
-      <footer className="further-reading__footer">
-        <p className="further-reading__disclaimer">
-          These resources represent various viewpoints on monetary systems and economics. 
-          We encourage critical thinking and forming your own conclusions based on multiple sources.
-        </p>
-      </footer>
     </article>
   );
 }
