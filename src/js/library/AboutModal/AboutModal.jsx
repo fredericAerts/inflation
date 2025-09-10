@@ -3,6 +3,7 @@ import { setAboutModalOpen, setAboutModalSection } from '../NavMenu/navMenu.redu
 import Story from './Story/Story';
 import FurtherReading from './FurtherReading/FurtherReading';
 import DataSources from './DataSources/DataSources';
+import About from './About/About';
 
 import './about-modal.styl';
 
@@ -21,16 +22,7 @@ const CONTENT_SECTIONS = {
   },
   about: {
     title: 'About',
-    content: (
-      <>
-        <p>This project was created to make complex economic data accessible through interactive visualization. We believe that understanding inflation and its effects is crucial for making informed financial decisions.</p>
-        <h3>Mission Statement:</h3>
-        <p>To democratize access to economic information and empower individuals to understand the impact of monetary policy on their lives.</p>
-        <h3>Technical Implementation:</h3>
-        <p>Built with modern web technologies including React, MapLibre GL, and Chart.js to provide a smooth, interactive experience across all devices.</p>
-        <small className="disclaimer">The text above is AI generated. Do your own research</small>
-      </>
-    ),
+    content: <About />,
   },
 };
 

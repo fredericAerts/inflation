@@ -1,0 +1,23 @@
+.about
+  // Inherit color and typography from parent modal
+
+  p:first-letter
+    color inherit
+    font-size inherit
+    font-weight inherit
+
+.about__section
+  margin-bottom calc(var(--spacing) * 6)
+  
+  &:last-of-type
+    margin-bottom calc(var(--spacing) * 4)
+
+.about__paragraph
+  // Inherits p styling from about-modal.styl
+
+.about__link
+  color var(--color-primary)
+  text-decoration underline
+  
+  &:hover
+    text-decoration underline
