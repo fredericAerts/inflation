@@ -33,7 +33,7 @@ function About() {
         </p>
         
         <p className="about__paragraph">
-          If you're curious about the code, the{' '}
+          If you're curious about the code behind the website, the{' '}
           <a 
             href="https://github.com/fredericAerts/inflation" 
             target="_blank" 
