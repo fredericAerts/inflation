@@ -1,0 +1,265 @@
+.welcome-modal
+  position: fixed
+  z-index: calc(var(--z-modal) + 100)
+  top: 0
+  left: 0
+
+  display: flex
+  justify-content: center
+  align-items: center
+  
+  width: 100%
+  height: 100%
+  background-color: var(--color-base)
+  backdrop-filter: blur(10px)
+  
+  opacity: 1
+  animation: welcomeModalFadeIn 0.4s ease-out
+
+  &--closing
+    opacity: 0
+    animation: welcomeModalFadeOut 0.3s ease-in
+
+.welcome-modal__content
+  position: relative
+  
+  display: flex
+  flex-direction: column
+  max-width: 600px
+  max-height: 85vh
+  width: 90%
+  padding: calc(var(--spacing) * 6)
+  background: var(--color-black)
+  border: 2px solid rgba(219, 197, 45, 0.4)
+  border-radius: calc(var(--border-radius) * 3)
+  
+  color: var(--color-white)
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), 0 0 40px rgba(219, 197, 45, 0.2)
+  transform: scale(1)
+  animation: welcomeModalSlideIn 0.4s ease-out
+  overflow-y: auto
+
+  &::before
+    position: absolute
+    top: 0
+    left: 0
+    right: 0
+    
+    height: 3px
+    background: linear-gradient(90deg, transparent 0%, var(--color-primary) 30%, var(--color-primary) 70%, transparent 100%)
+    border-radius: calc(var(--border-radius) * 3) calc(var(--border-radius) * 3) 0 0
+    
+    content: ''
+
+  .welcome-modal--closing &
+    transform: scale(0.95)
+    animation: welcomeModalSlideOut 0.3s ease-in
+
+.welcome-modal__close
+  position: absolute
+  z-index: 1
+  top: calc(var(--spacing) * 3)
+  right: calc(var(--spacing) * 3)
+  
+  display: flex
+  align-items: center
+  justify-content: center
+  width: calc(var(--spacing) * 6)
+  height: calc(var(--spacing) * 6)
+  border: 2px solid rgba(219, 197, 45, 0.6)
+  border-radius: 50%
+  background: rgba(0, 0, 0, 0.8)
+  
+  color: var(--color-primary)
+  font-size: calc(var(--font-size-base) * 1.5)
+  font-weight: var(--font-weight-bold)
+  cursor: pointer
+  transition: var(--transition-fast)
+
+  &:hover
+    background: var(--color-primary)
+    color: var(--color-black)
+    box-shadow: 0 0 20px rgba(219, 197, 45, 0.6)
+    transform: scale(1.1)
+
+.welcome-modal__continue
+  padding: calc(var(--spacing) * 2.5) calc(var(--spacing) * 5)
+  border: 2px solid var(--color-primary)
+  border-radius: calc(var(--border-radius) * 2)
+  background: rgba(0, 0, 0, 0.6)
+  
+  color: var(--color-primary)
+  font-size: var(--font-size-base)
+  font-weight: var(--font-weight-bold)
+  text-transform: uppercase
+  letter-spacing: 1px
+  cursor: pointer
+  transition: var(--transition-fast)
+
+  &:hover
+    background: var(--color-primary)
+    color: var(--color-black)
+    box-shadow: 0 0 20px rgba(219, 197, 45, 0.6)
+    transform: translateY(-2px)
+
+.welcome-modal__body
+  display: flex
+  flex-direction: column
+  gap: calc(var(--spacing) * 4)
+
+.welcome-modal__facts
+  display: flex
+  flex-direction: column
+  gap: calc(var(--spacing) * 3)
+
+.welcome-modal__fact
+  position: relative
+  
+  margin: 0
+  padding: calc(var(--spacing) * 3) calc(var(--spacing) * 2.5)
+  background: rgba(0, 0, 0, 0.3)
+  border-left: 3px solid var(--color-primary)
+  border-radius: 0 calc(var(--border-radius)) calc(var(--border-radius)) 0
+  
+  color: rgba(255, 255, 255, 0.9)
+  font-size: var(--font-size-base)
+  line-height: var(--line-height-normal)
+  
+  strong
+    color: var(--color-primary)
+    font-weight: var(--font-weight-bold)
+
+.welcome-modal__welcome
+  display: flex
+  justify-content: center
+  align-items: center
+  padding: calc(var(--spacing) * 3) 0
+
+.welcome-modal__action
+  display: flex
+  justify-content: center
+  align-items: center
+  padding: calc(var(--spacing) * 2) 0
+
+.welcome-modal__title
+  position: relative
+  
+  margin: 0
+  
+  color: var(--color-primary)
+  font-size: calc(var(--font-size-base) * 2.2)
+  font-weight: var(--font-weight-black)
+  text-transform: uppercase
+  letter-spacing: 4px
+  text-align: center
+  text-shadow: 0 0 30px rgba(219, 197, 45, 0.5)
+
+  &::after
+    position: absolute
+    bottom: calc(var(--spacing) * -1.5)
+    left: 50%
+    
+    width: 100px
+    height: 2px
+    background: linear-gradient(90deg, transparent 0%, var(--color-primary) 50%, transparent 100%)
+    
+    transform: translateX(-50%)
+    content: ''
+
+.welcome-modal__disclaimer
+  position: absolute
+  bottom: calc(var(--spacing) * 2)
+  left: 50%
+  
+  color: rgba(255, 255, 255, 0.5)
+  font-size: 9px
+  font-weight: var(--font-weight-medium)
+  text-transform: uppercase
+  letter-spacing: 1px
+  text-align: center
+
+  white-space: nowrap
+  
+  transform: translateX(-50%)
+
+@keyframes welcomeModalFadeIn
+  from
+    opacity: 0
+  to
+    opacity: 1
+
+@keyframes welcomeModalFadeOut
+  from
+    opacity: 1
+  to
+    opacity: 0
+
+@keyframes welcomeModalSlideIn
+  from
+    transform: scale(0.9)
+    opacity: 0
+  to
+    transform: scale(1)
+    opacity: 1
+
+@keyframes welcomeModalSlideOut
+  from
+    transform: scale(1)
+    opacity: 1
+  to
+    transform: scale(0.95)
+    opacity: 0
+
+@media (max-width: 767px)
+  .welcome-modal__content
+    width: 95%
+    max-height: 95vh
+    padding: calc(var(--spacing) * 6) calc(var(--spacing) * 4) calc(var(--spacing) * 4)
+    
+  .welcome-modal__body
+    gap: calc(var(--spacing) * 3)
+    
+  .welcome-modal__facts
+    gap: calc(var(--spacing) * 2)
+    
+  .welcome-modal__fact
+    font-size: calc(var(--font-size-base) * 0.9)
+    padding: calc(var(--spacing) * 2.5) calc(var(--spacing) * 2)
+    line-height: var(--line-height-normal)
+    
+  .welcome-modal__welcome
+    padding: calc(var(--spacing) * 2) 0
+    
+  .welcome-modal__action
+    padding: calc(var(--spacing) * 1.5) 0
+    
+  .welcome-modal__title
+    font-size: calc(var(--font-size-base) * 1.8)
+    letter-spacing: 3px
+    
+  .welcome-modal__continue
+    padding: calc(var(--spacing) * 2) calc(var(--spacing) * 4)
+    font-size: calc(var(--font-size-base) * 0.9)
+
+@media (max-height: 600px)
+  .welcome-modal__content
+    max-height: 90vh
+    padding: calc(var(--spacing) * 4) calc(var(--spacing) * 4) calc(var(--spacing) * 3)
+    
+  .welcome-modal__body
+    gap: calc(var(--spacing) * 2)
+    
+  .welcome-modal__facts
+    gap: calc(var(--spacing) * 1.5)
+    
+  .welcome-modal__fact
+    padding: calc(var(--spacing) * 2) calc(var(--spacing) * 1.5)
+    
+  .welcome-modal__welcome
+    padding: calc(var(--spacing) * 1.5) 0
+    
+  .welcome-modal__action
+    padding: calc(var(--spacing)) 0
+    
+  .welcome-modal__title
+    font-size: calc(var(--font-size-base) * 1.6)
