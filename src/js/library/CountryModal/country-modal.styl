@@ -118,6 +118,8 @@
     background: linear-gradient(90deg, transparent 0%, var(--color-primary) 50%, transparent 100%)
 
   .country-name
+    position: relative
+    top: 12px
     margin: 0 0 calc(var(--spacing) * 4) 0
     color: rgba(255, 255, 255, 0.8)
     font-size: calc(var(--font-size-base) * 1.1)
@@ -155,18 +157,6 @@
     position: relative
     margin-bottom: calc(var(--spacing) * 2)
 
-    &::before
-      content: ''
-      position: absolute
-      top: -10px
-      left: -10px
-      right: -10px
-      bottom: -10px
-      border: 2px solid transparent
-      border-image: linear-gradient(45deg, transparent, var(--color-primary), transparent) 1
-      border-radius: calc(var(--border-radius) * 3)
-      opacity: 0.3
-
   .currency-label
     color: rgba(255, 255, 255, 0.6)
     font-size: calc(var(--font-size-base) * 0.8)
@@ -179,9 +169,6 @@
     flex-direction: column
     align-items: center
     padding: calc(var(--spacing) * 4)
-    background: rgba(0, 0, 0, 0.4)
-    border-radius: var(--border-radius)
-    border: 1px solid rgba(219, 197, 45, 0.1)
     position: relative
 
   .inflation-label

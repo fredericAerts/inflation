@@ -282,14 +282,14 @@ const createMapInteractionHandlers = (map, dispatch, selectedCountryId) => {
       const dataSource = feature.properties.data_source;
       const skippedYears = feature.properties.skipped_years;
       const inflationText = inflation ? `${Math.round(inflation)}%` : 'N/A';
-      const incompleteClass = skippedYears ? ' globe-popup__inflation--incomplete' : '';
+      const incompleteClass = (skippedYears && inflation) ? ' globe-popup__inflation--incomplete' : '';
       
       popup.setLngLat(map.unproject(e.point))
         .setHTML(`
           <div class="globe-popup__content">
             <div class="globe-popup__country">${country}</div>
             <div class="globe-popup__inflation${incompleteClass}">${inflationText}</div>
-            <div class="globe-popup__data-source">${dataSource}</div>
+            <div class="globe-popup__data-source">${dataSource || 'N/A'}</div>
           </div>
         `)
         .addTo(map);

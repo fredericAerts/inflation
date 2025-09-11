@@ -31,19 +31,6 @@ function About() {
           reflects my personal attempt to create awareness around money as a system, and the ways in which it 
           shapes our world.
         </p>
-        
-        <p className="about__paragraph">
-          If you're curious about the code behind the website, the{' '}
-          <a 
-            href="https://github.com/fredericAerts/inflation" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="about__link"
-          >
-            GitHub repository is here
-          </a>
-          .
-        </p>
       </section>
     </article>
   );

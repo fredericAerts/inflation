@@ -84,7 +84,7 @@ function FurtherReading() {
       <section className="further-reading__section">
         <h3 className="further-reading__section-title">Video Resources</h3>
         <p className="further-reading__intro">
-          For those who prefer visual learning, these documentaries provide entertaining introductions to monetary systems. 
+          For those who prefer visual learning, these documentaries provide entertaining introductions to monetary systems.&nbsp;
           <em>However, we strongly recommend reading the books above for deeper understanding.</em>
         </p>
         
