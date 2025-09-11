@@ -1,6 +1,7 @@
 import { fetchCountryData } from '../../services/country.service.js';
 import { fetchInflationData } from '../../services/inflation.db.service.js';
 import { fetchMetrics } from '../../services/metrics.db.service.js';
+import { fetchCountryCommentary } from '../../services/country-commentary.db.service.js';
 import { fetchCurrencyPerformance, fetchMultipleCurrencyPerformance } from '../../services/currency-performance.db.service.js';
 
 const dataController = () => {
@@ -55,6 +56,25 @@ const dataController = () => {
     }
   };
 
+  const getCountryCommentary = async (req, res) => {
+    try {
+      const { countryCode } = req.params;
+
+      const commentary = await fetchCountryCommentary(countryCode);
+
+      if (!commentary) {
+        return res.status(404).json({
+          error: `Country commentary data not found for ${countryCode}`
+        });
+      }
+
+      res.json(commentary);
+    } catch (error) {
+      console.error(`Error fetching country commentary for ${req.params.countryCode}:`, error);
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  };
+
   const getCurrencyPerformance = async (req, res) => {
     try {
       const { currencyCode } = req.params;
@@ -99,6 +119,7 @@ const dataController = () => {
     getCountries,
     getInflationData,
     getMetrics,
+    getCountryCommentary,
     getCurrencyPerformance,
     getMultipleCurrencyPerformance,
   };

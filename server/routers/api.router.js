@@ -18,6 +18,9 @@ const router = () => {
 
   apiRouter.route('/metrics/:iso3')
     .get(dataController.getMetrics);
+  
+  apiRouter.route('/country-commentary/:countryCode')
+    .get(dataController.getCountryCommentary);
 
   apiRouter.route('/currency-performance')
     .get(dataController.getMultipleCurrencyPerformance);

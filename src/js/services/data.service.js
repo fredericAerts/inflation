@@ -40,6 +40,22 @@ async function fetchMetrics(iso3Code) {
   }
 }
 
+async function fetchCountryCommentary(countryCode) {
+  try {
+    const response = await fetch(`/api/country-commentary/${countryCode}`);
+    if (!response.ok) {
+      if (response.status === 404) {
+        return null; // No commentary found for this country
+      }
+      throw new Error(`Failed to fetch country commentary: ${response.status} ${response.statusText}`);
+    }
+    return await response.json();
+  } catch (error) {
+    console.error(`[fetchCountryCommentary] Error for ${countryCode}:`, error);
+    throw error;
+  }
+}
+
 async function fetchCurrencyPerformanceData(currencies) {
   try {
     let url = '/api/currency-performance';
@@ -65,5 +81,6 @@ export {
   fetchCountriesGeoJson,
   fetchInflationData,
   fetchMetrics,
+  fetchCountryCommentary,
   fetchCurrencyPerformanceData,
 }
