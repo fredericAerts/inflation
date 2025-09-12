@@ -646,7 +646,7 @@ function CountryModal() {
           </div>
         </div>
 
-        { parseInt(modalData?.inflation, 10) >= 10
+        { (!!commentary && (parseInt(modalData?.inflation, 10) >= 10 || modalData?.inflation === 'N/A'))
           && (
             <div className="country-modal__content__row">
               <div className="country-modal__content__row__cell">
