@@ -16,9 +16,15 @@ function Globe() {
   const mapRef = useRef(null);
 
   useEffect(() => {
+    // Determine initial zoom based on viewport size
+    const getInitialZoom = () => {
+      const isMobile = window.innerWidth <= 767;
+      return isMobile ? 1.2 : 2;
+    };
+
     const myMap = new maplibregl.Map({
       container: mapRef.current,
-      zoom: 2,
+      zoom: getInitialZoom(),
       maxZoom: 7,
       center: [31, 25],
       style: MAP_STYLE,
@@ -76,8 +82,14 @@ function Globe() {
     // Reset outlines when no country is selected
     if (!selectedCountryId) {
       resetCountryOutlines(map);
-      // Use consistent world view center instead of current center
-      map.flyTo({ center: [31, 25], zoom: 2, essential: true });
+      
+      // Use responsive zoom for world view
+      const getWorldViewZoom = () => {
+        const isMobile = window.innerWidth <= 767;
+        return isMobile ? 1.2 : 2;
+      };
+      
+      map.flyTo({ center: [31, 25], zoom: getWorldViewZoom(), essential: true });
       return;
     }
 

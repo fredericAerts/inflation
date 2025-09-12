@@ -351,9 +351,15 @@ const resetCountryOutlines = (map) => {
 
 const resetMapToInitialPosition = (map) => {
   if (map) {
+    // Use responsive zoom for consistent behavior
+    const getInitialZoom = () => {
+      const isMobile = window.innerWidth <= 767;
+      return isMobile ? 1.2 : 2;
+    };
+    
     map.flyTo({ 
       center: [31, 25], 
-      zoom: 2, 
+      zoom: getInitialZoom(), 
       essential: true 
     });
   }
