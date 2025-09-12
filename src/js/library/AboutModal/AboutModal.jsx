@@ -1,4 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux';
+import { useEffect, useRef } from 'react';
 import { setAboutModalOpen, setAboutModalSection } from '../NavMenu/navMenu.redux.actions';
 import Story from './Story/Story';
 import FurtherReading from './FurtherReading/FurtherReading';
@@ -29,6 +30,7 @@ const CONTENT_SECTIONS = {
 function AboutModal() {
   const dispatch = useDispatch();
   const { isAboutModalOpen, activeSection } = useSelector((state) => state.navMenu);
+  const mainRef = useRef(null);
 
   const handleClose = () => {
     dispatch(setAboutModalOpen(false));
@@ -40,6 +42,12 @@ function AboutModal() {
       handleClose();
     }
   };
+
+  useEffect(() => {
+    if (mainRef.current) {
+      mainRef.current.scrollTop = 0;
+    }
+  }, [activeSection]);
 
   if (!isAboutModalOpen) return null;
 
@@ -57,7 +65,7 @@ function AboutModal() {
         </button>
 
         <div className="about-modal__body">
-          <main className="about-modal__main">
+          <main className="about-modal__main" ref={mainRef}>
             <h1 className="about-modal__title">{currentSection.title}</h1>
             <div className="about-modal__text">
               {currentSection.content}
