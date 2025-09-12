@@ -41,7 +41,8 @@ function WelcomeModal() {
         <div className="welcome-modal__body">
           <div className="welcome-modal__facts">
             <p className="welcome-modal__fact">
-              There are approximately <strong>160 different currencies</strong> worldwide, each holding a local monopoly within its own jurisdiction.
+              {/* There exist approximately <strong>160 different currencies</strong> worldwide, each holding a local monopoly within its own jurisdiction. */}
+              There are over <strong>160 different state-issued currencies</strong>  in the world, and most of them have little or no acceptance outside of their host jurisdictions.
             </p>
             
             <p className="welcome-modal__fact">
@@ -66,10 +67,6 @@ function WelcomeModal() {
               Continue to Website
             </button>
           </div>
-        </div>
-        
-        <div className="welcome-modal__disclaimer">
-          This website uses essential cookies only
         </div>
       </div>
     </div>
