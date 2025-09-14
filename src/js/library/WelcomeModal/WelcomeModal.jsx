@@ -24,18 +24,11 @@ function WelcomeModal() {
     }, 300);
   };
 
-  const handleBackdropClick = (e) => {
-    if (e.target === e.currentTarget) {
-      handleClose();
-    }
-  };
-
   if (!isVisible) return null;
 
   return (
     <div 
       className={`welcome-modal ${isClosing ? 'welcome-modal--closing' : ''}`}
-      onClick={handleBackdropClick}
     >
       <div className="welcome-modal__content">
         <div className="welcome-modal__body">
