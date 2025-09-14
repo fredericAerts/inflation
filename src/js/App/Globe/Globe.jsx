@@ -22,24 +22,54 @@ function Globe() {
       return isMobile ? 1.2 : 2;
     };
 
-    const myMap = new maplibregl.Map({
-      container: mapRef.current,
-      zoom: getInitialZoom(),
-      maxZoom: 7,
-      center: [31, 25],
-      style: MAP_STYLE,
-      attributionControl: false,
-    });
+    // Small delay to ensure container dimensions are stable
+    const initializeMap = () => {
+      const myMap = new maplibregl.Map({
+        container: mapRef.current,
+        zoom: getInitialZoom(),
+        maxZoom: 7,
+        center: [31, 25],
+        style: MAP_STYLE,
+        attributionControl: false,
+        padding: { top: 60, bottom: 0, left: 0, right: 0 }
+      });
 
-    myMap.addControl(new maplibregl.AttributionControl(), 'bottom-left');
+      myMap.addControl(new maplibregl.AttributionControl(), 'bottom-left');
 
-    myMap.on('load', () => dispatch(setMapInstance(myMap)));
+      myMap.on('load', () => {
+        // Force a resize after load to ensure proper dimensions
+        setTimeout(() => {
+          myMap.resize();
+          dispatch(setMapInstance(myMap));
+        }, 100);
+      });
+
+      // Handle window resize events
+      const handleResize = () => {
+        if (myMap) {
+          myMap.resize();
+        }
+      };
+
+      window.addEventListener('resize', handleResize);
+
+      return () => {
+        window.removeEventListener('resize', handleResize);
+        if (myMap) {
+          myMap.remove();
+          dispatch(setMapInstance(null));
+        }
+      };
+    };
+
+    // Small delay for mobile to ensure container is ready
+    const isMobile = window.innerWidth <= 767;
+    const delay = isMobile ? 50 : 0;
+    
+    const timeoutId = setTimeout(initializeMap, delay);
 
     return () => {
-      if (myMap) {
-        myMap.remove();
-        dispatch(setMapInstance(null));
-      }
+      clearTimeout(timeoutId);
     };
   }, [dispatch]);
 
@@ -89,7 +119,12 @@ function Globe() {
         return isMobile ? 1.2 : 2;
       };
       
-      map.flyTo({ center: [31, 25], zoom: getWorldViewZoom(), essential: true });
+      map.flyTo({ 
+        center: [31, 25], 
+        zoom: getWorldViewZoom(), 
+        essential: true,
+        padding: { top: 60, bottom: 0, left: 0, right: 0 }
+      });
       return;
     }
 

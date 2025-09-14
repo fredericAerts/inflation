@@ -1,6 +1,16 @@
 import maplibregl from 'maplibre-gl';
 import { area } from '@turf/area';
 
+const ensureMapResize = (map) => {
+  if (map && map.resize) {
+    // Force multiple resize calls to handle any timing issues
+    map.resize();
+    requestAnimationFrame(() => {
+      map.resize();
+    });
+  }
+};
+
 async function addCountriesToMap(map, countries, inflationData) {
   const { type, features } = countries;
 
@@ -161,6 +171,9 @@ async function addCountriesToMap(map, countries, inflationData) {
   //   },
   //   minzoom: 1
   // });
+
+  // After adding all layers, ensure map is properly sized
+  ensureMapResize(map);
 }
 
 const COUNTRIES_WITH_ALL_POLYGONS = ['IDN', 'PHL', 'JPN', 'FJI', 'VUT'];
@@ -221,7 +234,7 @@ const zoomToCountry = (map, sourceCountry, duration = 600) => {
     
     // Zoom to the country bounds
     map.fitBounds(bounds, {
-      padding: 50,
+      padding: { top: 110, bottom: 50, left: 50, right: 50 }, // Extra top padding for the 60px offset
       duration,
     });
     
@@ -360,7 +373,8 @@ const resetMapToInitialPosition = (map) => {
     map.flyTo({ 
       center: [31, 25], 
       zoom: getInitialZoom(), 
-      essential: true 
+      essential: true,
+      padding: { top: 60, bottom: 0, left: 0, right: 0 }
     });
   }
 };
@@ -372,4 +386,5 @@ export {
   resetCountryOutlines,
   createMapInteractionHandlers,
   resetMapToInitialPosition,
+  ensureMapResize,
 }
