@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import shuffle from 'lodash.shuffle';
 
 import './news-banner.styl';
 
@@ -64,13 +65,20 @@ const NEWS_ITEMS = [
 function NewsBanner() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
+  const [shuffledItems, setShuffledItems] = useState([]);
 
   useEffect(() => {
+    setShuffledItems(shuffle(NEWS_ITEMS));
+  }, []);
+
+  useEffect(() => {
+    if (shuffledItems.length === 0) return;
+
     const interval = setInterval(() => {
       setIsAnimating(true);
       
       setTimeout(() => {
-        setCurrentIndex((prevIndex) => (prevIndex + 1) % NEWS_ITEMS.length);
+        setCurrentIndex((prevIndex) => (prevIndex + 1) % shuffledItems.length);
         
         setTimeout(() => {
           setIsAnimating(false);
@@ -79,7 +87,9 @@ function NewsBanner() {
     }, 5000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [shuffledItems]);
+
+  if (shuffledItems.length === 0) return null;
 
   return (
     <div className="news-banner">
@@ -91,7 +101,7 @@ function NewsBanner() {
           <div 
             className={`news-banner__item ${isAnimating ? 'news-banner__item--sliding' : ''}`}
           >
-            {NEWS_ITEMS[currentIndex]}
+            {shuffledItems[currentIndex]}
           </div>
         </div>
       </div>
