@@ -9,6 +9,7 @@ import CountryModal from '@library/CountryModal/CountryModal';
 import NavMenu from '@library/NavMenu/NavMenu';
 import AboutModal from '@library/AboutModal/AboutModal';
 import ZoomControl from '@library/ZoomControl/ZoomControl';
+import CallToAction from '@library/CallToAction/CallToAction';
 import WelcomeModal from '@library/WelcomeModal/WelcomeModal';
 import { setViewHeight } from '@services/utils.service';
 
@@ -53,6 +54,7 @@ function App() {
           <MapLegend />
         </div>
         <ZoomControl />
+        <CallToAction />
         <NavMenu />
         <AboutModal />
         <CountryModal />
