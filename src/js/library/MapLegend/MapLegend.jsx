@@ -16,7 +16,7 @@ function MapLegend() {
         onClick={toggleLegend}
         aria-label={isOpen ? 'Close legend' : 'Open legend'}
       >
-        {isOpen ? '×' : 'ℹ'}
+        {isOpen ? '×' : '?'}
       </button>
       
       <div className="map-legend__content">

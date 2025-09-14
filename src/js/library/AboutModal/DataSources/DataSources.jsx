@@ -12,7 +12,9 @@ function DataSources() {
         >
           info@fredericaerts.com
         </a>
-        . You can also review the code of the scripts that processed the data{' '}
+        .<br/>
+        <br/>
+        You can also review the code of the scripts that processed the data{' '}
         <a 
           href="https://github.com/fredericAerts/inflation/tree/main/server/data/scripts" 
           target="_blank" 
