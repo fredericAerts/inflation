@@ -371,18 +371,6 @@ function CountryModal() {
       legend: {
         display: false,
       },
-      title: {
-        display: true,
-        text: 'Year-over-Year Inflation',
-        color: '#ffffff',
-        font: {
-          size: 16,
-          weight: 'bold'
-        },
-        padding: {
-          bottom: 20
-        }
-      },
       tooltip: {
         callbacks: {
           label: function(context) {
@@ -427,7 +415,7 @@ function CountryModal() {
         },
         title: {
           display: true,
-          text: 'Inflation Rate (%)',
+          text: 'Inflation rate (%)',
           color: '#ffffff',
           font: {
             size: 12,
@@ -444,18 +432,6 @@ function CountryModal() {
     plugins: {
       legend: {
         display: false,
-      },
-      title: {
-        display: true,
-        text: `${modalData?.currencyCode || 'Currency'} Purchasing Power vs ${selectedComparison}`,
-        color: '#ffffff',
-        font: {
-          size: 16,
-          weight: 'bold'
-        },
-        padding: {
-          bottom: 20
-        }
       },
       tooltip: {
         callbacks: {
@@ -540,7 +516,7 @@ function CountryModal() {
         },
         title: {
           display: true,
-          text: selectedComparison === 'USD' ? 'USD' : 
+          text: selectedComparison === 'USD' ? 'U.S. Dollar' : 
                 selectedComparison === 'GOLD' ? 'Ounces of Gold' : 'Bitcoin',
           color: '#ffffff',
           font: {
@@ -588,7 +564,13 @@ function CountryModal() {
           </div>
           <div className="country-modal__content__row__cell tablet-50">
             <div className="country-modal__chart-container">
-              <Line data={inflationChartData} options={chartOptions} />
+              <div className="chart-title">
+                <h3 className="chart-title__main">Year-over-Year Inflation</h3>
+                <p className="chart-title__description">Shows how much prices of everyday goods and services went up compared to the year before.</p>
+              </div>
+              <div style={{ flex: 1, position: 'relative' }}>
+                <Line data={inflationChartData} options={chartOptions} />
+              </div>
               <div className="chart-data-source">
                 Data source: {inflationEntry?.data_source || 'N/A'}
               </div>
@@ -647,7 +629,20 @@ function CountryModal() {
                 })()}
               </div>
               <div className="chart-wrapper">
-                <Line data={getCurrencyData()} options={currencyChartOptions} />
+                <div className="chart-title">
+                  <h3 className="chart-title__main">
+                    {modalData?.currencyCode || 'Currency'} Purchasing Power vs {selectedComparison}
+                  </h3>
+                  <p className="chart-title__description">
+                    {selectedComparison === 'USD' 
+                      ? `Shows how much U.S. Dollars you can buy with 1 ${modalData?.currency || 'unit'}.`
+                      : `Shows how much ounce of gold you can buy with 1 ${modalData?.currency || 'unit'}.`
+                    }
+                  </p>
+                </div>
+                <div style={{ flex: 1, position: 'relative' }}>
+                  <Line data={getCurrencyData()} options={currencyChartOptions} />
+                </div>
               </div>
             </div>
           </div>
@@ -692,5 +687,4 @@ function CountryModal() {
     </div>
   );
 }
-
 export default CountryModal;

@@ -105,7 +105,7 @@
   flex-direction: column
   justify-content: center
   align-items: center
-  height: 400px
+  height: 420px
   padding: calc(var(--spacing) * 6)
   background: linear-gradient(135deg, rgba(219, 197, 45, 0.05) 0%, rgba(0, 0, 0, 0.3) 100%)
   border: 1px solid rgba(219, 197, 45, 0.2)
@@ -210,12 +210,15 @@
 
 .country-modal__chart-container
   position: relative
-  height: 400px
+  height: 420px
   padding: calc(var(--spacing) * 4)
   background: rgba(0, 0, 0, 0.2)
   border: 1px solid rgba(255, 255, 255, 0.1)
   border-radius: var(--border-radius)
   overflow: hidden
+  
+  display: flex
+  flex-direction: column
 
   .chart-data-source
     position: absolute
@@ -242,7 +245,10 @@
 
 .country-modal__chart-section
   position: relative
-  height: 400px
+  
+  display: flex
+  flex-direction: column
+  height: 520px
   padding: calc(var(--spacing) * 4)
   background: rgba(0, 0, 0, 0.2)
   border: 1px solid rgba(255, 255, 255, 0.1)
@@ -360,8 +366,11 @@
         background: rgba(255, 255, 255, 0.03)
 
   .chart-wrapper
-    height: calc(100% - 56px)
     position: relative
+    
+    display: flex
+    flex: 1
+    flex-direction: column
 
 .country-modal__radio-group
   display: flex
@@ -587,3 +596,30 @@
     overflow-wrap: break-word
     white-space: pre-line
     overflow-wrap: break-word
+
+.chart-title
+  flex-shrink: 0
+  margin-bottom: calc(var(--spacing) * 3)
+
+  padding-left: 25px
+  
+  &__main
+    margin: 0 0 calc(var(--spacing)) 0
+    
+    color: var(--color-white)
+    font-size: calc(var(--font-size-base) * 1.1)
+    font-weight: var(--font-weight-bold)
+    text-transform: uppercase
+    letter-spacing: 1px
+
+    @media (max-width: 767px)
+      font-size: calc(var(--font-size-base) * .9)
+  
+  &__description
+    margin: 0
+
+    color: rgba(255, 255, 255, 0.6)
+    font-size: calc(var(--font-size-base) * 0.85)
+    font-weight: var(--font-weight-normal)
+    font-style: italic
+    line-height: var(--line-height-normal)
