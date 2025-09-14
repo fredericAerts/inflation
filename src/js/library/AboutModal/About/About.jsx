@@ -12,7 +12,7 @@ function About() {
             rel="noopener noreferrer"
             className="about__link"
           >
-            Frederic Aerts
+            Frédéric Aerts
           </a>
           . I wanted to find out what it would be like to vibe code a website from start to finish, 
           while also learning how to integrate AI tools like GitHub Copilot into my workflow.
