@@ -7,17 +7,31 @@
     font-weight inherit
 
 .about__section
-  margin-bottom calc(var(--spacing) * 6)
+  margin-bottom calc(var(--spacing) * 8)
+  
+  line-height: 1.7
+  letter-spacing: 0.02em
   
   &:last-of-type
     margin-bottom calc(var(--spacing) * 4)
 
 .about__paragraph
-  // Inherits p styling from about-modal.styl
+  margin-bottom calc(var(--spacing) * 3)
+  
+  line-height: 1.7
+  max-width: 65ch
+  color: rgba(255, 255, 255, 0.9)
+  font-weight: 400
 
 .about__link
+  position: relative
+  
   color var(--color-primary)
   text-decoration underline
+  transition: color 0.2s ease
   
   &:hover
     text-decoration underline
+    
+  &:focus
+    outline 1px dotted var(--color-primary)

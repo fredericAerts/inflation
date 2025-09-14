@@ -2,7 +2,10 @@
   max-width: 980px
 
 .story__section
-  margin-bottom calc(var(--spacing) * 6)
+  margin-bottom calc(var(--spacing) * 8)
+  
+  line-height: 1.6
+  letter-spacing: 0.02em
   
   &:last-child
     margin-bottom 0
@@ -11,10 +14,13 @@
   width: 100px
   height: 2px
   margin: calc(var(--spacing) * 8) auto
+
   background: linear-gradient(90deg, transparent 0%, var(--color-primary) 50%, transparent 100%)
   opacity: 0.6
 
 .story__link
+  position: relative
+  
   background none
   border none
   padding 0
@@ -25,9 +31,21 @@
   text-decoration underline
   text-transform: uppercase
   cursor pointer
+  transition: color 0.2s ease
   
   &:hover
     text-decoration underline
     
   &:focus
     outline 1px dotted var(--color-primary)
+
+// Add these new classes for improved readability
+.story__text
+  color: rgba(255, 255, 255, 0.9)
+  font-weight: 400
+  
+.story__paragraph
+  margin-bottom calc(var(--spacing) * 3)
+  
+  line-height: 1.7
+  max-width: 65ch

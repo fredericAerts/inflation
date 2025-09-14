@@ -23,8 +23,6 @@ function Story() {
         </p>
       </section>
 
-      <div className="story__divider"></div>
-
       <section className="story__section">
         <h2 className="story__section-title">A Brief History of Money</h2>
         <p className="story__paragraph">
@@ -38,8 +36,6 @@ function Story() {
         </p>
       </section>
 
-      <div className="story__divider"></div>
-
       <section className="story__section">
         <h2 className="story__section-title">Consequences of the Current System</h2>
         <p className="story__paragraph">
@@ -52,8 +48,6 @@ function Story() {
           The result is a world where many cannot trust their local banks or currencies, and where even relatively stable jurisdictions struggle to provide citizens with savings instruments that keep pace with inflation. Far from offering a stable foundation, the global monetary system <strong>amplifies inequality and perpetuates cycles of dependency and volatility</strong>.
         </p>
       </section>
-
-      <div className="story__divider"></div>
 
       <section className="story__section">
         <h2 className="story__section-title">Conclusion: A System That No Longer Serves</h2>
