@@ -34,10 +34,18 @@ function CountryModal() {
   const [metrics, setMetrics] = useState(null);
   const [commentary, setCommentary] = useState('');
   const [monthlyPrice, setMonthlyPrice] = useState(null);
-  const [selectedComparison, setSelectedComparison] = useState('USD');  
+  const [selectedComparison, setSelectedComparison] = useState('GOLD');  
   const [isLogScale, setIsLogScale] = useState(false);
 
   const isOpen = Boolean(selectedCountryId && modalData);
+
+  // Reset to Gold whenever modal opens
+  useEffect(() => {
+    if (isOpen) {
+      setSelectedComparison('GOLD');
+      setIsLogScale(false);
+    }
+  }, [isOpen]);
 
   const inflationEntry = selectedCountryId && inflationData
       .find(({ _id }) => _id === selectedCountryId);
@@ -199,6 +207,11 @@ function CountryModal() {
     let data = [];
     let label = '';
 
+    // Choose color based on selected comparison
+    const lineColor = selectedComparison === 'USD' ? '#43a047' : '#dbc52d';
+    const lineBackgroundColor = selectedComparison === 'USD' ? 'rgba(67, 160, 71, 0.1)' : 'rgba(219, 197, 45, 0.1)';
+    const pointColor = selectedComparison === 'USD' ? 'rgba(67, 160, 71, 0.6)' : 'rgba(219, 197, 45, 0.6)';
+
     if (!monthlyPrice || monthlyPrice.length === 0) {
       // No data available
       return {
@@ -206,10 +219,10 @@ function CountryModal() {
         datasets: [{
           label: `${currencyCode} vs ${selectedComparison}`,
           data: new Array(dateRange.length).fill(null),
-          borderColor: '#dbc52d',
-          backgroundColor: 'rgba(219, 197, 45, 0.1)',
+          borderColor: lineColor,
+          backgroundColor: lineBackgroundColor,
           borderWidth: 2,
-          pointBackgroundColor: '#dbc52d',
+          pointBackgroundColor: lineColor,
           pointBorderColor: '#ffffff',
           pointBorderWidth: 2,
           tension: 0.4,
@@ -271,10 +284,10 @@ function CountryModal() {
         {
           label,
           data,
-          borderColor: '#dbc52d',
-          backgroundColor: 'rgba(219, 197, 45, 0.1)',
+          borderColor: lineColor,
+          backgroundColor: lineBackgroundColor,
           borderWidth: 2,
-          pointBackgroundColor: 'rgba(219, 197, 45, 0.6)',
+          pointBackgroundColor: pointColor,
           pointBorderColor: 'rgba(255, 255, 255, 0.4)',
           pointBorderWidth: 1,
           pointRadius: 2,
@@ -592,26 +605,20 @@ function CountryModal() {
           <div className="country-modal__content__row__cell">
             <div className="country-modal__chart-section">
               <div className="country-modal__radio-group">
-                <label>
+                <div className="toggle-switch">
                   <input
-                    type="radio"
-                    name="comparison"
-                    value="USD"
+                    type="checkbox"
+                    id="comparison-toggle"
+                    className="toggle-switch__input"
                     checked={selectedComparison === 'USD'}
-                    onChange={(e) => setSelectedComparison(e.target.value)}
+                    onChange={(e) => setSelectedComparison(e.target.checked ? 'USD' : 'GOLD')}
                   />
-                  USD
-                </label>
-                <label>
-                  <input
-                    type="radio"
-                    name="comparison"
-                    value="GOLD"
-                    checked={selectedComparison === 'GOLD'}
-                    onChange={(e) => setSelectedComparison(e.target.value)}
-                  />
-                  Gold
-                </label>
+                  <label htmlFor="comparison-toggle" className="toggle-switch__label">
+                    <span className="toggle-switch__text toggle-switch__text--left">Gold</span>
+                    <span className="toggle-switch__slider"></span>
+                    <span className="toggle-switch__text toggle-switch__text--right">USD</span>
+                  </label>
+                </div>
                 <button
                   className="scale-toggle"
                   onClick={() => setIsLogScale(!isLogScale)}
